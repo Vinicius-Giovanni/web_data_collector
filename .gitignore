@@ -1,0 +1,7 @@
+.env
+__pycache__
+*.csv
+*.parquet
+anotations.txt
+*.log
+__init__.py
