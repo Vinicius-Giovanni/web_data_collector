@@ -7,9 +7,7 @@ services:
 
     volumes:
       - .:/web_data_collector
-      - "C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer):/mnt/bronze"
-      - "C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Silver (Cleansed Layer):/mnt/silver"
-      - "C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Gold (Business Layer):/mnt/gold"
+      - "C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse:/mnt"
 
     environment:
       - TZ=America/Sao_Paulo
