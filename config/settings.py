@@ -17,9 +17,16 @@ else:
 
     LOCATE = 'windows'
     
-    # paths for windows container
+    # --- paths for windows container ---
+
+    # path for logs
     LOG_FILE = Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Gold (Business Layer)\logs')
+
+    # path for .env file
     ENV_PATH = Path(r'C:\Users\2960006959\Desktop\project\web_data_collector\config\.env')
+
+    
+
 
 LOG_PATH = LOG_FILE / Path(r'log_web_data_collector.log')
 
