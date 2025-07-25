@@ -10,7 +10,7 @@ import inspect
 
 # local imports
 from utils.info_system import get_user
-from config.settings import LOG_PATH, LOG_FILE, LOCATE
+from config.settings import LOG_PATH, LOG_DIR, LOCATE
 
 class ContextFilter(logging.Filter):
     """
@@ -39,7 +39,7 @@ class CustomJsonFormatter(jsonlogger.JsonFormatter):
             log_record['traceback'] = self.formatException(record.exc_info)
 
 def setup_logger(name=__name__, locate_value=None):
-    os.makedirs(LOG_FILE, exist_ok=True)
+    os.makedirs(LOG_DIR, exist_ok=True)
 
     logger = logging.getLogger(name)
     logger.setLevel(logging.INFO)
