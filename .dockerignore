@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.env
+.git
+.idea/
+.vscode/
+teste.py
+__init__.py
+anotations.txt
+*.parquet
+*.csv
+.env

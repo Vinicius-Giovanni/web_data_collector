@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  web_data_collector:
+    build: .
+    container_name: web_data_collector
+
+    volumes:
+      - .:/web_data_collector
+      - "C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer):/mnt/bronze"
+      - "C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Silver (Cleansed Layer):/mnt/silver"
+      - "C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Gold (Business Layer):/mnt/gold"
+
+    environment:
+      - TZ=America/Sao_Paulo
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      - IS_DOCKER=1
+
+    working_dir: /web_data_collector
+    command: python main.py
