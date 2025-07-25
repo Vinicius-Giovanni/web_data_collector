@@ -5,3 +5,5 @@ __pycache__
 anotations.txt
 *.log
 __init__.py
+teste.py
+.venv/
