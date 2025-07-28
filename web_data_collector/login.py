@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 # local imports
 from utils.config_logger import setup_logger, log_with_context
-from config.settings import TEMP_DIR, LINKS
+from config.settings import TEMP_DIR, LINKS, ELEMENTS
 from utils.reader import clear_dirs
 from utils.browser_setup import init_browser
 
@@ -40,6 +40,7 @@ def login_csi():
         return
     
     try:
+        # acessando login page
         try:
             driver.get(LINKS['LOGIN_CSI'])
             logger.info('navegando para a pagina de login do CSI', extra={
@@ -53,3 +54,26 @@ def login_csi():
                 'status': 'failure'
             })
             return
+        
+        # verificacao de elemento (titulo da pagina de login)
+        try:
+            wait.until(EC.presence_of_element_located((By.CLASS_NAME, ELEMENTS['ELEMENTS_LOGIN']['element_title'])))
+            logger.info('elemento de titulo da pagina de login encontrado', extra={
+                'job': 'login_csi',
+                'status': 'success'
+            })
+            time.sleep(2)
+        except Exception as e:
+            logger.critical(f'elemento de titulo da pagina de login nao encontrado: {e}', extra={
+                'job': 'login_csi',
+                'status': 'failure'
+            })
+
+        
+
+
+    except Exception as e:
+        logger.critical(f'erro durante o login: {e}', extra={
+            'job': 'login_csi',
+            'status': 'failure'
+        })
