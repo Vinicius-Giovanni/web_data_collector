@@ -42,8 +42,9 @@ else:
     BASE_PATH = Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse')
     
     # data paths temporary for chrome
-    TEMP_DIR = Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector')
-
+    TEMP_DIR = {
+        "DIR_CHROME": Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector')
+}
     # all data paths
     DATA_PATHS = {
         'bronze': {
@@ -57,28 +58,28 @@ else:
         }
     }
 
-    LINKS = {
-        'LOGIN_CSI': 'https://viavp-sci.sce.manh.com/bi/?perspective=home',
-        'LOGIN_OLPN' : 'https://viavp-sci.sce.manh.com/bi/?perspective=authoring&id=i79E326D8D72B45F795E0897FCE0606F6&objRef=i79E326D8D72B45F795E0897FCE0606F6&action=run&format=CSV&cmPropStr=%7B%22id%22%3A%22i79E326D8D72B45F795E0897FCE0606F6%22%2C%22type%22%3A%22report%22%2C%22defaultName%22%3A%223.11%20-%20Status%20Wave%20%2B%20oLPN%22%2C%22permissions%22%3A%5B%22execute%22%2C%22read%22%2C%22traverse%22%5D%7D'
-    }
-
-    ELEMENTS = {
-        'frame': '//*[@id="rsIFrameManager_1"]',
-        'ELEMENTS_LOGIN': {
-            'namespace_dropdown_button': 'downshift-0-toggle-button',
-            'namespace_azuread': 'downshift-0-item-0',
-            'email': 'i0116',
-            'password': 'i0118',
-            'submit_button': 'idSIButton9',
-            'element_title': 'ibm',
-            'element_banner': 'bannerLogo',
-            'element_title_v2': 'bx--row',
-        }
-    }
-
-
-
-
 LOG_PATH = LOG_DIR / Path(r'log_web_data_collector.log')
 
 load_dotenv(dotenv_path=ENV_PATH)
+
+EMAIL = os.getenv('LOGIN_EMAIL')
+PASSWORD = os.getenv('LOGIN_PASSWORD')
+
+ELEMENTS = {
+    'frame': '//*[@id="rsIFrameManager_1"]',
+    'ELEMENTS_LOGIN': {
+        'namespace_dropdown_button': 'downshift-0-toggle-button',
+        'namespace_azuread': 'downshift-0-item-0',
+        'email': 'i0116',
+        'password': 'i0118',
+        'submit_button': 'idSIButton9',
+        'element_title': 'ibm',
+        'element_banner': 'bannerLogo',
+        'element_title_v2': 'bx--row',
+    }
+}
+
+LINKS = {
+    'LOGIN_CSI': 'https://viavp-sci.sce.manh.com/bi/?perspective=home',
+    'LOGIN_OLPN' : 'https://viavp-sci.sce.manh.com/bi/?perspective=authoring&id=i79E326D8D72B45F795E0897FCE0606F6&objRef=i79E326D8D72B45F795E0897FCE0606F6&action=run&format=CSV&cmPropStr=%7B%22id%22%3A%22i79E326D8D72B45F795E0897FCE0606F6%22%2C%22type%22%3A%22report%22%2C%22defaultName%22%3A%223.11%20-%20Status%20Wave%20%2B%20oLPN%22%2C%22permissions%22%3A%5B%22execute%22%2C%22read%22%2C%22traverse%22%5D%7D'
+}
