@@ -10,7 +10,7 @@ from utils.config_logger import setup_logger, log_with_context
 logger = setup_logger(__name__)
 
 @log_with_context(job='get_yesterday_date')
-def get_yesterday_date(format: str = '%d/%m/%Y', logger=None) -> str:
+def get_yesterday_date(format: str = '%d/%m/%Y') -> str:
     """
     returns yesterday's date in the specified format.
     """

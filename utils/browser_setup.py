@@ -29,7 +29,8 @@ except Exception as e:
 @log_with_context(job='get_chrome_options')
 def get_chrome_options() -> Options:
     """
-    configure of options for the chrome browser"""
+    configure of options for the chrome browser
+    """
 
     logger.info('iniciando configuracao do Chrome', extra={
         'job': 'get_chrome_options',
