@@ -67,6 +67,9 @@ def setup_logger(name=__name__, locate_value=None):
     logger.addFilter(context_filter)
 
     logger.addHandler(logHandler)
+    
+    if not logger or not isinstance(logger, logging.Logger):
+        raise RuntimeError(f'logger invalido criado para {name}')
 
     return logger
 
@@ -81,7 +84,7 @@ def log_with_context(job=None):
             logger = kwargs.get('logger')
             if logger is None:
                 from utils.config_logger import setup_logger
-                logger = setup_logger()
+                logger = setup_logger(name='default_logger')
 
             try:
                 result = func(*args, **kwargs)
