@@ -5,18 +5,24 @@ from selenium.webdriver.chrome.options import Options
 import os
 
 # local imports
-from utils.config_logger import setup_logging, log_with_context
+from utils.config_logger import setup_logger, log_with_context
 
 # %(name)s <<< module name
-logger = setup_logging(__name__)
+logger = setup_logger(__name__)
 
 try:
     logger.info('verificacao do diretorio temporario', extra={
         'job': 'browser_setup',
         'status': 'started'
     })
-    TEMP_DIR.mkdir(parents=True, exist_ok=True)
-    logger.info('diretorio temporario verificado', extra={
+    for name, path in TEMP_DIR.items():
+        if not path.exists():
+            logger.warning(f'diretorio temporario {name} nao existe, criando...', extra={
+                'job': 'browser_setup',
+                'status': 'warning'
+            })
+            path.mkdir(parents=True, exist_ok=True)
+    logger.info('diretorio temporario verificado com sucesso', extra={
         'job': 'browser_setup',
         'status': 'success'
     })
@@ -32,7 +38,7 @@ def get_chrome_options() -> Options:
     configure of options for the chrome browser
     """
 
-    logger.info('iniciando configuracao do Chrome', extra={
+    logger.info('iniciando configuracao do chrome', extra={
         'job': 'get_chrome_options',
         'status': 'started'
     })
@@ -61,7 +67,7 @@ def get_chrome_options() -> Options:
     }
     options.add_experimental_option('prefs', prefs)
 
-    logger.info('Chrome configurado.')
+    logger.info('chrome configurado')
 
     logger.info('configuracao do Chrome concluida', extra={
         'job': 'get_chrome_options',

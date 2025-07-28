@@ -16,10 +16,9 @@ logger = setup_logger(__name__)
 @log_with_context(job='clear_dirs')
 def clear_dirs(dirs: Dict[str, Path]) -> None:
     """
-    clear the directories specified in the dict.
+    clear the directories specified in the dict. If not present, they are created.
     """
-
-    logger.info(f'iniciando limpeza no di {dirs}', extra={
+    logger.info(f'iniciando limpeza dos diretorios: {list(dirs.keys())}', extra={
         'job': 'clear_dirs',
         'status': 'started'
     })
@@ -27,8 +26,8 @@ def clear_dirs(dirs: Dict[str, Path]) -> None:
     for name, folder in dirs.items():
         try:
             if not folder.exists():
-                logger.warning(f'diretorio {folder} nao existe, iniciando criacao de novo diretorio', extra={
-                'job': 'clear_dirs',
+                logger.warning(f'diretorio {name} ({folder}) nao existe. criando...', extra={
+                    'job': 'clear_dirs',
                 })
                 folder.mkdir(parents=True, exist_ok=True)
                 continue
@@ -40,18 +39,18 @@ def clear_dirs(dirs: Dict[str, Path]) -> None:
                     elif item.is_dir():
                         shutil.rmtree(item)
                 except Exception as e:
-                    logger.exception(f'erro ao limpar {item} na pasta {folder}: {e}', extra={
+                    logger.exception(f'erro ao remover {item} em {name} ({folder}): {e}', extra={
                         'job': 'clear_dirs',
                         'status': 'failure'
                     })
+
+            logger.info(f'Diretório {name} ({folder}) limpo com sucesso.', extra={
+                'job': 'clear_dirs',
+                'status': 'success'
+            })
+
         except Exception as e:
-            logger.exception(f'erro ao limpar {folder}: {e}', extra={
+            logger.exception(f'erro ao processar diretorio {name} ({folder}): {e}', extra={
                 'job': 'clear_dirs',
                 'status': 'failure'
             })
-
-    logger.info(f'diretorio {folder} limpo com sucesso', extra={
-        'job': 'clear_dirs',
-        'status': 'success'
-    })
-                
