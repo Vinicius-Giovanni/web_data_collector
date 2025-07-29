@@ -34,16 +34,16 @@ Automatizar o processo de extração de dados de um sistema interno, transformá
 
 ```mermaid
 graph TD
-    A[Login e Download RPA (Selenium)] --> B[Armazenamento Local]
+    A[Login e Download RPA - Selenium] --> B[Armazenamento Local]
     B --> C[Pipeline de ETL - 5 módulos]
-    C --> D[Geração de Relatórios (.parquet)]
+    C --> D[Geração de Relatórios - .parquet]
     D --> E[Pasta SharePoint]
     E --> F[Power Automate Trigger]
     F --> G[Atualização dos Dataflows Gen1]
     G --> H[Dashboards no Power BI]
     C --> I[Logger de Execução]
     I --> J[BI de Monitoramento da Automação]
-
+```
 
 ## 👨‍💻 Autor
 
