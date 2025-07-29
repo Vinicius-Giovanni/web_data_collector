@@ -54,3 +54,61 @@ def clear_dirs(dirs: Dict[str, Path]) -> None:
                 'job': 'clear_dirs',
                 'status': 'failure'
             })
+
+@log_with_context(job='wait_download_csv')
+def wait_download_csv(dir: str | Path,
+                      timeout: int = 300,
+                      poll: float = 2.0,
+                      stable_cheks: int = 3) -> bool:
+    
+    """
+    - ignores pre-existing files in the directory
+    - avoids processing files that are still being downloaded (via .crdownload)
+    - checks whether the file size has stabilized, ensuring the file was completely whitten
+    - transient fault tolerance with multiple attempts before considering a timeout
+    """
+    
+    dir_path = Path(dir)
+
+    logger.info(f'aguardando download do csv em {dir_path}', extra={
+        'job': 'wait_download_csv',
+        'status': 'started'
+    })
+
+    t0 = time.time()
+    baseline = {f.name for f in dir_path.glob('*.csv')}
+
+    candidate: Path | None = None
+    stable_couter = 0
+    last_size = -1
+
+    while time.time() - t0 < timeout:
+        new_csvs = [f for f in dir_path.glob('*.csv') if f.name not in baseline]
+
+        if new_csvs:
+            candidate = max(new_csvs, key=lambda f: f.stat().st_mtime)
+
+            if (candidate.with_suffix(candidate.suffix + '.crdownload')).exists():
+                stable_couter = 0
+            else:
+                size_now = candidate.stat().st_size
+                if size_now == last_size and size_now > 0:
+                    stable_couter += 1
+                else:
+                    stable_couter = 0
+                last_size = size_now
+            if stable_couter >= stable_cheks:
+                logger.info(f'arquivo {candidate.name} ({size_now:,}) bytes baixado com sucesso', extra={
+                    'job': 'wait_download_csv',
+                    'status': 'success'
+                })
+
+                return True
+            
+        time.sleep(poll)
+    
+    logger.warning(f'tempo limite de {timeout} segundos atingido sem encontrar um arquivo csv estavel', extra={
+        'job': 'wait_download_csv',
+        'status': 'timeout'
+    })
+                
