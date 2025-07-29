@@ -1,6 +1,6 @@
 from utils.config_logger import setup_logger
 from web_data_collector.login import login_csi
-from config.settings import PASSWORD, EMAIL
+from config.settings import PASSWORD, EMAIL, TEMP_DIR
 from web_data_collector.olpn import data_extraction_olpn
 
 import time
@@ -20,6 +20,7 @@ def main():
         'job': 'main',
         'status': 'finished'
     })
+    # print(TEMP_DIR['DIR_CHROME'])
 
 
 

@@ -32,7 +32,7 @@ except Exception as e:
         'status': 'failure'
     })
 
-@log_with_context(job='get_chrome_options')
+@log_with_context(job='get_chrome_options', logger=logger)
 def get_chrome_options() -> Options:
     """
     configure of options for the chrome browser
@@ -57,7 +57,7 @@ def get_chrome_options() -> Options:
         options.add_argument('--headless=new')
 
     prefs = {
-        'download.default_directory': str(TEMP_DIR),
+        'download.default_directory': str(TEMP_DIR['DIR_CHROME']),
         'download.prompt_for_download': False,
         'directory_upgrade': True,
         'safebrowsing.enabled': True,

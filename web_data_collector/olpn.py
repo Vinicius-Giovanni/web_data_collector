@@ -18,7 +18,7 @@ star_date = get_penultimate_date(DATA_PATHS['gold']['olpn'], 'data_criterio') # 
 end_date = get_yesterday_date() # <<< current date entered in the final data field
 control_dir = TEMP_DIR['DIR_CHROME'] # <<< folder monitored by the "wait_download_csv" function
 
-@log_with_context(job='data_extraction_olpn')
+@log_with_context(job='data_extraction_olpn', logger=logger)
 def data_extraction_olpn(driver):
 
     #* Creation of the module responsible for assuming the driver of the 'login_csi' function and extracting a .csv file from the system
@@ -40,9 +40,9 @@ def data_extraction_olpn(driver):
             'status': 'success'
         })
 
-        # verirficando se o frame esta disponivel e acessando
+        # verificando se o frame esta disponivel e acessando
         if not wait.until(EC.frame_to_be_available_and_switch_to_it(
-            (By.CLASS_NAME, ELEMENTS['frame']))):
+            (By.XPATH, ELEMENTS['frame']))):
             logger.error('erro ao acessar o frame', extra={
                 'job': 'data_extraction_olpn',
                 'status': 'failure'

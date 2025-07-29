@@ -13,7 +13,7 @@ from utils.browser_setup import init_browser
 # %(name)s <<< module name
 logger = setup_logger(__name__)
 
-@log_with_context(job='login_csi')
+@log_with_context(job='login_csi', logger=logger)
 def login_csi():
     """
     log in to the CSI system using Selenium

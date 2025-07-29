@@ -9,7 +9,7 @@ from utils.config_logger import setup_logger, log_with_context
 # %(name)s <<< module name
 logger = setup_logger(__name__)
 
-@log_with_context(job='get_yesterday_date')
+@log_with_context(job='get_yesterday_date', logger=logger)
 def get_yesterday_date(format: str = '%d/%m/%Y') -> str:
     """
     returns yesterday's date in the specified format.
@@ -36,7 +36,7 @@ def get_yesterday_date(format: str = '%d/%m/%Y') -> str:
         })
         return None
     
-@log_with_context(job='get_penultimate_date')
+@log_with_context(job='get_penultimate_date', logger=logger)
 def get_penultimate_date(parquet_folder: str, column: str = 'data_criterio', format: str = '%d/%m/%Y') -> str | None:
     """
     returns the penultimate date from the parquet files in the specified folder

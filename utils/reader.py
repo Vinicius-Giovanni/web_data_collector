@@ -13,7 +13,7 @@ from config.settings import TEMP_DIR
 # %(name)s <<< module name
 logger = setup_logger(__name__)
 
-@log_with_context(job='clear_dirs')
+@log_with_context(job='clear_dirs', logger=logger)
 def clear_dirs(dirs: Dict[str, Path]) -> None:
     """
     clear the directories specified in the dict. If not present, they are created.
@@ -55,7 +55,7 @@ def clear_dirs(dirs: Dict[str, Path]) -> None:
                 'status': 'failure'
             })
 
-@log_with_context(job='wait_download_csv')
+@log_with_context(job='wait_download_csv', logger=logger)
 def wait_download_csv(dir: str | Path,
                       timeout: int = 300,
                       poll: float = 2.0,

@@ -76,12 +76,7 @@ ELEMENTS = {
         'element_title': 'ibm',
         'element_banner': 'bannerLogo',
         'element_title_v2': 'bx--row',
-    }
-}
-
-LINKS = {
-    'LOGIN_CSI': 'https://viavp-sci.sce.manh.com/bi/?perspective=home',
-    'LOGIN_OLPN' : 'https://viavp-sci.sce.manh.com/bi/?perspective=authoring&id=i79E326D8D72B45F795E0897FCE0606F6&objRef=i79E326D8D72B45F795E0897FCE0606F6&action=run&format=CSV&cmPropStr=%7B%22id%22%3A%22i79E326D8D72B45F795E0897FCE0606F6%22%2C%22type%22%3A%22report%22%2C%22defaultName%22%3A%223.11%20-%20Status%20Wave%20%2B%20oLPN%22%2C%22permissions%22%3A%5B%22execute%22%2C%22read%22%2C%22traverse%22%5D%7D',
+    },
     'ELEMENTS_OLPN': {
         'element_filial_id': 'dv17_ValueComboBox',
         'element_filial': '1200',
@@ -145,4 +140,9 @@ LINKS = {
             'S99 - Intercompany'
         ]
     }
+}
+
+LINKS = {
+    'LOGIN_CSI': 'https://viavp-sci.sce.manh.com/bi/?perspective=home',
+    'LOGIN_OLPN' : 'https://viavp-sci.sce.manh.com/bi/?perspective=authoring&id=i79E326D8D72B45F795E0897FCE0606F6&objRef=i79E326D8D72B45F795E0897FCE0606F6&action=run&format=CSV&cmPropStr=%7B%22id%22%3A%22i79E326D8D72B45F795E0897FCE0606F6%22%2C%22type%22%3A%22report%22%2C%22defaultName%22%3A%223.11%20-%20Status%20Wave%20%2B%20oLPN%22%2C%22permissions%22%3A%5B%22execute%22%2C%22read%22%2C%22traverse%22%5D%7D'
 }
