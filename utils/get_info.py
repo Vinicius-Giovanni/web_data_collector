@@ -15,7 +15,7 @@ def get_yesterday_date(format: str = '%d/%m/%Y') -> str:
     returns yesterday's date in the specified format.
     """
     try:
-        logger.info('iniciando cálculo da data de ontem', extra={
+        logger.info('iniciando calculo da data de ontem', extra={
             'job': 'get_yesterday_date',
             'status': 'started'
         })
@@ -60,7 +60,7 @@ def get_penultimate_date(parquet_folder: str, column: str = 'data_criterio', for
         try:
             df = pd.read_parquet(file, columns=[column])
             all_dates.extend(df[column].dropna().tolist())
-            logger.info('procurando pela penúltima data', extra={
+            logger.info('procurando pela penultima data', extra={
                 'job': 'get_penultimate_date',
                 'status': 'file_processed',
                 'file': str(file)
@@ -83,4 +83,4 @@ def get_penultimate_date(parquet_folder: str, column: str = 'data_criterio', for
     unique_sorted_dates = sorted(set(all_dates), reverse=True)
 
     penultimate = unique_sorted_dates[1] if len(unique_sorted_dates) > 1 else None # <<< acess the second date of the unique_sorted_dates
-    return penultimate.strftime(format) if penultimate else None      
+    return penultimate.strftime(format) if penultimate else None
