@@ -1,7 +1,8 @@
 from utils.config_logger import setup_logger
 from web_data_collector.login import login_csi
-from config.settings import PASSWORD, EMAIL, TEMP_DIR
+from config.settings import TEMP_DIR
 from web_data_collector.olpn import data_extraction_olpn
+from utils.reader import function_distribution
 
 import time
 
@@ -14,7 +15,8 @@ def main():
     })
     driver = login_csi()
     data_extraction_olpn(driver)
-    time.sleep(5) 
+    time.sleep(2)
+    function_distribution(TEMP_DIR['DIR_CHROME'])
     driver.quit()
     logger.info('finalizando automacao web_data_collector', extra={
         'job': 'main',
