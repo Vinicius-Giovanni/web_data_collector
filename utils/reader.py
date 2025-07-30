@@ -4,11 +4,11 @@ import os
 from pathlib import Path
 import time
 from typing import Dict
-import pandas as pd
 
 # local imports
 from utils.config_logger import setup_logger, log_with_context
-from config.settings import TEMP_DIR
+from config.settings import FILE_ROUTER
+
 
 # %(name)s <<< module name
 logger = setup_logger(__name__)
@@ -111,4 +111,18 @@ def wait_download_csv(dir: str | Path,
         'job': 'wait_download_csv',
         'status': 'timeout'
     })
-                
+
+@log_with_context(job='function_distribution', logger=logger)
+def function_distribution(path_folder: Path):
+    """
+    - searches for specific strings within the .csv file names within the directory
+        - add a dict with the searched strings
+        - call the specific pipeline for the file, sending the file path as a parameter
+    """
+
+    for file in path_folder.iterdir():
+        if file.is_file() and file.suffix == '.csv':
+            for key, pipeline_func in FILE_ROUTER.items():
+                if key in file.name:
+                    pipeline_func(path=file)
+                    break

@@ -1,6 +1,10 @@
+# remote imports
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+
+# local imports
+from pipelines.specific_analysis.olpn_pipeline import olpn_pipeline
 
 # detects if it is running inside the docker container
 IS_DOCKER = os.environ.get("IS_DOCKER", "0") == "1"
@@ -145,4 +149,13 @@ ELEMENTS = {
 LINKS = {
     'LOGIN_CSI': 'https://viavp-sci.sce.manh.com/bi/?perspective=home',
     'LOGIN_OLPN' : 'https://viavp-sci.sce.manh.com/bi/?perspective=authoring&id=i79E326D8D72B45F795E0897FCE0606F6&objRef=i79E326D8D72B45F795E0897FCE0606F6&action=run&format=CSV&cmPropStr=%7B%22id%22%3A%22i79E326D8D72B45F795E0897FCE0606F6%22%2C%22type%22%3A%22report%22%2C%22defaultName%22%3A%223.11%20-%20Status%20Wave%20%2B%20oLPN%22%2C%22permissions%22%3A%5B%22execute%22%2C%22read%22%2C%22traverse%22%5D%7D'
+}
+
+FILE_ROUTER = {
+    '3.11 - Status Wave + oLPN': olpn_pipeline,
+    '4.05 - Relatório de Produtividade - Picking': 'picking_pipeline',
+    '5.03 - Produtividade de Packing - Packed por hora': 'packing_pipeline',
+    '5.04 - Produtividade Load - Load por hora': 'load_pipeline',
+    '6.10 - Pedidos Cancelados': 'cancelados_pipeline',
+    '6.15 - Produtividade - Outbound Putaway': 'putaway_pipeline'
 }
