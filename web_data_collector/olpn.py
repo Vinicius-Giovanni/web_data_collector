@@ -16,7 +16,7 @@ logger = setup_logger(__name__)
 # global support variables
 star_date = get_penultimate_date(DATA_PATHS['gold']['olpn'], 'data_criterio') # <<< penultimate update date in the gold/olpn folder
 end_date = get_yesterday_date() # <<< current date entered in the final data field
-control_dir = TEMP_DIR['DIR_CHROME'] # <<< folder monitored by the "wait_download_csv" function
+control_dir = TEMP_DIR['BRONZE'] # <<< folder monitored by the "wait_download_csv" function
 
 @log_with_context(job='data_extraction_olpn', logger=logger)
 def data_extraction_olpn(driver):

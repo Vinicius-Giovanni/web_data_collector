@@ -1,30 +1,24 @@
 from utils.config_logger import setup_logger
 from web_data_collector.login import login_csi
-from config.settings import TEMP_DIR
+from config.settings import TEMP_DIR, FILE_ROUTER
 from web_data_collector.olpn import data_extraction_olpn
-from utils.reader import function_distribution
+from utils.reader import forward_files_by_name
+from pipelines.standard_pipeline.olpn_pipeline import OlpnPipeline
 
 import time
 
 logger = setup_logger(__name__)
 
+pipeline_olpn = OlpnPipeline()
+
 def main():
-    logger.info('iniciando automacao web_data_collector', extra={
-        'job': 'main',
-        'status': 'started'
-    })
     driver = login_csi()
     data_extraction_olpn(driver)
     time.sleep(2)
-    function_distribution(TEMP_DIR['DIR_CHROME'])
+    forward_files_by_name(input_folder=TEMP_DIR['BRONZE'], file_router=FILE_ROUTER)
     driver.quit()
-    logger.info('finalizando automacao web_data_collector', extra={
-        'job': 'main',
-        'status': 'finished'
-    })
-    # print(TEMP_DIR['DIR_CHROME'])
-
-
+    time.sleep(2)
+    pipeline_olpn.run(input_path=TEMP_DIR['SILVER']['olpn'], output_path=TEMP_DIR['GOLD']['olpn'])
 
 if __name__ == "__main__":
     main()

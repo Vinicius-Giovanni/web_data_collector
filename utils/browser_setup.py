@@ -57,7 +57,7 @@ def get_chrome_options() -> Options:
         options.add_argument('--headless=new')
 
     prefs = {
-        'download.default_directory': str(TEMP_DIR['DIR_CHROME']),
+        'download.default_directory': str(TEMP_DIR['BRONZE']),
         'download.prompt_for_download': False,
         'directory_upgrade': True,
         'safebrowsing.enabled': True,
