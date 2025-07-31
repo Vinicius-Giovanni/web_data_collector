@@ -1,8 +1,10 @@
 # remote imports
 from selenium import webdriver
-from config.settings import TEMP_DIR
+from config.settings import TEMP_DIR, LINKS
 from selenium.webdriver.chrome.options import Options
 import os
+from pathlib import Path
+import time 
 
 # local imports
 from utils.config_logger import setup_logger, log_with_context
@@ -15,25 +17,29 @@ try:
         'job': 'browser_setup',
         'status': 'started'
     })
-    for name, path in TEMP_DIR.items():
-        if not path.exists():
-            logger.warning(f'diretorio temporario {name} nao existe, criando...', extra={
-                'job': 'browser_setup',
-                'status': 'warning'
-            })
-            path.mkdir(parents=True, exist_ok=True)
+
+    for layer, dataset in TEMP_DIR.items(): # layer = BRONZE, SILVER, GOLD
+        for dataset, path in dataset.items():
+            if not path.exists:
+                logger.warning(f'diretorio temporario {layer}/{dataset} nao existe, criando...', extra={
+                    'job': 'browser_setup',
+                    'status': 'warning'
+                })
+                path.mkdir(parents=True, exist_ok=True)
+    
     logger.info('diretorio temporario verificado com sucesso', extra={
         'job': 'browser_setup',
-        'status': 'success'
+        'status': 'warning'
     })
+
 except Exception as e:
-    logger.warning(f'erro ao verificar o diretorio temporario: {e}', extra={
+    logger.warning(f'erro ao verificar o diretorio temporario', extra={
         'job': 'browser_setup',
         'status': 'failure'
     })
 
 @log_with_context(job='get_chrome_options', logger=logger)
-def get_chrome_options() -> Options:
+def get_chrome_options(path_temp_dir: str | Path) -> Options:
     """
     configure of options for the chrome browser
     """
@@ -57,7 +63,7 @@ def get_chrome_options() -> Options:
         options.add_argument('--headless=new')
 
     prefs = {
-        'download.default_directory': str(TEMP_DIR['BRONZE']),
+        'download.default_directory': str(path_temp_dir),
         'download.prompt_for_download': False,
         'directory_upgrade': True,
         'safebrowsing.enabled': True,
@@ -76,7 +82,33 @@ def get_chrome_options() -> Options:
 
     return options
 
-def init_browser() -> webdriver.Chrome:
-    options = get_chrome_options()
+def init_browser(download_dir: str) -> webdriver.Chrome:
+    options = get_chrome_options(download_dir)
     driver = webdriver.Chrome(options=options)
+    return driver
+
+@log_with_context(job='create_authenticated_driver', logger=logger)
+def create_authenticated_driver(cookies: list[dict], download_dir: Path) -> webdriver:
+
+    driver = init_browser(download_dir=download_dir)
+
+    time.sleep(1)
+
+    driver.get(LINKS['LOGIN_CSI'])
+
+    for cookie in cookies:
+        try:
+            if 'samaSite' in cookie:
+                cookie.pop('sameSite') # evita erro em chromes headless
+            driver.add_cookie(cookie)
+        
+        except Exception as e:
+            logger.warning(f'cookie invalido descartado {cookie} motivo {e}', extra={
+                'job': 'create_authenticated_driver',
+                'status': 'failure'
+            })
+        
+
+    driver.get(LINKS['LOGIN_CSI']) # reload instance
+
     return driver

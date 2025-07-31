@@ -3,6 +3,7 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from pathlib import Path
 
 # local imports
 from utils.config_logger import setup_logger, log_with_context
@@ -14,10 +15,13 @@ from utils.browser_setup import init_browser
 logger = setup_logger(__name__)
 
 @log_with_context(job='login_csi', logger=logger)
-def login_csi():
+def login_csi(download_dir: Path) -> list[dict] | None:
     """
     log in to the CSI system using Selenium
     """
+
+    driver = None
+    cookies = None
 
     # limpeza de diretorio
     try:
@@ -30,14 +34,14 @@ def login_csi():
     
     # inicializacao e configuracao da instancia
     try:
-        driver = init_browser()
+        driver = init_browser(download_dir)
         wait = WebDriverWait(driver, 30)
     except Exception as e:
         logger.exception(f'erro ao configurar instancia: {e}', extra={
             'job': 'login_csi',
             'status': 'failure'
         })
-        return
+        return None
     
     try:
         # acessando login page
@@ -53,7 +57,7 @@ def login_csi():
                 'job': 'login_csi',
                 'status': 'failure'
             })
-            return
+            return None
         
         # verificacao de elemento (titulo da pagina de login)
         try:
@@ -68,6 +72,7 @@ def login_csi():
                 'job': 'login_csi',
                 'status': 'failure'
             })
+            return None
 
         # verificacao de elemento (opcao de login - AZURE AD)
         try:
@@ -83,7 +88,7 @@ def login_csi():
                 'job': 'login_csi',
                 'status': 'failure'
             })
-            return
+            return None
         
         # verificacao de elemento (banner de login)
         try:
@@ -98,6 +103,7 @@ def login_csi():
                 'job': 'login_csi',
                 'status': 'failure'
             })
+            return None
 
         # preenchimento de elemento (email)
         try:
@@ -112,6 +118,7 @@ def login_csi():
                 'job': 'login_csi',
                 'status': 'failure'
             })
+            return None
 
         # interação com elemento (confirmacao de email)
         try:
@@ -126,6 +133,7 @@ def login_csi():
                 'job': 'login_csi',
                 'status': 'failure'
             })
+            return None
 
         # preenchimento de elemento (password)
         try:
@@ -140,6 +148,7 @@ def login_csi():
                 'job': 'login_csi',
                 'status': 'failure'
             })
+            return None
             
         # interação com elemento (confirmacao de senha e confirmacao de login)
         for i in range(2):
@@ -155,6 +164,7 @@ def login_csi():
                     'job': 'login_csi',
                     'status': 'failure'
                 })
+                return None
         
         # verificação de elemento (titulo da pagina primaria CSI)
         try:
@@ -169,16 +179,24 @@ def login_csi():
                 'job': 'login_csi',
                 'status': 'failure'
             })
+            return None
         
         logger.info('login no CSI realizado com sucesso', extra={
             'job': 'login_csi',
             'status': 'success'
         })
 
+        cookies = driver.get_cookies()
+
     except Exception as e:
         logger.critical(f'erro durante o login: {e}', extra={
             'job': 'login_csi',
             'status': 'failure'
         })
+        return None
     
-    return driver
+    finally:
+        if driver:
+            driver.quit()
+    
+    return cookies
