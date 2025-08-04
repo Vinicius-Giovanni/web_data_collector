@@ -59,7 +59,7 @@ def data_extraction_olpn(cookies: list[dict], dowload_dir: Path) -> None:
                 'status': 'failure'
             })
         
-        logger.info('inicinado preenchimento de fomulario olpn', extra={
+        logger.info('inicinado preenchimento de formulario olpn', extra={
             'job': 'data_extraction_olpn',
             'status': 'started'
         })
