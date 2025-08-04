@@ -49,13 +49,16 @@ else:
     TEMP_DIR = {
         "BRONZE": {
             'olpn': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_olpn'),
-            'dir_chrome_login': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_geral')
+            'dir_chrome_login': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_geral'),
+            'cancel': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_cancel')
         },
         "SILVER": {
             'olpn': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_olpn'),
+            'cancel': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_cancel'),
         },
         "GOLD": {
-            'olpn': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/gold_temp_olpn')
+            'olpn': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/gold_temp_olpn'),
+            'cancel': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/gold_temp_cancel')
         }
     }
 
@@ -63,13 +66,16 @@ else:
     # all data paths
     DATA_PATHS = {
         'bronze': {
-            'olpn' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '3.11 - Status Wave + oLPN')
+            'olpn' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '3.11 - Status Wave + oLPN'),
+            'cancel': Path(BASE_PATH / 'Bronze (Raw Layer)' / '6.10 - Pedidos Cancelados')
         },
         'silver': {
-            'olpn' : Path(BASE_PATH / 'Silver (Business Layer)' / '3.11 - Status Wave + oLPN')
+            'olpn' : Path(BASE_PATH / 'Silver (Business Layer)' / '3.11 - Status Wave + oLPN'),
+            'cancel' : Path(BASE_PATH / 'Silver (Business Layer)' / '6.10 - Pedidos Cancelados')
         },
         'gold': {
-            'olpn' : Path(BASE_PATH / 'Gold (Business Layer)' / '3.11 - Status Wave + oLPN')
+            'olpn' : Path(BASE_PATH / 'Gold (Business Layer)' / '3.11 - Status Wave + oLPN'),
+            'cancel' : Path(BASE_PATH / 'Gold (Business Layer)' / '6.10 - Pedidos Cancelados')
         }
     }
 
@@ -165,12 +171,74 @@ ELEMENTS = {
             'S71 - SAIDAS QE FILIAL VIRTUAL 0014',
             'S99 - Intercompany'
         ]
+    },
+    'ELEMENTS_CANCEL': {
+        'element_filial_id': 'dv20_ValueComboBox',
+        'element_filial': '1200',
+        'element_dt_start': 'dv62__tblDateTextBox__txtInput',
+        'element_dt_end': 'dv71__tblDateTextBox__txtInput',
+        'element_confirm': 'dv81'
+    },
+    'ELEMENTS_PICKING': {
+        'list_itens': [
+            'S01 - ENTREGA A CLIENTES',
+            'S02 - RETIRA CLIENTE DEPOSITO',
+            'S03 - TRANSF.LOJA/ENTREGA CLIENTE',
+            'S04 - TRANSF EAD AUTOMATICA',
+            'S05 - TRANSF EAD PROGRAMADA',
+            'S06- ENTREGA A CLIENTE REMANEJADA',
+            'S07 - EAD AUTOMATICO REMANEJADA',
+            'S08 - TRANSF.LOJA/ENTR. CLIENTE REM',
+            'S09 - TRANSF. PROGRAMADA REMANEJADA',
+            'S10 - REM.FORNECEDOR ASSIST.TECNICA',
+            'S11 - TRANSF. LOJA VIA DEPOSITO BOA',
+            'S12 - TRANSF.LOJA VIA DEPOSITO QEB',
+            'S13 - ABASTECIMENTO DE LOJA BOA',
+            'S14 - ABASTECIMENTO DE LOJA QEB',
+            'S15 - OUTRAS SAIDAS BOA',
+            'S16 - OUTRAS SAIDAS QEB',
+            'S18 - REMESSA PARA CONSERTO',
+            'S19 - DEVOLUÇÃO P/ FORNECEDOR A1',
+            'S26 - EXPEDIÇÃO DE EAD AUTOMATICO',
+            'S27 - REMESSA PARA DEPOSITO QEB',
+            'S28 - REMANEJADO EAD AUTOMATICO',
+            'S29 - ABM CROSS DOCK BOA',
+            'S30 - ABM CROSS DOCK QEB',
+            'S31 - EXP PED RET 31',
+            'S32 - EAD VVLOG',
+            'S33 - VENDA MIUDEZAS',
+            'S34 - DEV EAD BOM',
+            'S35 - DEV EAD RETIRA CLIENTE',
+            'S39 - EXPEDICAO LEVES',
+            'S39I - EXPEDICAO LEVES',
+            'S39M - EXPEDICAO LEVES',
+            'S39P - EXPEDICAO LEVES',
+            'S39R - Single line',
+            'S41 - INTERCOMPANY BOA',
+            'S42 - INTERCOMPANY QEB',
+            'S43 - ENTREGA BARATEIRO',
+            'S44 - ENTREGA BARATEIRO LEVES',
+            'S45 - EXPEDIÇÃO ENTREGA PELOEXTRA',
+            'S46 - ABASTECIMENTO RETIRA LOJA',
+            'S48 - ABASTECIMENTO CEL RJ',
+            'S53 - TRANSFERENCIA ENTRE CDS',
+            'S55 - EAD Faturado (Pesado)',
+            'S56 - EAD Faturado (Leves)',
+            'S56I - EAD Faturado (Leves)',
+            'S56M - EAD Faturado (Leves)',
+            'S56P - EAD Faturado (Leves)',
+            'S56R - Transit point singleline',
+            'S71 - SAIDAS QE FILIAL VIRTUAL 0014',
+            'S99 - Intercompany'
+        ]
     }
 }
 
 LINKS = {
     'LOGIN_CSI': 'https://viavp-sci.sce.manh.com/bi/?perspective=home',
-    'LOGIN_OLPN' : 'https://viavp-sci.sce.manh.com/bi/?perspective=authoring&id=i79E326D8D72B45F795E0897FCE0606F6&objRef=i79E326D8D72B45F795E0897FCE0606F6&action=run&format=CSV&cmPropStr=%7B%22id%22%3A%22i79E326D8D72B45F795E0897FCE0606F6%22%2C%22type%22%3A%22report%22%2C%22defaultName%22%3A%223.11%20-%20Status%20Wave%20%2B%20oLPN%22%2C%22permissions%22%3A%5B%22execute%22%2C%22read%22%2C%22traverse%22%5D%7D'
+    'LOGIN_OLPN' : 'https://viavp-sci.sce.manh.com/bi/?perspective=authoring&id=i79E326D8D72B45F795E0897FCE0606F6&objRef=i79E326D8D72B45F795E0897FCE0606F6&action=run&format=CSV&cmPropStr=%7B%22id%22%3A%22i79E326D8D72B45F795E0897FCE0606F6%22%2C%22type%22%3A%22report%22%2C%22defaultName%22%3A%223.11%20-%20Status%20Wave%20%2B%20oLPN%22%2C%22permissions%22%3A%5B%22execute%22%2C%22read%22%2C%22traverse%22%5D%7D',
+    'LOGIN_CANCEL': 'https://viavp-sci.sce.manh.com/bi/?perspective=authoring&id=iD732BE4B1DA6487F8ACD69248DA2CC19&objRef=iD732BE4B1DA6487F8ACD69248DA2CC19&action=run&format=CSV&cmPropStr=%7B%22id%22%3A%22iD732BE4B1DA6487F8ACD69248DA2CC19%22%2C%22type%22%3A%22report%22%2C%22defaultName%22%3A%226.10%20-%20Pedidos%20Cancelados%22%2C%22permissions%22%3A%5B%22execute%22%2C%22read%22%2C%22traverse%22%5D%7D',
+    'LOGIN_PICKING': 'https://viavp-sci.sce.manh.com/bi/?perspective=authoring&id=iC20581CB9B43482BB800469299636529&objRef=iC20581CB9B43482BB800469299636529&action=run&format=CSV&cmPropStr=%7B%22id%22%3A%22iC20581CB9B43482BB800469299636529%22%2C%22type%22%3A%22report%22%2C%22defaultName%22%3A%224.05%20-%20Relat%C3%B3rio%20de%20Produtividade%20-%20Picking%22%2C%22permissions%22%3A%5B%22execute%22%2C%22read%22%2C%22traverse%22%5D%7D'
 }
 
 PIPELINE_CONFIG = {
