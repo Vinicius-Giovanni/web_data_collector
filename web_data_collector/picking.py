@@ -42,3 +42,82 @@ def data_extraction_picking(cookies: list[dict], dowload_dir: Path) -> None:
             'job': 'data_extraction_picking',
             'status': 'success'
         })
+
+        if not wait.until(EC.frame_to_be_available_and_switch_to_it(
+            (By.XPATH, ELEMENTS['frame']))):
+            logger.error('erro ao acessar o frame', extra={
+                'job': 'data_extraction_picking',
+                'status': 'failure'
+            })
+
+        logger.info('iniciando preenchimento do formulario picking', extra={
+            'job': 'data_extraction_picking',
+            'status': 'started'
+        })
+
+        filial = wait.until(EC.element_to_be_clickable(
+            (By.ID, ELEMENTS['ELEMENTS_PICKING']['element_filial_id']))
+        )
+        if filial:
+            Select(filial).select_by_value(ELEMENTS['ELEMENTS_PICKING']['element_filial'])
+        
+        dt_start = wait.until(EC.element_to_be_clickable(
+            (By.ID,ELEMENTS['ELEMENTS_PICKING']['element_dt_start']))
+        )
+        if dt_start:
+            dt_start.clear()
+            dt_start.send_keys(star_date)
+
+        dt_end = wait.until(EC.element_to_be_clickable(
+            (By.ID, ELEMENTS['ELEMENTS_PICKING']['element_dt_end']))
+        )
+        if dt_end:
+            dt_end.clear()
+            dt_end.send_keys(end_date)
+
+        if wait.until(EC.visibility_of_element_located(
+            (By.XPATH, ELEMENTS['ELEMENTS_PICKING']['element_listbox']))):
+
+            itens = driver.find_elements(By.XPATH, ELEMENTS['ELEMENTS_PICKING']['elements_listbox'])
+
+            for item in itens:
+                nome = item.get_attribute(ELEMENTS['ELEMENTS_PICKING']['element_get_item'])
+                if nome in ELEMENTS['ELEMENTS_PICKING']['list_itens']:
+                    is_cheked = item.get_attribute(ELEMENTS['ELEMENTS_PICKING']['element_get_checked']) == 'true'
+                    if not is_cheked:
+                        try:
+                            item.click()
+                        except:
+                            driver.execute_script('arguments[0].click();', item)
+                        logger.info(f'item {nome} selecionado com sucesso', extra={
+                            'job': 'data_extraction_picking',
+                            'status': 'sucess'
+                        })
+        confirmar = wait.until(EC.element_to_be_clickable(
+            (By.ID, ELEMENTS['ELEMENTS_PICKING']['element_confirm'])
+        ))
+        if confirmar:
+            confirmar.click()
+            logger.info('formulario picking preenchido com sucesso, iniciando download', extra={
+                'job': 'data_extraction_picking',
+                'status': 'sucess'
+            })
+        
+        if wait_download_csv(dir=control_dir):
+            logger.info('download do arquivo olpn concluido', extra={
+                'job': 'data_extraction_picking',
+                'status': 'sucess'
+            })
+        else:
+            logger.critical('download do arquivo picking falhou', extra={
+                'job': 'data_extraction_picking',
+                'status': 'failure'
+            })
+    except Exception as e:
+        logger.exception(f'erro ao extrair dados do picking: {e}', extra={
+            'job': 'data_extraction_picking',
+            'status': 'failure'
+        })
+    
+    finally:
+        driver.quit()
