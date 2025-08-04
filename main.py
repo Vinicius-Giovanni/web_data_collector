@@ -10,7 +10,7 @@ from pipelines.standard_pipeline.olpn_pipeline import OlpnPipeline
 # remote imports
 import time
 import sys
-import threading
+import multiprocessing
 
 logger = setup_logger(__name__)
 
@@ -24,16 +24,16 @@ def main():
         logger.error('login falhou: cookies nao obtidos. abortando processo')
         sys.exit(1)
 
-    t1 = threading.Thread(target=data_extraction_olpn, args=(cookies, TEMP_DIR['BRONZE']['olpn']))
-    t2 = threading.Thread(target=data_extraction_cancel, args=(cookies, TEMP_DIR['BRONZE']['cancel']))
-    t3 = threading.Thread(target=data_extraction_picking, args=(cookies, TEMP_DIR['BRONZE']['picking']))
+    t1 = multiprocessing.Process(target=data_extraction_olpn, args=(cookies, TEMP_DIR['BRONZE']['olpn']))
+    t2 = multiprocessing.Process(target=data_extraction_cancel, args=(cookies, TEMP_DIR['BRONZE']['cancel']))
+    t3 = multiprocessing.Process(target=data_extraction_picking, args=(cookies, TEMP_DIR['BRONZE']['picking']))
 
-    # t1.start()
-    # t2.start()
+    t1.start()
+    t2.start()
     t3.start()
 
-    # t1.join()
-    # t2.join()
+    t1.join()
+    t2.join()
     t3.join()
 
     # data_extraction_olpn(cookies, TEMP_DIR['BRONZE']['olpn'])

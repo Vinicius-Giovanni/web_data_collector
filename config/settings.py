@@ -194,7 +194,7 @@ ELEMENTS = {
         'elements_listbox': '//tr[@role="option" and @checkboxitem="true"]',
         'element_get_item': 'aria-label',
         'element_get_checked': 'aria-checked',
-        'element_confirm': 'dv138',
+        'element_confirm': 'dv130',
         'list_itens': [
             'S01 - ENTREGA A CLIENTES',
             'S02 - RETIRA CLIENTE DEPOSITO',
@@ -242,7 +242,7 @@ ELEMENTS = {
             'S56I - EAD Faturado (Leves)',
             'S56M - EAD Faturado (Leves)',
             'S56P - EAD Faturado (Leves)',
-            'S56R - Transit point singleline',
+            'S56R - Transit point single line',
             'S71 - SAIDAS QE FILIAL VIRTUAL 0014',
             'S99 - Intercompany'
         ]
