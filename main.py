@@ -4,6 +4,7 @@ from web_data_collector.login import login_csi
 from config.settings import TEMP_DIR, FILE_ROUTER, DATA_PATHS
 from web_data_collector.olpn import data_extraction_olpn
 from web_data_collector.cancel import data_extraction_cancel
+from web_data_collector.picking import data_extraction_picking
 from pipelines.standard_pipeline.olpn_pipeline import OlpnPipeline
 
 # remote imports
@@ -25,12 +26,15 @@ def main():
 
     t1 = threading.Thread(target=data_extraction_olpn, args=(cookies, TEMP_DIR['BRONZE']['olpn']))
     t2 = threading.Thread(target=data_extraction_cancel, args=(cookies, TEMP_DIR['BRONZE']['cancel']))
+    t3 = threading.Thread(target=data_extraction_picking, args=(cookies, TEMP_DIR['BRONZE']['picking']))
 
-    t1.start()
-    t2.start()
+    # t1.start()
+    # t2.start()
+    t3.start()
 
-    t1.join()
-    t2.join()
+    # t1.join()
+    # t2.join()
+    t3.join()
 
     # data_extraction_olpn(cookies, TEMP_DIR['BRONZE']['olpn'])
 

@@ -50,15 +50,18 @@ else:
         "BRONZE": {
             'olpn': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_olpn'),
             'dir_chrome_login': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_geral'),
-            'cancel': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_cancel')
+            'cancel': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_cancel'),
+            'picking': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_picking'),
         },
         "SILVER": {
             'olpn': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_olpn'),
             'cancel': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_cancel'),
+            'picking': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/silver_temp_picking')
         },
         "GOLD": {
             'olpn': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/gold_temp_olpn'),
-            'cancel': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/gold_temp_cancel')
+            'cancel': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/gold_temp_cancel'),
+            'picking': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/gold_temp_picking')
         }
     }
 
@@ -67,15 +70,18 @@ else:
     DATA_PATHS = {
         'bronze': {
             'olpn' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '3.11 - Status Wave + oLPN'),
-            'cancel': Path(BASE_PATH / 'Bronze (Raw Layer)' / '6.10 - Pedidos Cancelados')
+            'cancel': Path(BASE_PATH / 'Bronze (Raw Layer)' / '6.10 - Pedidos Cancelados'),
+            'picking' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '4.05 - Relatório de Produtividade - Picking')
         },
         'silver': {
             'olpn' : Path(BASE_PATH / 'Silver (Business Layer)' / '3.11 - Status Wave + oLPN'),
-            'cancel' : Path(BASE_PATH / 'Silver (Business Layer)' / '6.10 - Pedidos Cancelados')
+            'cancel' : Path(BASE_PATH / 'Silver (Business Layer)' / '6.10 - Pedidos Cancelados'),
+            'picking' : Path(BASE_PATH / 'Silver (Business Layer)' / '4.05 - Relatório de Produtividade - Picking'),
         },
         'gold': {
             'olpn' : Path(BASE_PATH / 'Gold (Business Layer)' / '3.11 - Status Wave + oLPN'),
-            'cancel' : Path(BASE_PATH / 'Gold (Business Layer)' / '6.10 - Pedidos Cancelados')
+            'cancel' : Path(BASE_PATH / 'Gold (Business Layer)' / '6.10 - Pedidos Cancelados'),
+            'picking' : Path(BASE_PATH / 'Gold (Business Layer)' / '4.05 - Relatório de Produtividade - Picking')
         }
     }
 
@@ -90,10 +96,10 @@ CHUNKSIZE = 200_000
 
 FILE_ROUTER = {
     '3.11 - Status Wave + oLPN': TEMP_DIR['SILVER']['olpn'],
-    '4.05 - Relatório de Produtividade - Picking': '',
+    '4.05 - Relatório de Produtividade - Picking': TEMP_DIR['SILVER']['picking'],
     '5.03 - Produtividade de Packing - Packed por hora': '',
     '5.04 - Produtividade Load - Load por hora': '',
-    '6.10 - Pedidos Cancelados': '',
+    '6.10 - Pedidos Cancelados': TEMP_DIR['SILVER']['cancel'],
     '6.15 - Produtividade - Outbound Putaway': ''
 }
 
@@ -180,6 +186,15 @@ ELEMENTS = {
         'element_confirm': 'dv81'
     },
     'ELEMENTS_PICKING': {
+        'element_filial_id': 'dv18_ValueComboBox',
+        'element_filial': '1200',
+        'element_dt_start': 'dv113__tblDateTextBox__txtInput',
+        'element_dt_end': 'dv123__tblDateTextBox__txtInput',
+        'element_listbox': '//*[@id="dv57_MultiSelectList"]',
+        'elements_listbox': '//tr[@role="option" and @checkboxitem="true"]',
+        'element_get_item': 'aria-label',
+        'element_get_checked': 'aria-checked',
+        'element_confirm': 'dv138',
         'list_itens': [
             'S01 - ENTREGA A CLIENTES',
             'S02 - RETIRA CLIENTE DEPOSITO',
