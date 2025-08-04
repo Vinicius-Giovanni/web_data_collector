@@ -2,9 +2,9 @@
 from utils.config_logger import setup_logger, log_with_context
 from web_data_collector.login import login_csi
 from config.settings import TEMP_DIR, FILE_ROUTER, DATA_PATHS
-from web_data_collector.olpn import data_extraction_olpn
-from web_data_collector.cancel import data_extraction_cancel
-from web_data_collector.picking import data_extraction_picking
+from web_data_collector.olpn import data_extraction_olpn_from_file
+from web_data_collector.cancel import data_extraction_cancel_from_file
+from web_data_collector.picking import data_extraction_picking_from_file
 from pipelines.standard_pipeline.olpn_pipeline import OlpnPipeline
 
 # remote imports
@@ -24,9 +24,9 @@ def main():
         logger.error('login falhou: cookies nao obtidos. abortando processo')
         sys.exit(1)
 
-    t1 = multiprocessing.Process(target=data_extraction_olpn, args=(cookies, TEMP_DIR['BRONZE']['olpn']))
-    t2 = multiprocessing.Process(target=data_extraction_cancel, args=(cookies, TEMP_DIR['BRONZE']['cancel']))
-    t3 = multiprocessing.Process(target=data_extraction_picking, args=(cookies, TEMP_DIR['BRONZE']['picking']))
+    t1 = multiprocessing.Process(target=data_extraction_olpn_from_file, args=("cookies.json", TEMP_DIR['BRONZE']['olpn']))
+    t2 = multiprocessing.Process(target=data_extraction_cancel_from_file, args=("cookies.json", TEMP_DIR['BRONZE']['cancel']))
+    t3 = multiprocessing.Process(target=data_extraction_picking_from_file, args=("cookies.json", TEMP_DIR['BRONZE']['picking']))
 
     t1.start()
     t2.start()

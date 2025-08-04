@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 from pathlib import Path
+import json
 
 # local imports
 from utils.config_logger import setup_logger, log_with_context
@@ -105,3 +106,8 @@ def data_extraction_cancel(cookies: list[dict], dowload_dir: Path) -> None:
 
     finally:
             driver.quit()
+
+def data_extraction_cancel_from_file(cookies_path: str, download_dir: Path) -> None:
+    with open(cookies_path, 'r', encoding='utf-8') as f:
+        cookies = json.load(f)
+    data_extraction_cancel(cookies, download_dir)

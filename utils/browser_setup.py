@@ -5,6 +5,9 @@ from selenium.webdriver.chrome.options import Options
 import os
 from pathlib import Path
 import time 
+import json
+import tempfile
+import uuid
 
 # local imports
 from utils.config_logger import setup_logger, log_with_context
@@ -59,8 +62,13 @@ def get_chrome_options(path_temp_dir: str | Path) -> Options:
     options.add_experimental_option('excludeSwitches', ['enable-automation'])
     options.add_experimental_option('useAutomationExtension', False)
 
+    user_data_dir = tempfile.mkdtemp(prefix=f'chrome_profile_{uuid.uuid4()}')
+    
+
     if os.getenv('CHROME_HEADLESS', 'false').lower() == 'true':
-        options.add_argument('--headless=new')
+        options.add_argument(f'--headless=new')
+    
+    options.add_argument(f'--user-data-dir={user_data_dir}')
 
     prefs = {
         'download.default_directory': str(path_temp_dir),
@@ -112,3 +120,7 @@ def create_authenticated_driver(cookies: list[dict], download_dir: Path) -> webd
     driver.get(LINKS['LOGIN_CSI']) # reload instance
 
     return driver
+
+def load_cookies(path='cookies.json'):
+    with open(path, 'r', encoding='utf-8') as f:
+        return json.load(f)

@@ -7,3 +7,5 @@ anotations.txt
 __init__.py
 teste.py
 .venv/
+*.json
+{user_data_dir}

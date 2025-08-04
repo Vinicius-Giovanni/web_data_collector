@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pathlib import Path
+import json
 
 # local imports
 from utils.config_logger import setup_logger, log_with_context
@@ -187,6 +188,9 @@ def login_csi(download_dir: Path) -> list[dict] | None:
         })
 
         cookies = driver.get_cookies()
+
+        with open("cookies.json", 'w', encoding='utf-8') as f:
+            json.dump(cookies, f)
 
     except Exception as e:
         logger.critical(f'erro durante o login: {e}', extra={
