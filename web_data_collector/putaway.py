@@ -16,12 +16,12 @@ from utils.browser_setup import create_authenticated_driver
 logger = setup_logger(__name__)
 
 # global support variables
-star_date = get_penultimate_date(DATA_PATHS['gold']['olpn'], 'data_criterio') # <<< penultimate update date in the gold/olpn folder
+star_date = get_penultimate_date(DATA_PATHS['gold']['putaway'], 'data_criterio') # <<< penultimate update date in the gold/olpn folder
 end_date = get_yesterday_date() # <<< current date entered in the final data field
-control_dir = TEMP_DIR['BRONZE']['olpn'] # <<< folder monitored by the "wait_download_csv" function
+control_dir = TEMP_DIR['BRONZE']['putaway'] # <<< folder monitored by the "wait_download_csv" function
 
-@log_with_context(job='data_extraction_olpn', logger=logger)
-def data_extraction_olpn(cookies: list[dict], dowload_dir: Path) -> None:
+@log_with_context(job= 'data_extraction_putaway', logger=logger)
+def data_extraction_putaway(cookies: list[dict], dowload_dir: Path) -> None:
 
     #* Creation of the module responsible for assuming the driver of the 'login_csi' function and extracting a .csv file from the system
 
@@ -37,64 +37,56 @@ def data_extraction_olpn(cookies: list[dict], dowload_dir: Path) -> None:
 
     try:
         wait = WebDriverWait(driver, 30)
-        driver.get(LINKS['LOGIN_OLPN'])
+        driver.get(LINKS['LOGIN_PUTAWAY'])
 
         logger.info('site acessado com sucesso', extra={
-            'job': 'data_extraction_olpn',
-            'status': 'success'
+            'job': 'data_extraction_putaway',
+            'status': 'sucess'
         })
 
         # verificando se o frame esta disponivel e acessando
         if not wait.until(EC.frame_to_be_available_and_switch_to_it(
             (By.XPATH, ELEMENTS['frame']))):
             logger.error('erro ao acessar o frame', extra={
-                'job': 'data_extraction_olpn',
+                'job': 'data_extraction_putaway',
                 'status': 'failure'
             })
-        
-        # verificando se o elemento de titulo esta disponivel
-        if not wait.until(EC.presence_of_element_located(
-            (By.CLASS_NAME, ELEMENTS['ELEMENTS_OLPN']['element_title']))):
-            logger.error('erro ao localizar o elemento de titulo', extra={
-                'job': 'data_extraction_olpn',
-                'status': 'failure'
-            })
-        
-        logger.info('inicinado preenchimento de formulario olpn', extra={
-            'job': 'data_extraction_olpn',
+
+        logger.info('iniciando preenchimento de formulario olpn', extra={
+            'job':'data_extraction_putaway',
             'status': 'started'
         })
 
         filial = wait.until(EC.element_to_be_clickable(
-            (By.ID, ELEMENTS['ELEMENTS_OLPN']['element_filial_id']))
-        )
+            (By.ID, ELEMENTS['ELEMENTS_PUTAWAY']['element_filial_id'])
+        ))
         if filial:
-            Select(filial).select_by_value(ELEMENTS['ELEMENTS_OLPN']['element_filial'])
-
+            Select(filial).select_by_value(ELEMENTS['ELEMENTS_PUTAWAY']['element_filial'])
+        
         dt_start = wait.until(EC.element_to_be_clickable(
-            (By.ID, ELEMENTS['ELEMENTS_OLPN']['element_dt_start']))
-        )
+            (By.ID, ELEMENTS['ELEMENTS_PUTAWAY']['element_dt_start'])
+        ))
         if dt_start:
             dt_start.clear()
             dt_start.send_keys(star_date)
 
         dt_end = wait.until(EC.element_to_be_clickable(
-            (By.ID, ELEMENTS['ELEMENTS_OLPN']['element_dt_end']))
-        )
+            (By.ID, ELEMENTS['ELEMENTS_PUTAWAY']['element_dt_end'])
+        ))
         if dt_end:
             dt_end.clear()
             dt_end.send_keys(end_date)
 
         # selecionando os itens do listbox
         if wait.until(EC.visibility_of_element_located(
-            (By.XPATH, ELEMENTS['ELEMENTS_OLPN']['element_listbox']))):
+            (By.XPATH, ELEMENTS['ELEMENTS_PUTAWAY']['element_listbox']))):
 
-            itens = driver.find_elements(By.XPATH, ELEMENTS['ELEMENTS_OLPN']['elements_listbox'])
+            itens = driver.find_elements(By.XPATH, ELEMENTS['ELEMENTS_PUTAWAY']['elements_listbox'])
 
             for item in itens:
                 nome = item.get_attribute(ELEMENTS['ELEMENTS_OLPN']['element_get_item'])
-                if nome in ELEMENTS['ELEMENTS_OLPN']['list_itens']:
-                    is_checked = item.get_attribute(ELEMENTS['ELEMENTS_OLPN']['element_get_checked']) == 'true'
+                if nome in ELEMENTS['ELEMENTS_PUTAWAY']['list_itens']:
+                    is_checked = item.get_attribute(ELEMENTS['ELEMENTS_PUTAWAY']['element_get_checked']) == 'true'
                     if not is_checked:
                         try:
                             item.click()
@@ -104,38 +96,38 @@ def data_extraction_olpn(cookies: list[dict], dowload_dir: Path) -> None:
                             'job': 'data_extraction_olpn',
                             'status': 'success'
                         })
-        
+
         confirmar = wait.until(EC.element_to_be_clickable(
-            (By.ID, ELEMENTS['ELEMENTS_OLPN']['element_confirm'])
+            (By.ID, ELEMENTS['ELEMENTS_PUTAWAY']['element_confirm'])
         ))
         if confirmar:
             confirmar.click()
-            logger.info('formulario olpn preenchido com sucesso, iniciando download', extra={
-                'job': 'data_extraction_olpn',
+            logger.info('formulario putaway preenchido com sucesso, iniciando download', extra={
+                'job': 'data_extraction_putaway',
                 'status': 'success'
             })
-        
+
         if wait_download_csv(dir=control_dir):
-            logger.info('download do arquivo olpn concluido', extra={
-                'job': 'data_extraction_olpn',
+            logger.info('download do arquivo putaway concluido', extra={
+                'job': 'data_extraction_putaway',
                 'status': 'success'
             })
         else:
-            logger.critical('download do arquivo olpn falhou', extra={
-                'job': 'data_extraction_olpn',
+            logger.critical('download do arquivo putawat falhou', extra={
+                'job': 'data_extraction_putaway',
                 'status': 'failure'
             })
 
     except Exception as e:
-        logger.exception(f'erro ao extrair dados do oLPN: {e}', extra={
-            'job': 'data_extraction_olpn',
+        logger.exception(f'erro ao extrair dados do putaway: {e}', extra={
+            'job': 'data_extraction_putaway',
             'status': 'failure'
         })
 
     finally:
         driver.quit()
 
-def data_extraction_olpn_from_file(cookies_path: str, download_dir: Path) -> None:
+def data_extraction_putaway_from_file(cookies_path: str, download_dir: Path) -> None:
     with open(cookies_path, 'r', encoding='utf-8') as f:
         cookies = json.load(f)
-    data_extraction_olpn(cookies, download_dir)
+    data_extraction_putaway(cookies, download_dir)
