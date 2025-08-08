@@ -54,20 +54,23 @@ else:
             'picking': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_picking'),
             'putaway': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_putaway'),
             'packing': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_packing'),
+            'loading': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_loading'),
         },
         "SILVER": {
             'olpn': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_olpn'),
             'cancel': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_cancel'),
             'picking': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/silver_temp_picking'),
             'putaway': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/silver_temp_putaway'),
-            'packing': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/silver_temp_packing')
+            'packing': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/silver_temp_packing'),
+            'loading': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/silver_temp_loading')
         },
         "GOLD": {
             'olpn': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/gold_temp_olpn'),
             'cancel': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/gold_temp_cancel'),
             'picking': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/gold_temp_picking'),
             'putaway': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/gold_temp_putaway'),
-            'packing': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/gold_temp_packing')
+            'packing': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/gold_temp_packing'),
+            'loading': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/gold_temp/gold_temp_loading')
         }
     }
 
@@ -79,7 +82,8 @@ else:
             'cancel': Path(BASE_PATH / 'Bronze (Raw Layer)' / '6.10 - Pedidos Cancelados'),
             'picking' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '4.05 - Relatório de Produtividade - Picking'),
             'putaway' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '6.15 - Produtividade - Outbound Putaway'),
-            'packing' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '5.03 - Produtividade de Packing - Packed por hora')
+            'packing' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '5.03 - Produtividade de Packing - Packed por hora'),
+            'loading' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '5.04 - Produtividade Load - Load por hora')
         },
         'silver': {
             'olpn' : Path(BASE_PATH / 'Silver (Business Layer)' / '3.11 - Status Wave + oLPN'),
@@ -87,13 +91,15 @@ else:
             'picking' : Path(BASE_PATH / 'Silver (Business Layer)' / '4.05 - Relatório de Produtividade - Picking'),
             'putaway' : Path(BASE_PATH / 'Silver (Business Layer)' / '6.15 - Produtividade - Outbound Putaway'),
             'packing' : Path(BASE_PATH / 'Silver (Business Layer)' / '5.03 - Produtividade de Packing - Packed por hora'),
+            'loading' : Path(BASE_PATH / 'Silver (Business Layer)' / '5.04 - Produtividade Load - Load por hora'),
         },
         'gold': {
             'olpn' : Path(BASE_PATH / 'Gold (Business Layer)' / '3.11 - Status Wave + oLPN'),
             'cancel' : Path(BASE_PATH / 'Gold (Business Layer)' / '6.10 - Pedidos Cancelados'),
             'picking' : Path(BASE_PATH / 'Gold (Business Layer)' / '4.05 - Relatório de Produtividade - Picking'),
             'putaway' : Path(BASE_PATH / 'Gold (Business Layer)' / '6.15 - Produtividade - Outbound Putaway'),
-            'packing' : Path(BASE_PATH / 'Gold (Business Layer)' / '5.03 - Produtividade de Packing - Packed por hora')
+            'packing' : Path(BASE_PATH / 'Gold (Business Layer)' / '5.03 - Produtividade de Packing - Packed por hora'),
+            'loading' : Path(BASE_PATH / 'Gold (Business Layer)' / '5.04 - Produtividade Load - Load por hora')
         }
     }
 
@@ -390,6 +396,76 @@ ELEMENTS = {
             'S71 - SAIDAS QE FILIAL VIRTUAL 0014',
             'S99 - Intercompany'
         ]    
+    },
+    'ELEMENTS_LOADING': {
+        'element_dt_start': '//*[@id="dv106_DateInput_Current"]',
+        'calendario_start' : {
+            'retornar': 'dv106__calYear_down'
+        },
+        'element_dt_end': '//*[@id="dv110_DateInput_Current"]',
+        'calendario_end': {
+            'retornar': 'dv110__calYear_down'
+        },
+        'id_dia_inicio': 'dv106__calDay_', # controlar ultimo caracter
+        'id_dia_fim': 'dv110__calDay_', # controlar ultimo caracter
+        'element_filial_id': 'dv13_ValueComboBox',
+        'element_filial': '1200',
+        'element_listbox': '//*[@id="dv51_MultiSelectList"]',
+        'elements_listbox': '//tr[@role="option" and @checkboxitem="true"]',
+        'element_get_item': 'aria-label',
+        'element_get_checked': 'aria-checked',
+        'element_confirm': 'dv116',
+        'list_itens': [
+            'S01 - ENTREGA A CLIENTES',
+            'S02 - RETIRA CLIENTE DEPOSITO',
+            'S03 - TRANSF.LOJA/ENTREGA CLIENTE',
+            'S04 - TRANSF EAD AUTOMATICA',
+            'S05 - TRANSF EAD PROGRAMADA',
+            'S06- ENTREGA A CLIENTE REMANEJADA',
+            'S07 - EAD AUTOMATICO REMANEJADA',
+            'S08 - TRANSF.LOJA/ENTR. CLIENTE REM',
+            'S09 - TRANSF. PROGRAMADA REMANEJADA',
+            'S10 - REM.FORNECEDOR ASSIST.TECNICA',
+            'S11 - TRANSF. LOJA VIA DEPOSITO BOA',
+            'S12 - TRANSF.LOJA VIA DEPOSITO QEB',
+            'S13 - ABASTECIMENTO DE LOJA BOA',
+            'S14 - ABASTECIMENTO DE LOJA QEB',
+            'S15 - OUTRAS SAIDAS BOA',
+            'S16 - OUTRAS SAIDAS QEB',
+            'S18 - REMESSA PARA CONSERTO',
+            'S19 - DEVOLUÇÃO P/ FORNECEDOR A1',
+            'S26 - EXPEDIÇÃO DE EAD AUTOMATICO',
+            'S27 - REMESSA PARA DEPOSITO QEB',
+            'S28 - REMANEJADO EAD AUTOMATICO',
+            'S29 - ABM CROSS DOCK BOA',
+            'S30 - ABM CROSS DOCK QEB',
+            'S31 - EXP PED RET 31',
+            'S32 - EAD VVLOG',
+            'S33 - VENDA MIUDEZAS',
+            'S34 - DEV EAD BOM',
+            'S35 - DEV EAD RETIRA CLIENTE',
+            'S39 - EXPEDICAO LEVES',
+            'S39I - EXPEDICAO LEVES',
+            'S39M - EXPEDICAO LEVES',
+            'S39P - EXPEDICAO LEVES',
+            'S39R - Single line',
+            'S41 - INTERCOMPANY BOA',
+            'S42 - INTERCOMPANY QEB',
+            'S43 - ENTREGA BARATEIRO',
+            'S44 - ENTREGA BARATEIRO LEVES',
+            'S45 - EXPEDIÇÃO ENTREGA PELOEXTRA',
+            'S46 - ABASTECIMENTO RETIRA LOJA',
+            'S48 - ABASTECIMENTO CEL RJ',
+            'S53 - TRANSFERENCIA ENTRE CDS',
+            'S55 - EAD Faturado (Pesado)',
+            'S56 - EAD Faturado (Leves)',
+            'S56I - EAD Faturado (Leves)',
+            'S56M - EAD Faturado (Leves)',
+            'S56P - EAD Faturado (Leves)',
+            'S56R - Transit point singleline',
+            'S71 - SAIDAS QE FILIAL VIRTUAL 0014',
+            'S99 - Intercompany'
+        ]    
     }
 }
 
@@ -399,7 +475,8 @@ LINKS = {
     'LOGIN_CANCEL': 'https://viavp-sci.sce.manh.com/bi/?perspective=authoring&id=iD732BE4B1DA6487F8ACD69248DA2CC19&objRef=iD732BE4B1DA6487F8ACD69248DA2CC19&action=run&format=CSV&cmPropStr=%7B%22id%22%3A%22iD732BE4B1DA6487F8ACD69248DA2CC19%22%2C%22type%22%3A%22report%22%2C%22defaultName%22%3A%226.10%20-%20Pedidos%20Cancelados%22%2C%22permissions%22%3A%5B%22execute%22%2C%22read%22%2C%22traverse%22%5D%7D',
     'LOGIN_PICKING': 'https://viavp-sci.sce.manh.com/bi/?perspective=authoring&id=iC20581CB9B43482BB800469299636529&objRef=iC20581CB9B43482BB800469299636529&action=run&format=CSV&cmPropStr=%7B%22id%22%3A%22iC20581CB9B43482BB800469299636529%22%2C%22type%22%3A%22report%22%2C%22defaultName%22%3A%224.05%20-%20Relat%C3%B3rio%20de%20Produtividade%20-%20Picking%22%2C%22permissions%22%3A%5B%22execute%22%2C%22read%22%2C%22traverse%22%5D%7D',
     'LOGIN_PUTAWAY': 'https://viavp-sci.sce.manh.com/bi/?perspective=authoring&id=i1C7595C381DC48EF9311843A1F5ED5F3&objRef=i1C7595C381DC48EF9311843A1F5ED5F3&action=run&format=CSV&cmPropStr=%7B%22id%22%3A%22i1C7595C381DC48EF9311843A1F5ED5F3%22%2C%22type%22%3A%22report%22%2C%22defaultName%22%3A%226.15%20-%20Produtividade%20-%20Outbound%20Putaway%22%2C%22permissions%22%3A%5B%22execute%22%2C%22read%22%2C%22traverse%22%5D%7D',
-    'LOGIN_PACKING': 'https://viavp-sci.sce.manh.com/bi/?perspective=authoring&id=i3E96C0044C974F60ABC41F536196806B&objRef=i3E96C0044C974F60ABC41F536196806B&action=run&format=CSV&cmPropStr=%7B%22id%22%3A%22i3E96C0044C974F60ABC41F536196806B%22%2C%22type%22%3A%22report%22%2C%22defaultName%22%3A%225.03%20-%20Produtividade%20de%20Packing%20-%20Packed%20por%20hora%22%2C%22permissions%22%3A%5B%22execute%22%2C%22read%22%2C%22traverse%22%5D%7D'
+    'LOGIN_PACKING': 'https://viavp-sci.sce.manh.com/bi/?perspective=authoring&id=i3E96C0044C974F60ABC41F536196806B&objRef=i3E96C0044C974F60ABC41F536196806B&action=run&format=CSV&cmPropStr=%7B%22id%22%3A%22i3E96C0044C974F60ABC41F536196806B%22%2C%22type%22%3A%22report%22%2C%22defaultName%22%3A%225.03%20-%20Produtividade%20de%20Packing%20-%20Packed%20por%20hora%22%2C%22permissions%22%3A%5B%22execute%22%2C%22read%22%2C%22traverse%22%5D%7D',
+    'LOGIN_LOADING': 'https://viavp-sci.sce.manh.com/bi/?perspective=authoring&id=i27370057698144858929E8CB9D90181A&objRef=i27370057698144858929E8CB9D90181A&action=run&format=CSV&cmPropStr=%7B%22id%22%3A%22i27370057698144858929E8CB9D90181A%22%2C%22type%22%3A%22report%22%2C%22defaultName%22%3A%225.04%20-%20Produtividade%20Load%20-%20Load%20por%20hora%22%2C%22permissions%22%3A%5B%22execute%22%2C%22read%22%2C%22traverse%22%5D%7D'
 }
 
 PIPELINE_CONFIG = {

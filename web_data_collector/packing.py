@@ -52,7 +52,7 @@ def data_extraction_packing(cookies: list[dict], dowload_dir: Path) -> None:
 
         logger.info('site acessado com sucesso', extra={
             'job': 'data_extraction_packing',
-            'status': 'sucess'
+            'status': 'success'
         })
 
         if not wait.until(EC.frame_to_be_available_and_switch_to_it(
@@ -84,20 +84,20 @@ def data_extraction_packing(cookies: list[dict], dowload_dir: Path) -> None:
 
         if dt_start:
             dt_start_string = dt_start.get_attribute("value")
-            logger.info(f'data inicio extraida : {dt_start}', extra={
+            logger.info(f'data inicio extraida: {dt_start}', extra={
                 'job': 'data_extraction_packing',
                 'status': 'pending'
             })
 
         if dt_end:
             dt_end_string = dt_end.get_attribute("value")
-            logger.info(f'data fim extraida : {dt_end}', extra={
+            logger.info(f'data fim extraida: {dt_end}', extra={
                 'job': 'data_extraction_packing',
                 'status': 'pending'
             })
 
         while dt_start_string != star_date:
-            logger.info('data em display diferente de data input, retornando...', extra={
+            logger.info(f'{dt_start_string} != {star_date}, retornando...', extra={
                 'job': 'data_extraction_packing',
                 'status': 'pending'
             })
@@ -105,20 +105,20 @@ def data_extraction_packing(cookies: list[dict], dowload_dir: Path) -> None:
                 (By.ID, ELEMENTS['ELEMENTS_PACKING']['calendario_start']['retornar'])
             )).click()
         
-        logger.info('data em display igual a data de input, selecionando...',extra={
+        logger.info(f'{dt_start_string} = {star_date}, selecionando...',extra={
             'job': 'data_extraction_packing',
             'status': 'pending'
         })
         wait.until(EC.element_to_be_clickable(
             (By.ID, id_end_date)
         )).click()
-        logger.info(f'calendario start preenchido: {dt_start_string} {id_star_date}', extra={
+        logger.info(f'calendario start preenchido: {dt_start_string} {id_end_date}', extra={
             'job': 'data_extraction_packing',
             'status': 'success'
         })
 
         while dt_end_string != end_date:
-            logger.info('data em display diferente de data input, retornando...', extra={
+            logger.info(f'{dt_end_string} != {end_date}, retornando...', extra={
                 'job': 'data_extraction_packing',
                 'status': 'pending'
             })
@@ -126,7 +126,7 @@ def data_extraction_packing(cookies: list[dict], dowload_dir: Path) -> None:
                 (By.ID, ELEMENTS['ELEMENTS_PACKING']['calendario_end']['retornar'])
             )).click()
 
-        logger.info('data em display igual a data de input, selencionando...',extra={
+        logger.info(f'{dt_end_string} = {end_date}, selencionando...',extra={
             'job': 'data_extraction_packing',
             'status': 'pending'
         })
@@ -135,7 +135,7 @@ def data_extraction_packing(cookies: list[dict], dowload_dir: Path) -> None:
             (By.ID, id_star_date)
         )).click()
 
-        logger.info('data em display igual a data de input, selencionando...',extra={
+        logger.info(f'{dt_end_string} = {end_date}, selecionando...',extra={
             'job': 'data_extraction_packing',
             'status': 'pending'
         })
