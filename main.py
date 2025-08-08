@@ -33,18 +33,18 @@ def main():
     t5 = multiprocessing.Process(target=data_extraction_packing_from_file, args=("cookies.json", TEMP_DIR['BRONZE']['packing']))
     t6 = multiprocessing.Process(target=data_extraction_loading_from_File, args=("cookies.json", TEMP_DIR['BRONZE']['loading']))
 
-    # t1.start()
-    # t2.start()
-    # t3.start()
-    # t4.start()
-    # t5.start()
+    t1.start()
+    t2.start()
+    t3.start()
+    t4.start()
+    t5.start()
     t6.start()
 
-    # t1.join()
-    # t2.join()
-    # t3.join()
-    # t4.join()
-    # t5.join()
+    t1.join()
+    t2.join()
+    t3.join()
+    t4.join()
+    t5.join()
     t6.join()
 
     # Após as extrações finalizadas, deve ser ativado os pipelines. Por exemplo,a t1 finalizou, então já pode ativar o pipeline referente a ela

@@ -143,7 +143,7 @@ def data_extraction_loading(cookies: list[dict], dowload_dir: Path) -> None:
             itens = driver.find_elements(By.XPATH, ELEMENTS['ELEMENTS_LOADING']['elements_listbox'])
 
             for item in itens:
-                nome = item.get_aatribute(ELEMENTS['ELEMENTS_LOADING']['element_get_item'])
+                nome = item.get_attribute(ELEMENTS['ELEMENTS_LOADING']['element_get_item'])
                 if nome in ELEMENTS['ELEMENTS_LOADING']['list_itens']:
                     is_checked = item.get_attribute(ELEMENTS['ELEMENTS_LOADING']['element_get_checked']) == 'true'
                     if not is_checked:
