@@ -92,7 +92,7 @@ def data_extraction_picking(cookies: list[dict], dowload_dir: Path) -> None:
                             driver.execute_script('arguments[0].click();', item)
                         logger.info(f'item {nome} selecionado com sucesso', extra={
                             'job': 'data_extraction_picking',
-                            'status': 'sucess'
+                            'status': 'success'
                         })
         confirmar = wait.until(EC.element_to_be_clickable(
             (By.ID, ELEMENTS['ELEMENTS_PICKING']['element_confirm'])
