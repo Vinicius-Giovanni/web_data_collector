@@ -5,15 +5,47 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pathlib import Path
 import json
+import locale
 
 # local imports
 from utils.config_logger import setup_logger, log_with_context
-from config.settings import TEMP_DIR, LINKS, ELEMENTS, PASSWORD, EMAIL
+from config.settings import TEMP_DIR, LINKS, ELEMENTS, PASSWORD, EMAIL, DATA_PATHS
 from utils.reader import clear_dirs
 from utils.browser_setup import init_browser
+from utils.get_info import load_penultimate_dates, get_yesterday_date
 
 # %(name)s <<< module name
 logger = setup_logger(__name__)
+
+# define o locale para pt-br
+locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
+
+# Extraction dates
+chamada_funcao_dates = load_penultimate_dates(DATA_PATHS['gold'], date_format= '%d/%m/%Y')
+yesterday_date = get_yesterday_date()
+yesterday_date_format =  get_yesterday_date(format='%b %Y')
+chamada_funcao_dates_format = load_penultimate_dates(DATA_PATHS['gold'], date_format= '%b %Y')
+
+# cancel
+penultimate_date_cancel = chamada_funcao_dates['cancel']
+
+# loading
+penultimate_date_loading_format = chamada_funcao_dates_format['loading']
+penultimate_date_loading = chamada_funcao_dates['loading']
+
+# olpn
+penultimate_date_olpn = chamada_funcao_dates['olpn']
+
+# packing
+penultimate_date_packing_format = chamada_funcao_dates_format['packing']
+penultimate_date_packing = chamada_funcao_dates['packing']
+
+# picking
+penultimate_date_picking = chamada_funcao_dates['picking']
+
+# putaway
+penultimate_date_putaway = chamada_funcao_dates['putaway']
+
 
 @log_with_context(job='login_csi', logger=logger)
 def login_csi(download_dir: Path) -> list[dict] | None:

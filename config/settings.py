@@ -74,7 +74,6 @@ else:
         }
     }
 
-
     # all data paths
     DATA_PATHS = {
         'bronze': {

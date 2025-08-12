@@ -7,17 +7,17 @@ import json
 
 # local imports
 from utils.config_logger import setup_logger, log_with_context
-from utils.get_info import get_yesterday_date, get_penultimate_date
-from config.settings import DATA_PATHS, TEMP_DIR, LINKS, ELEMENTS
+from config.settings import TEMP_DIR, LINKS, ELEMENTS
 from utils.reader import wait_download_csv
 from utils.browser_setup import create_authenticated_driver
+from web_data_collector.login import yesterday_date, penultimate_date_cancel
 
 # %(name)s <<< module name
 logger = setup_logger(__name__)
 
 # global support variables
-star_date = get_penultimate_date(DATA_PATHS['gold']['cancel'], 'data_criterio') # <<< penultimate update date in the gold/olpn folder
-end_date = get_yesterday_date() # <<< current date entered in the final data field
+star_date = penultimate_date_cancel# <<< penultimate update date in the gold/olpn folder
+end_date = yesterday_date # <<< current date entered in the final data field
 control_dir = TEMP_DIR['BRONZE']['cancel'] # <<< folder monitored by the "wait_download_csv" function
 
 @log_with_context(job='data_extraction_cancel', logger=logger)

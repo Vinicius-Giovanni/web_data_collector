@@ -4,17 +4,17 @@ from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 from pathlib import Path
 import json
+import locale
 from datetime import datetime
 import time
-import locale
 
 
 # local imports
 from utils.config_logger import setup_logger, log_with_context
-from utils.get_info import get_yesterday_date, get_penultimate_date
 from config.settings import DATA_PATHS, TEMP_DIR, LINKS, ELEMENTS
 from utils.reader import wait_download_csv
 from utils.browser_setup import create_authenticated_driver
+from web_data_collector.login import penultimate_date_packing_format, penultimate_date_packing, yesterday_date_format, yesterday_date
 
 # %(name)s <<< module name
 logger = setup_logger(__name__)
@@ -23,11 +23,11 @@ logger = setup_logger(__name__)
 locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 
 # global support variables
-star_date = get_penultimate_date(DATA_PATHS['gold']['packing'], 'data_criterio', format='%b %Y') # <<< penultimate update date in the gold/olpn folder
-day_star_date = datetime.strptime(get_penultimate_date(DATA_PATHS['gold']['packing'], 'data_criterio'), "%d/%m/%Y").day
+star_date = penultimate_date_packing_format # <<< penultimate update date in the gold/olpn folder
+day_star_date = datetime.strptime(penultimate_date_packing, "%d/%m/%Y").day
 id_star_date = f'{ELEMENTS['ELEMENTS_PACKING']['id_dia_inicio']}{day_star_date}'
-end_date = get_yesterday_date(format='%b %Y') # <<< current date entered in the final data field
-day_end_date = datetime.strptime(get_yesterday_date(), "%d/%m/%Y").day
+end_date = yesterday_date_format # <<< current date entered in the final data field
+day_end_date = datetime.strptime(yesterday_date, "%d/%m/%Y").day
 id_end_date = f'{ELEMENTS['ELEMENTS_PACKING']['id_dia_fim']}{day_end_date}'
 control_dir = TEMP_DIR['BRONZE']['packing'] # <<< folder monitored by the "wait_download_csv" function
 
