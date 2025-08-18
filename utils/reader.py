@@ -4,12 +4,14 @@ import pandas as pd
 from pathlib import Path
 import time
 from typing import Dict
-import os
 import shutil
+import re
+from typing import Union, Tuple
+from unidecode import unidecode
 
 # local imports
 from utils.config_logger import setup_logger, log_with_context
-from config.settings import CHUNKSIZE, PIPELINE_CONFIG
+from config.settings import CHUNKSIZE, PIPELINE_CONFIG, MOTIVOS_OFICIAIS, MAPEAMENTO_TEXTUAL, REGRAS_DIRETAS
 
 # %(name)s <<< module name
 logger = setup_logger(__name__)
@@ -183,3 +185,30 @@ def export_as_parquet(df: pd.DataFrame, output_folder: Path, pipeline_key: str, 
         logger.info(f'sucesso ao exportar: {output_file.name} ({len(df):,} linhas)'.replace(',','.'))
     except Exception as e:
         logger.critical(f'erro ao exportar para parquet: {e}')
+
+def normalizar_motivo(valor: Union[str, float]) -> Tuple[int, str]:
+    try:
+        if pd.isna(valor) or str(valor).strip() =='':
+            return 1, MOTIVOS_OFICIAIS[1]
+        
+        valor = unidecode(str(valor).lower().strip())
+        valor = re.sub(r'[^\w\s]','',valor)
+
+        if valor.isdigit():
+            codigo = int(valor)
+            if codigo in MOTIVOS_OFICIAIS:
+                return codigo, MOTIVOS_OFICIAIS[codigo]
+            
+        for codigo, must_have, *optional in REGRAS_DIRETAS:
+            if all(term in valor for term in must_have):
+                if not optional or any(opt in valor for opt in optional[0]):
+                    return codigo, MOTIVOS_OFICIAIS[codigo]
+        
+        for codigo, padroes in MAPEAMENTO_TEXTUAL.items():
+            if any(re.search(p, valor) for p in padroes):
+                return codigo, MOTIVOS_OFICIAIS[codigo]
+        
+        return 1,MOTIVOS_OFICIAIS[1]
+    except Exception as e:
+        logger.warning(f"Erro ao normalizar motivo '{valor}': {e}")
+        return 1, MOTIVOS_OFICIAIS[1]
