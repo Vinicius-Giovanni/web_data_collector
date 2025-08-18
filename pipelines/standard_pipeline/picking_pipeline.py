@@ -38,7 +38,7 @@ class PickingPipeline:
         """
         run PickingPipeline
         """
-
+        
         logger.info(f'iniciando pipeline {self.key}', extra={
             'job': 'PickingPipeline',
             'status': 'started'
