@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
 
-def classify_setores(df: pd.DataFrame) -> pd.Series:
+def classify_setores_picking(df: pd.DataFrame) -> pd.Series:
+    df['box'] = pd.to_numeric(df['box'], errors='coerce').fillna(-1).astype(int)
+
     cond = [
         (df['tipo_de_pedido'].isin(['S01 - ENTREGA A CLIENTES']) & df['box'].between(557,584)), # Fracionado Pesados
         (df['tipo_de_pedido'].isin(['S13 - ABASTECIMENTO DE LOJA BOA',
@@ -14,39 +16,87 @@ def classify_setores(df: pd.DataFrame) -> pd.Series:
                                     'S46 - ABASTECIMENTO RETIRA LOJA',
                                     'S48 - ABASTECIMENTO CEL RJ',
                                     'S11 - TRANSF. LOJA VIA DEPOSITO BOA']) & df['box'].between(277,326)), # Polo - Abastecimento de Lojas
-        (df['tipo_de_pedido'].isin(['S01 - ENTREGA A CLIENTES']) & ((df['box'].between(331,386) )| (df['box'].between(399,412)))), # Ribeirão Preto
-        (df['tipo_de_pedido'].isin(['S01 - ENTREGA A CLIENTES']) & df['box'].between(413,584)), # Capital 
+        (df['tipo_de_pedido'].isin(['S01 - ENTREGA A CLIENTES']) & ((df['box'].between(331,386)) | (df['box'].between(387,412)))), # Ribeirao Preto + Uberlandia
+        (df['tipo_de_pedido'].isin(['S01 - ENTREGA A CLIENTES','S02 - RETIRA CLIENTE DEPOSITO']) & df['box'].between(413,556)), # Entrega Cliente + Polo-SP 
         (df['tipo_de_pedido'].isin(['S53 - TRANSFERENCIA ENTRE CDS']) & df['box'].between(595,638)), # EAD - Balanço
-        (df['tipo_de_pedido'].isin(["S04 - TRANSF EAD AUTOMATICA"]) & df['box'].between(387,398)), # Uberlândia
-        df['tipo_de_pedido'].isin(['S13 - ABASTECIMENTO DE LOJA BOA',
+        (df['tipo_de_pedido'].isin(['S13 - ABASTECIMENTO DE LOJA BOA',
                                     'S14 - ABASTECIMENTO DE LOJA QEB',
                                     'S46 - ABASTECIMENTO RETIRA LOJA',
                                     'S48 - ABASTECIMENTO CEL RJ',
-                                    'S11 - TRANSF. LOJA VIA DEPOSITO BOA']), # Abastecimento de Lojas
-        df['tipo_de_pedido'].isin(['S53 - TRANSFERENCIA ENTRE CDS']), # Balanço
-        df['tipo_de_pedido'].isin(['S01 - ENTREGA A CLIENTES', 'S02 - RETIRA CLIENTE DEPOSITO']), # Entrega a Cliente
-        df['tipo_de_pedido'].isin(['S05 - TRANSF EAD PROGRAMADA', 'S04 - TRANSF EAD AUTOMATICA']), # EAD
-        df['tipo_de_pedido'].isin(["S39 - EXPEDICAO LEVES",
-                                   "S39M - EXPEDICAO LEVES",
-                                   "S39R - Single line",
-                                   'S39P - EXPEDICAO LEVES',
-                                   'S39I - EXPEDICAO LEVES']) # Leves
+                                    'S11 - TRANSF. LOJA VIA DEPOSITO BOA'])), # Abastecimento de Lojas
+        (df['tipo_de_pedido'].isin(['S01 - ENTREGA A CLIENTES','S02 - RETIRA CLIENTE DEPOSITO'])), # Ribeirao Preto + Uberlandia 2
+        (df['tipo_de_pedido'].isin(['S53 - TRANSFERENCIA ENTRE CDS'])), # Balanço
+        (df['tipo_de_pedido'].isin(['S05 - TRANSF EAD PROGRAMADA', 'S04 - TRANSF EAD AUTOMATICA'])), # EAD
+        (df['tipo_de_pedido'].isin(["S39 - EXPEDICAO LEVES",
+                                    "S39M - EXPEDICAO LEVES",
+                                    "S39R - Single line",
+                                    'S39P - EXPEDICAO LEVES',
+                                    'S39I - EXPEDICAO LEVES'])) # Leves
     ]
+
     values = [
         'Fracionado Pesados',
         'EAD - Abastecimento de Lojas',
         'Polo - Abastecimento de Lojas',
-        'Ribeirao Preto',
-        'Capital',
+        'Ribeirao Preto + Uberlandia',
+        'Entrega Cliente + Polo-SP',
         'EAD - Balanco',
-        'Uberlandia',
         'Abastecimento de Lojas',
+        'Ribeirao Preto + Uberlandia',
         'Balanco',
-        'Entrega a Cliente',
         'EAD',
         'Leves'
     ]
+
+    return np.select(cond, values, default='Outras Saidas')
+
+def classify_setores(df: pd.DataFrame) -> pd.Series:
     df['box'] = pd.to_numeric(df['box'], errors='coerce').fillna(-1).astype(int)
+
+    cond = [
+        (df['tipo_de_pedido'].isin(['S01 - ENTREGA A CLIENTES']) & df['box'].between(557,584)),  # Fracionado Pesados
+        (df['tipo_de_pedido'].isin(['S13 - ABASTECIMENTO DE LOJA BOA',
+                                    'S14 - ABASTECIMENTO DE LOJA QEB',
+                                    'S46 - ABASTECIMENTO RETIRA LOJA',
+                                    'S48 - ABASTECIMENTO CEL RJ',
+                                    'S11 - TRANSF. LOJA VIA DEPOSITO BOA']) & df['box'].between(595,638)),  # EAD - Abastecimento
+        (df['tipo_de_pedido'].isin(['S13 - ABASTECIMENTO DE LOJA BOA',
+                                    'S14 - ABASTECIMENTO DE LOJA QEB',
+                                    'S46 - ABASTECIMENTO RETIRA LOJA',
+                                    'S48 - ABASTECIMENTO CEL RJ',
+                                    'S11 - TRANSF. LOJA VIA DEPOSITO BOA']) & df['box'].between(277,326)),  # Polo - Abastecimento
+        (df['tipo_de_pedido'].isin(['S01 - ENTREGA A CLIENTES']) & ((df['box'].between(331,386)) | (df['box'].between(387,412)))),  # RP + Uberlandia
+        (df['tipo_de_pedido'].isin(['S01 - ENTREGA A CLIENTES','S02 - RETIRA CLIENTE DEPOSITO']) & df['box'].between(413,556)),  # Entrega Cliente + Polo-SP
+        (df['tipo_de_pedido'].isin(['S53 - TRANSFERENCIA ENTRE CDS']) & df['box'].between(595,638)),  # EAD - Balanço
+        (df['tipo_de_pedido'].isin(['S13 - ABASTECIMENTO DE LOJA BOA',
+                                    'S14 - ABASTECIMENTO DE LOJA QEB',
+                                    'S46 - ABASTECIMENTO RETIRA LOJA',
+                                    'S48 - ABASTECIMENTO CEL RJ',
+                                    'S11 - TRANSF. LOJA VIA DEPOSITO BOA'])),  # Abastecimento de Lojas
+        (df['tipo_de_pedido'].isin(['S01 - ENTREGA A CLIENTES','S02 - RETIRA CLIENTE DEPOSITO'])),  # RP + Uberlandia 2
+        (df['tipo_de_pedido'].isin(['S53 - TRANSFERENCIA ENTRE CDS'])),  # Balanço
+        (df['tipo_de_pedido'].isin(['S05 - TRANSF EAD PROGRAMADA', 'S04 - TRANSF EAD AUTOMATICA'])),  # EAD
+        (df['tipo_de_pedido'].isin(["S39 - EXPEDICAO LEVES",
+                                    "S39M - EXPEDICAO LEVES",
+                                    "S39R - SINGLE LINE",
+                                    'S39P - EXPEDICAO LEVES',
+                                    'S39I - EXPEDICAO LEVES']))  # Leves
+    ]
+
+    values = [
+        'Fracionado Pesados',
+        'EAD - Abastecimento de Lojas',
+        'Polo - Abastecimento de Lojas',
+        'Ribeirao Preto + Uberlandia',
+        'Entrega Cliente + Polo-SP',
+        'EAD - Balanco',
+        'Abastecimento de Lojas',
+        'Ribeirao Preto + Uberlandia',
+        'Balanco',
+        'EAD',
+        'Leves'
+    ]
+
     return np.select(cond, values, default='Outras Saidas')
 
 def cancel_classify_setores(df: pd.DataFrame) -> pd.Series:
