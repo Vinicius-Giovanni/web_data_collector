@@ -9,7 +9,7 @@ import locale
 
 # local imports
 from utils.config_logger import setup_logger, log_with_context
-from config.settings import TEMP_DIR, LINKS, ELEMENTS, PASSWORD, EMAIL, DATA_PATHS
+from config.settings import LINKS, ELEMENTS, PASSWORD, EMAIL, DATA_PATHS, CLEAR_DIR
 from utils.reader import clear_dirs
 from utils.browser_setup import init_browser
 from utils.get_info import load_penultimate_dates, get_yesterday_date
@@ -58,7 +58,7 @@ def login_csi(download_dir: Path) -> list[dict] | None:
 
     # limpeza de diretorio
     try:
-        clear_dirs(TEMP_DIR)
+        clear_dirs(CLEAR_DIR)
     except Exception as e:
         logger.error(f'erro ao limpar o diretorio temporario: {e}', extra={
             'job': 'login_csi',

@@ -8,6 +8,8 @@ import shutil
 import re
 from typing import Union, Tuple
 from unidecode import unidecode
+from datetime import datetime, timedelta
+import shutil
 
 # local imports
 from utils.config_logger import setup_logger, log_with_context
@@ -120,6 +122,10 @@ def wait_download_csv(dir: str | Path,
 @log_with_context(job='read_csv', logger=logger)
 def read_csv(path: Path, pipeline_key: str) -> pd.DataFrame:
 
+    """
+    read CSV files from a given path
+    """
+
     logger.info(f'leitura arquivo: {path} pipeline: {pipeline_key}', extra={
         'job': 'read_csv',
         'status': 'started'
@@ -170,6 +176,11 @@ def read_csv(path: Path, pipeline_key: str) -> pd.DataFrame:
 
 @log_with_context(job='export_as_parquet', logger=logger)
 def export_as_parquet(df: pd.DataFrame, output_folder: Path, pipeline_key: str, name: str):
+
+    """
+    export a DataFrame to a parquet file
+    """
+
     cfg = PIPELINE_CONFIG.get(pipeline_key)
     if not cfg:
         logger.critical(f'pipeline "{pipeline_key}" nao encontrado nas configuracoes', extra={
@@ -187,6 +198,10 @@ def export_as_parquet(df: pd.DataFrame, output_folder: Path, pipeline_key: str, 
         logger.critical(f'erro ao exportar para parquet: {e}')
 
 def normalizar_motivo(valor: Union[str, float]) -> Tuple[int, str]:
+
+    """
+    Normalize the cancellation reason for the 'cancel' file
+    """
     try:
         if pd.isna(valor) or str(valor).strip() =='':
             return 1, MOTIVOS_OFICIAIS[1]
@@ -215,6 +230,11 @@ def normalizar_motivo(valor: Union[str, float]) -> Tuple[int, str]:
 
 @log_with_context(job='read_parquet_with_tote', logger=logger)
 def read_parquet_with_tote(folder: Path) -> pd.DataFrame:
+
+    """
+    reading specific columns of parquet files
+    """
+
     dataframes = []
     for file in folder.glob('*.parquet'):
         try:
@@ -227,3 +247,96 @@ def read_parquet_with_tote(folder: Path) -> pd.DataFrame:
             })
 
     return pd.concat(dataframes, ignore_index=True).drop_duplicates(subset='olpn') if dataframes else pd.DataFrame()
+
+@log_with_context(job='rename_csv_with_yesterday', logger=logger)
+def rename_csv_with_yesterday(temp_dir: dict):
+    """
+    renames CSV files witin the directories specified in the temp_dir dictionary
+    adds yesterday's date to the file name before the extension
+    """
+
+    yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
+
+    for key, dir_path in temp_dir.items():
+        for file in Path(dir_path).glob('*.csv'):
+            new_name = file.stem + f'_{yesterday}' + file.suffix
+            new_path = file.with_name(new_name)
+
+            file.rename(new_path)
+            logger.info(f'arquivo {file.name} renomeado para {new_name}', extra={
+                'job': 'rename_csv_with_yesterday',
+                'status': 'success'
+            })
+
+@log_with_context(job='move_files', logger=logger)
+def move_files(file_router: dict):
+    """
+    Move files from source (keys) to destination (values) according to the file_router dictionary
+    """
+
+    for src_dir, dest_dir in file_router.items():
+        src_dir = Path(src_dir)
+        dest_dir = Path(dest_dir)
+
+        dest_dir.mkdir(parents=True, exist_ok=True)
+
+        for file in src_dir.glob('*.*'):
+            dest_path = dest_dir / file.name
+            shutil.move(str(file), str(dest_path))
+            logger.info(f'movendo {file.name} de {src_dir} para {dest_dir}', extra={
+                'job': 'move_files',
+                'status': 'success'
+            })
+
+@log_with_context(job='merge_parquet', logger=logger)
+def merge_parquet(file_router_merge: dict):
+
+    """
+    merge all parquet files from the source and destination, ensuring that only one consolidated 
+    parquet file reimains at the destination
+    """
+    for src_dir, dest_dir in file_router_merge.items():
+        src_dir = Path(src_dir)
+        dest_dir = Path(dest_dir)
+        dest_dir.mkdir(parents=True, exist_ok=True)
+
+        dfs = []
+
+        # load files destination
+        dest_files = list(dest_dir.glob('*.parquet'))
+        for f in dest_files:
+            dfs.append(pd.read_parquet(f))
+        
+        # load files source
+        src_files = list(src_dir.glob('*.parquet'))
+        for f in src_files:
+            dfs.append(pd.read_parquet(f))
+
+        # if there are no files, skip
+        if not dfs:
+            logger.info(f'nenhum arquivo parquet encontrado em {src_dir} ou {dest_dir}. pulando...', extra={
+                'job': 'merge_parquet',
+                'status': 'skipped'
+            })
+            continue
+
+        # all concatenate
+        merge_df = pd.concat(dfs, ignore_index=True)
+
+        # rename file
+        output_file = dest_dir / f'{src_dir.name}_consolidated.parquet'
+
+        # save consolidate
+        merge_df.to_parquet(output_file, index=False)
+
+        # remove old files
+        for f in dest_files:
+            if f != output_file:
+                f.unlink()
+
+        logger.info(f'merge concluido: {len(src_files)} arquivos da origem + {len(dest_files)} arquivos do destino -> {output_file.name} ({len(merge_df)} registros)',
+                    extra={
+                'job': 'merge_parquet',
+                'status': 'success'
+            })
+

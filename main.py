@@ -1,7 +1,8 @@
 # local imports
 from utils.config_logger import setup_logger, log_with_context
+from utils.reader import rename_csv_with_yesterday, move_files, merge_parquet
 from web_data_collector.login import login_csi
-from config.settings import TEMP_DIR, FILE_ROUTER, DATA_PATHS
+from config.settings import TEMP_DIR, FILE_ROUTER, FILE_ROUTER_MERGE
 from web_data_collector.olpn import data_extraction_olpn_from_file
 from web_data_collector.cancel import data_extraction_cancel_from_file
 from web_data_collector.picking import data_extraction_picking_from_file
@@ -55,6 +56,8 @@ def main():
 
     for t in [t1,t2,t3,t4,t5,t6]:
         t.join()
+
+    rename_csv_with_yesterday(temp_dir=TEMP_DIR['BRONZE'])
 
     logger.info('processos de extracao finalizados, iniciando primeira etapa de pipelines', extra={
         'job': 'main',
@@ -118,6 +121,10 @@ def main():
         'job': 'main',
         'status': 'success'
         })
+    
+    merge_parquet(FILE_ROUTER_MERGE)
+    
+    #move_files(FILE_ROUTER)
 
 if __name__ == "__main__":
     main()

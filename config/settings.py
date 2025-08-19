@@ -74,6 +74,25 @@ else:
         }
     }
 
+    CLEAR_DIR = {
+        "BRONZE": {
+            'olpn': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_olpn'),
+            'dir_chrome_login': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_geral'),
+            'cancel': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_cancel'),
+            'picking': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_picking'),
+            'putaway': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_putaway'),
+            'packing': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_packing'),
+            'loading': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_loading'),
+        },
+        "SILVER": {
+            'olpn': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_olpn'),
+            'cancel': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_cancel'),
+            'picking': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_picking'),
+            'putaway': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_putaway'),
+            'packing': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_packing'),
+            'loading': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_loading')
+        }}
+
     # all data paths
     DATA_PATHS = {
         'bronze': {
@@ -111,13 +130,24 @@ PASSWORD = os.getenv('LOGIN_PASSWORD')
 
 CHUNKSIZE = 200_000
 
+# function move_files
 FILE_ROUTER = {
-    '3.11 - Status Wave + oLPN': TEMP_DIR['SILVER']['olpn'],
-    '4.05 - Relatório de Produtividade - Picking': TEMP_DIR['SILVER']['picking'],
-    '5.03 - Produtividade de Packing - Packed por hora': TEMP_DIR['SILVER']['packing'],
-    '5.04 - Produtividade Load - Load por hora': '',
-    '6.10 - Pedidos Cancelados': TEMP_DIR['SILVER']['cancel'],
-    '6.15 - Produtividade - Outbound Putaway': ''
+    TEMP_DIR['BRONZE']['olpn'] : DATA_PATHS['bronze']['olpn'],
+    TEMP_DIR['BRONZE']['cancel'] : DATA_PATHS['bronze']['cancel'],
+    TEMP_DIR['BRONZE']['picking'] : DATA_PATHS['bronze']['picking'],
+    TEMP_DIR['BRONZE']['putaway'] : DATA_PATHS['bronze']['putaway'],
+    TEMP_DIR['BRONZE']['packing'] : DATA_PATHS['bronze']['packing'],
+    TEMP_DIR['BRONZE']['loading'] : DATA_PATHS['bronze']['loading']
+}
+
+# function merge_files
+FILE_ROUTER_MERGE = {
+    TEMP_DIR['SILVER']['olpn'] : TEMP_DIR['GOLD']['olpn'],
+    TEMP_DIR['SILVER']['cancel'] : TEMP_DIR['GOLD']['cancel'],
+    TEMP_DIR['SILVER']['picking'] : TEMP_DIR['GOLD']['picking'],
+    TEMP_DIR['SILVER']['putaway'] : TEMP_DIR['GOLD']['putaway'],
+    TEMP_DIR['SILVER']['packing'] : TEMP_DIR['GOLD']['packing'],
+    TEMP_DIR['SILVER']['loading'] : TEMP_DIR['GOLD']['loading']
 }
 
 ELEMENTS = {
