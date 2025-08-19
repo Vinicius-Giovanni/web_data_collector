@@ -12,6 +12,8 @@ from pipelines.standard_pipeline.olpn_pipeline import OlpnPipeline
 from pipelines.standard_pipeline.picking_pipeline import PickingPipeline
 from pipelines.standard_pipeline.cancel_pipeline import CancelPipeline
 from pipelines.standard_pipeline.putaway_pipeline import PutawayPipeline
+from pipelines.standard_pipeline.packing_pipeline import PackingPipeline
+from pipelines.standard_pipeline.loading_pipeline import LoadingPipeline
 
 # remote imports
 import sys
@@ -30,6 +32,11 @@ def run_pipeline(pipeline_class, input_path, output_path):
 @log_with_context(job='main', logger=logger)
 def main():
 
+    logger.info('iniciando processo de extracao de dados do csi', extra={
+        'job': 'main',
+        'status': 'started'
+    })
+
     cookies = login_csi(TEMP_DIR['BRONZE']['dir_chrome_login'])
 
     if not cookies:
@@ -43,13 +50,16 @@ def main():
     t5 = multiprocessing.Process(target=data_extraction_packing_from_file, args=("cookies.json", TEMP_DIR['BRONZE']['packing']))
     t6 = multiprocessing.Process(target=data_extraction_loading_from_File, args=("cookies.json", TEMP_DIR['BRONZE']['loading']))
 
-    for t in [t1,t2,t3, t4]:
+    for t in [t1,t2,t3,t4,t5,t6]:
         t.start()
 
-    for t in [t1,t2,t3,t4]:
+    for t in [t1,t2,t3,t4,t5,t6]:
         t.join()
 
-    logger.info('processos de extracao finalizados')
+    logger.info('processos de extracao finalizados, iniciando primeira etapa de pipelines', extra={
+        'job': 'main',
+        'status': 'pipelines_started'
+        })
 
     p1 = multiprocessing.Process(
         target=run_pipeline,
@@ -74,14 +84,40 @@ def main():
         args=(PutawayPipeline,
               TEMP_DIR['BRONZE']['putaway'],
               TEMP_DIR['SILVER']['putaway']))
+    
+    p5 = multiprocessing.Process(
+        target=run_pipeline,
+        args=(PackingPipeline,
+              TEMP_DIR['BRONZE']['packing'],
+              TEMP_DIR['SILVER']['packing']))
+    
+    p6 = multiprocessing.Process(
+        target=run_pipeline,
+        args=(LoadingPipeline,
+              TEMP_DIR['BRONZE']['loading'],
+              TEMP_DIR['SILVER']['loading']))
 
-    for p in [p1, p2, p3, p4]:
+    for p in [p1, p2, p3, p4, p6]:
         p.start()
     
-    for p in [p1, p2, p3, p4]:
+    for p in [p1, p2, p3, p4, p6]:
+        p.join()
+
+    logger.info('primeira etapa dos pipelines finalizada, iniciando segunda etapa de pipelines', extra={
+        'job': 'main',
+        'status': 'pipelines_started'
+        })
+    
+    for p in [p5]:
+        p.start()
+    
+    for p in [p5]:
         p.join()
     
-    logger.info('pipelines finalizados')
+    logger.info('pipelines finalizados', extra={
+        'job': 'main',
+        'status': 'success'
+        })
 
 if __name__ == "__main__":
     main()

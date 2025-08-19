@@ -212,3 +212,18 @@ def normalizar_motivo(valor: Union[str, float]) -> Tuple[int, str]:
     except Exception as e:
         logger.warning(f"Erro ao normalizar motivo '{valor}': {e}")
         return 1, MOTIVOS_OFICIAIS[1]
+
+@log_with_context(job='read_parquet_with_tote', logger=logger)
+def read_parquet_with_tote(folder: Path) -> pd.DataFrame:
+    dataframes = []
+    for file in folder.glob('*.parquet'):
+        try:
+            df = pd.read_parquet(file, columns=['olpn', 'tote'])
+            dataframes.append(df)
+        except Exception as e:
+            logger.warning(f'erro ao ler {file.name}', extra={
+                'job': 'read_parquet_with_tote',
+                'status': 'failure'
+            })
+
+    return pd.concat(dataframes, ignore_index=True).drop_duplicates(subset='olpn') if dataframes else pd.DataFrame()

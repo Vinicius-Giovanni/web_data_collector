@@ -722,7 +722,7 @@ PIPELINE_CONFIG = {
         'encoding': 'utf-16',
         'sep': '\t'
     },
-        'load' : {
+        'loading' : {
         'remove_columns': [
                 'Facility ID',
                 'Inventory Type ID',
