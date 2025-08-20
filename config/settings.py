@@ -85,13 +85,33 @@ else:
             'loading': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_loading'),
         },
         "SILVER": {
-            'olpn': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_olpn'),
-            'cancel': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_cancel'),
-            'picking': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_picking'),
-            'putaway': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_putaway'),
-            'packing': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_packing'),
-            'loading': Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/silver_temp/silver_temp_loading')
+            'olpn' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '3.11 - Status Wave + oLPN'),
+            'cancel' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '6.10 - Pedidos Cancelados'),
+            'picking' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '4.05 - Relatório de Produtividade - Picking'),
+            'putaway' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '6.15 - Produtividade - Outbound Putaway'),
+            'packing' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '5.03 - Produtividade de Packing - Packed por hora'),
+            'loading' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '5.04 - Produtividade Load - Load por hora'),
         }}
+    
+     
+    CLEAR_DIR_DATA_RELOAD = {
+        'silver': {
+            'olpn' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '3.11 - Status Wave + oLPN'),
+            'cancel' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '6.10 - Pedidos Cancelados'),
+            'picking' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '4.05 - Relatório de Produtividade - Picking'),
+            'putaway' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '6.15 - Produtividade - Outbound Putaway'),
+            'packing' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '5.03 - Produtividade de Packing - Packed por hora'),
+            'loading' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '5.04 - Produtividade Load - Load por hora'),
+        },
+        'gold': {
+            'olpn' : Path(BASE_PATH / 'Gold (Business Layer)' / '3.11 - Status Wave + oLPN'),
+            'cancel' : Path(BASE_PATH / 'Gold (Business Layer)' / '6.10 - Pedidos Cancelados'),
+            'picking' : Path(BASE_PATH / 'Gold (Business Layer)' / '4.05 - Relatório de Produtividade - Picking'),
+            'putaway' : Path(BASE_PATH / 'Gold (Business Layer)' / '6.15 - Produtividade - Outbound Putaway'),
+            'packing' : Path(BASE_PATH / 'Gold (Business Layer)' / '5.03 - Produtividade de Packing - Packed por hora'),
+            'loading' : Path(BASE_PATH / 'Gold (Business Layer)' / '5.04 - Produtividade Load - Load por hora')
+        }
+    }
 
     # all data paths
     DATA_PATHS = {
@@ -104,12 +124,12 @@ else:
             'loading' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '5.04 - Produtividade Load - Load por hora')
         },
         'silver': {
-            'olpn' : Path(BASE_PATH / 'Silver (Business Layer)' / '3.11 - Status Wave + oLPN'),
-            'cancel' : Path(BASE_PATH / 'Silver (Business Layer)' / '6.10 - Pedidos Cancelados'),
-            'picking' : Path(BASE_PATH / 'Silver (Business Layer)' / '4.05 - Relatório de Produtividade - Picking'),
-            'putaway' : Path(BASE_PATH / 'Silver (Business Layer)' / '6.15 - Produtividade - Outbound Putaway'),
-            'packing' : Path(BASE_PATH / 'Silver (Business Layer)' / '5.03 - Produtividade de Packing - Packed por hora'),
-            'loading' : Path(BASE_PATH / 'Silver (Business Layer)' / '5.04 - Produtividade Load - Load por hora'),
+            'olpn' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '3.11 - Status Wave + oLPN'),
+            'cancel' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '6.10 - Pedidos Cancelados'),
+            'picking' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '4.05 - Relatório de Produtividade - Picking'),
+            'putaway' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '6.15 - Produtividade - Outbound Putaway'),
+            'packing' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '5.03 - Produtividade de Packing - Packed por hora'),
+            'loading' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '5.04 - Produtividade Load - Load por hora'),
         },
         'gold': {
             'olpn' : Path(BASE_PATH / 'Gold (Business Layer)' / '3.11 - Status Wave + oLPN'),
@@ -130,6 +150,8 @@ PASSWORD = os.getenv('LOGIN_PASSWORD')
 
 CHUNKSIZE = 200_000
 
+EXECUTION_MODE = Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/execution_mode.txt')
+
 # function move_files
 FILE_ROUTER = {
     TEMP_DIR['BRONZE']['olpn'] : DATA_PATHS['bronze']['olpn'],
@@ -142,12 +164,12 @@ FILE_ROUTER = {
 
 # function merge_files
 FILE_ROUTER_MERGE = {
-    TEMP_DIR['SILVER']['olpn'] : TEMP_DIR['GOLD']['olpn'],
-    TEMP_DIR['SILVER']['cancel'] : TEMP_DIR['GOLD']['cancel'],
-    TEMP_DIR['SILVER']['picking'] : TEMP_DIR['GOLD']['picking'],
-    TEMP_DIR['SILVER']['putaway'] : TEMP_DIR['GOLD']['putaway'],
-    TEMP_DIR['SILVER']['packing'] : TEMP_DIR['GOLD']['packing'],
-    TEMP_DIR['SILVER']['loading'] : TEMP_DIR['GOLD']['loading']
+    DATA_PATHS['silver']['olpn'] : DATA_PATHS['gold']['olpn'],
+    DATA_PATHS['silver']['cancel'] : DATA_PATHS['gold']['cancel'],
+    DATA_PATHS['silver']['picking'] : DATA_PATHS['gold']['picking'],
+    DATA_PATHS['silver']['putaway'] : DATA_PATHS['gold']['putaway'],
+    DATA_PATHS['silver']['packing'] : DATA_PATHS['gold']['packing'],
+    DATA_PATHS['silver']['loading'] : DATA_PATHS['gold']['loading']
 }
 
 ELEMENTS = {

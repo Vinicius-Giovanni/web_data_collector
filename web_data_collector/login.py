@@ -27,24 +27,24 @@ yesterday_date_format =  get_yesterday_date(format='%b %Y')
 chamada_funcao_dates_format = load_penultimate_dates(DATA_PATHS['gold'], date_format= '%b %Y')
 
 # cancel
-penultimate_date_cancel = chamada_funcao_dates['cancel']
+penultimate_date_cancel = chamada_funcao_dates['cancel'] or yesterday_date
 
 # loading
-penultimate_date_loading_format = chamada_funcao_dates_format['loading']
-penultimate_date_loading = chamada_funcao_dates['loading']
+penultimate_date_loading_format = chamada_funcao_dates_format['loading'] or yesterday_date_format
+penultimate_date_loading = chamada_funcao_dates['loading'] or yesterday_date
 
 # olpn
-penultimate_date_olpn = chamada_funcao_dates['olpn']
+penultimate_date_olpn = chamada_funcao_dates['olpn'] or yesterday_date
 
 # packing
-penultimate_date_packing_format = chamada_funcao_dates_format['packing']
-penultimate_date_packing = chamada_funcao_dates['packing']
+penultimate_date_packing_format = chamada_funcao_dates_format['packing'] or yesterday_date_format
+penultimate_date_packing = chamada_funcao_dates['packing'] or yesterday_date
 
 # picking
-penultimate_date_picking = chamada_funcao_dates['picking']
+penultimate_date_picking = chamada_funcao_dates['picking'] or yesterday_date
 
 # putaway
-penultimate_date_putaway = chamada_funcao_dates['putaway']
+penultimate_date_putaway = chamada_funcao_dates['putaway'] or yesterday_date
 
 
 @log_with_context(job='login_csi', logger=logger)
