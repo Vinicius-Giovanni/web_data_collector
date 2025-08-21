@@ -9,3 +9,6 @@ teste.py
 .venv/
 *.json
 {user_data_dir}
+build/
+dist/
+*.spec
