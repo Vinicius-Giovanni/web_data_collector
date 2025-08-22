@@ -2,7 +2,7 @@
 from utils.config_logger import setup_logger, log_with_context
 from utils.reader import rename_csv_with_yesterday, move_files, merge_parquet, clear_dirs
 from web_data_collector.login import login_csi
-from config.settings import TEMP_DIR, FILE_ROUTER, FILE_ROUTER_MERGE, DATA_PATHS, EXECUTION_MODE, CLEAR_DIR_DATA_RELOAD
+from config.settings import TEMP_DIR, FILE_ROUTER, FILE_ROUTER_MERGE, FEATURE_WEB_DATA_COLLECTOR
 from web_data_collector.olpn import data_extraction_olpn_from_file
 from web_data_collector.cancel import data_extraction_cancel_from_file
 from web_data_collector.picking import data_extraction_picking_from_file
@@ -34,19 +34,8 @@ def read_execution_mode(file_path: Path) -> dict:
     return config
 
 def main():
-
-    config = read_execution_mode(EXECUTION_MODE)
-
-    if config.get('ATUALIZAR_BANCO') == "SIM":
         data_update()
 
-    if config.get('RECARREGAR_COM_ALTERACAO') == "SIM":
-        data_reload()
-    
-    if config.get('ATUALIZAR_E_RECARREGAR') == "SIM":
-        data_reload()
-        data_update()
-        
 def run_pipeline(pipeline_class, input_path, output_path):
     """
     runs the pipeline with the given class, input path, and output path
@@ -56,71 +45,32 @@ def run_pipeline(pipeline_class, input_path, output_path):
     logger.info(f'pipeline {pipeline_class.__name__} finalizado')
 
 t1 = multiprocessing.Process(
-    target=data_extraction_olpn_from_file, args=("cookies.json", TEMP_DIR['BRONZE']['olpn']))
-t2 = multiprocessing.Process(
-    target=data_extraction_cancel_from_file, args=("cookies.json", TEMP_DIR['BRONZE']['cancel']))
+    target=data_extraction_olpn_from_file, args=("cookies.json", FEATURE_WEB_DATA_COLLECTOR['BRONZE']['olpn']))
 t3 = multiprocessing.Process(
-    target=data_extraction_picking_from_file, args=("cookies.json", TEMP_DIR['BRONZE']['picking']))
-t4 = multiprocessing.Process(
-    target=data_extraction_putaway_from_file, args=("cookies.json", TEMP_DIR['BRONZE']['putaway']))
+    target=data_extraction_picking_from_file, args=("cookies.json", FEATURE_WEB_DATA_COLLECTOR['BRONZE']['picking']))
 t5 = multiprocessing.Process(
-    target=data_extraction_packing_from_file, args=("cookies.json", TEMP_DIR['BRONZE']['packing']))
+    target=data_extraction_packing_from_file, args=("cookies.json", FEATURE_WEB_DATA_COLLECTOR['BRONZE']['packing']))
 t6 = multiprocessing.Process(
-    target=data_extraction_loading_from_File, args=("cookies.json", TEMP_DIR['BRONZE']['loading']))
+    target=data_extraction_loading_from_File, args=("cookies.json", FEATURE_WEB_DATA_COLLECTOR['BRONZE']['loading']))
 
 p1 = multiprocessing.Process(
     target=run_pipeline,
-    args=(OlpnPipeline, TEMP_DIR['BRONZE']['olpn'], DATA_PATHS['silver']['olpn']))
+    args=(OlpnPipeline, FEATURE_WEB_DATA_COLLECTOR['BRONZE']['olpn'], FEATURE_WEB_DATA_COLLECTOR['SILVER']['olpn']))
 
 p2 = multiprocessing.Process(
     target=run_pipeline,
-    args=(PickingPipeline, TEMP_DIR['BRONZE']['picking'], DATA_PATHS['silver']['picking']))
-
-p3 = multiprocessing.Process(
-    target=run_pipeline,
-    args=(CancelPipeline, TEMP_DIR['BRONZE']['cancel'], DATA_PATHS['silver']['cancel']))
-
-p4 = multiprocessing.Process(
-    target=run_pipeline,
-    args=(PutawayPipeline, TEMP_DIR['BRONZE']['putaway'], DATA_PATHS['silver']['putaway']))
+    args=(PickingPipeline, FEATURE_WEB_DATA_COLLECTOR['BRONZE']['picking'], FEATURE_WEB_DATA_COLLECTOR['SILVER']['picking']))
 
 p5 = multiprocessing.Process(
     target=run_pipeline,
-    args=(PackingPipeline, TEMP_DIR['BRONZE']['packing'], DATA_PATHS['silver']['packing']))
+    args=(PackingPipeline, FEATURE_WEB_DATA_COLLECTOR['BRONZE']['packing'], FEATURE_WEB_DATA_COLLECTOR['SILVER']['packing']))
 
 p6 = multiprocessing.Process(
     target=run_pipeline,
-    args=(LoadingPipeline, TEMP_DIR['BRONZE']['loading'], DATA_PATHS['silver']['loading']))
-
-p1_1 = multiprocessing.Process(
-    target=run_pipeline,
-    args=(OlpnPipeline, DATA_PATHS['bronze']['olpn'], DATA_PATHS['silver']['olpn']))
-
-p2_1 = multiprocessing.Process(
-    target=run_pipeline,
-    args=(PickingPipeline, DATA_PATHS['bronze']['picking'], DATA_PATHS['silver']['picking']))
-
-p3_1 = multiprocessing.Process(
-    target=run_pipeline,
-    args=(CancelPipeline, DATA_PATHS['bronze']['cancel'], DATA_PATHS['silver']['cancel']))
-
-p4_1 = multiprocessing.Process(
-    target=run_pipeline,
-    args=(PutawayPipeline, DATA_PATHS['bronze']['putaway'], DATA_PATHS['silver']['putaway']))
-
-p5_1 = multiprocessing.Process(
-    target=run_pipeline,
-    args=(PackingPipeline, DATA_PATHS['bronze']['packing'], DATA_PATHS['silver']['packing']))
-
-p6_1 = multiprocessing.Process(
-    target=run_pipeline,
-    args=(LoadingPipeline, DATA_PATHS['bronze']['loading'], DATA_PATHS['silver']['loading']))
+    args=(LoadingPipeline, FEATURE_WEB_DATA_COLLECTOR['BRONZE']['loading'], FEATURE_WEB_DATA_COLLECTOR['SILVER']['loading']))
 
 @log_with_context(job='main', logger=logger)
 def data_update():
-
-    """
-    Atualiza os dados do csi, extrai os dados de cada etapa do processo e executa os pipelines"""
 
     logger.info('iniciando processo de extracao de dados do csi', extra={
         'job': 'main',
@@ -136,23 +86,23 @@ def data_update():
         })
         sys.exit(1)
 
-    for t in [t1,t2,t3,t4,t5,t6]:
-        t.start()
+    # for t in [t1,t3,t5,t6]:
+    #     t.start()
 
-    for t in [t1,t2,t3,t4,t5,t6]:
-        t.join()
+    # for t in [t1,t3,t5,t6]:
+    #     t.join()
 
-    rename_csv_with_yesterday(temp_dir=TEMP_DIR['BRONZE'])
+    rename_csv_with_yesterday(temp_dir=FEATURE_WEB_DATA_COLLECTOR['BRONZE'])
 
     logger.info('processos de extracao finalizados, iniciando primeira etapa de pipelines', extra={
         'job': 'main',
         'status': 'pipelines_started'
         })
 
-    for p in [p1, p2, p3, p4, p6]:
+    for p in [p1, p2, p6]:
         p.start()
     
-    for p in [p1, p2, p3, p4, p6]:
+    for p in [p1, p2, p6]:
         p.join()
 
     logger.info('primeira etapa dos pipelines finalizada, iniciando segunda etapa de pipelines', extra={
@@ -175,36 +125,6 @@ def data_update():
     
     move_files(FILE_ROUTER)
 
-def data_reload():
-    """
-    Recarrega o banco de dados inteiro
-    """
-
-    clear_dirs(CLEAR_DIR_DATA_RELOAD) # << Limpeza de diretorios SILVER e GOLD para reload do banco
-
-    for p in [p1_1, p2_1, p3_1, p4_1, p6_1]:
-        p.start()
-    
-    for p in [p1_1, p2_1, p3_1, p4_1, p6_1]:
-        p.join()
-
-    logger.info('primeira etapa dos pipelines finalizada, iniciando segunda etapa de pipelines', extra={
-        'job': 'main',
-        'status': 'pipelines_started'
-        })
-    
-    for p in [p5_1]:
-        p.start()
-    
-    for p in [p5_1]:
-        p.join()
-    
-    logger.info('pipelines finalizados', extra={
-        'job': 'main',
-        'status': 'success'
-        })
-    
-    merge_parquet(FILE_ROUTER_MERGE)
 
 if __name__ == "__main__":
     main()

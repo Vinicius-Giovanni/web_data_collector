@@ -45,6 +45,28 @@ else:
     TEMP_DIR_BASE = {
         "DIR_CHROME_BASE": Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector'),
 }   
+    
+    FEATURE_WEB_DATA_COLLECTOR = {
+        'BRONZE': {
+            'olpn': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Bronze (Raw Layer)\3.11 - Status Wave + oLPN'),
+            'picking': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Bronze (Raw Layer)\4.05 - Relatório de Produtividade - Picking'),
+            'packing': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Bronze (Raw Layer)\5.03 - Produtividade de Packing - Packed por hora'),
+            'loading': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Bronze (Raw Layer)\5.04 - Produtividade Load - Load por hora')
+        },
+        'SILVER': {
+            'olpn': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Silver (Cleansed Layer)\3.11 - Status Wave + oLPN'),
+            'picking': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Silver (Cleansed Layer)\4.05 - Relatório de Produtividade - Picking'),
+            'packing': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Silver (Cleansed Layer)\5.03 - Produtividade de Packing - Packed por hora'),
+            'loading': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Silver (Cleansed Layer)\5.04 - Produtividade Load - Load por hora')           
+        },
+        'GOLD': {
+            'olpn': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Gold (Business Layer)\3.11 - Status Wave + oLPN'),
+            'picking': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Gold (Business Layer)\4.05 - Relatório de Produtividade - Picking'),
+            'packing': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Gold (Business Layer)\5.03 - Produtividade de Packing - Packed por hora'),
+            'loading': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Gold (Business Layer)\5.04 - Produtividade Load - Load por hora')  
+        }
+    }
+
     # data paths temporary for chrome
     TEMP_DIR = {
         "BRONZE": {
