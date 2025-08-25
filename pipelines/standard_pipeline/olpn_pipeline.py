@@ -1,6 +1,5 @@
 # remote imports
-import os
-import glob
+from datetime import datetime
 from pathlib import Path
 import pandas as pd
 import numpy as np
@@ -105,6 +104,21 @@ class OlpnPipeline:
         df['setores'] = classify_setores(df)
 
         df['situacao_prazo'] = check_deadline(df)
+
+        hoje = pd.to_datetime(datetime.now().date())
+
+        df['status'] = np.select(
+            [
+                df['data_limite'] == hoje,
+                df['data_limite'] > hoje,
+                df['data_limite'] < hoje
+            ],
+            [
+                'limite',
+                'adiantado',
+                'atrasado'
+            ]
+        )
 
         df['localizacao'] = np.where(
             (df['rua'].isin(['CP1', 'CS1',  'P02', 'R01', 'R02'])) | (df['endereco'] == 'PAR'),

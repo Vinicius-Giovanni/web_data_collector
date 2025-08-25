@@ -606,7 +606,6 @@ PIPELINE_CONFIG = {
         'remove_columns': [
                 'Cod Setor Item',
                 'Inventory Type ID',
-                'Data Limite Expedição',
                 'Data Prevista Entrega',
                 'Marcação de EAD',
                 'Numero da Gaiola',
@@ -621,6 +620,7 @@ PIPELINE_CONFIG = {
                 'Descrição'
         ],
         'rename_columns': {
+                'Data Limite Expedição': 'data_limite',
                 'Status oLPN': 'status_olpn',
                 'Data locação pedido': 'data_locacao_pedido',   
                 'Audit Status': 'audit_status',
@@ -655,6 +655,7 @@ PIPELINE_CONFIG = {
                 'olpn': 'string'
         },
         'datetime_columns':  [
+                'data_limite',
                 'data_locacao_pedido',
                 'data_hora_ultimo_update_olpn'
         ],
