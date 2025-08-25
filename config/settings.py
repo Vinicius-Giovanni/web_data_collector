@@ -60,11 +60,12 @@ else:
             'loading': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Silver (Cleansed Layer)\5.04 - Produtividade Load - Load por hora')           
         },
         'GOLD': {
-            'olpn': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Gold (Business Layer)\3.11 - Status Wave + oLPN'),
-            'picking': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Gold (Business Layer)\4.05 - Relatório de Produtividade - Picking'),
-            'packing': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Gold (Business Layer)\5.03 - Produtividade de Packing - Packed por hora'),
-            'loading': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Gold (Business Layer)\5.04 - Produtividade Load - Load por hora')  
+            'olpn': Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Features/web_data_collector/Gold (Business Layer)/3.11 - Status Wave + oLPN_1'),
+            'picking': Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Features/web_data_collector/Gold (Business Layer)/4.05 - Relatório de Produtividade - Picking'),
+            'packing': Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Features/web_data_collector/Gold (Business Layer)/5.03 - Produtividade de Packing - Packed por hora'),
+            'loading': Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Features/web_data_collector/Gold (Business Layer)/5.04 - Produtividade Load - Load por hora')
         }
+
     }
 
     # data paths temporary for chrome
@@ -186,12 +187,10 @@ FILE_ROUTER = {
 
 # function merge_files
 FILE_ROUTER_MERGE = {
-    DATA_PATHS['silver']['olpn'] : DATA_PATHS['gold']['olpn'],
-    DATA_PATHS['silver']['cancel'] : DATA_PATHS['gold']['cancel'],
-    DATA_PATHS['silver']['picking'] : DATA_PATHS['gold']['picking'],
-    DATA_PATHS['silver']['putaway'] : DATA_PATHS['gold']['putaway'],
-    DATA_PATHS['silver']['packing'] : DATA_PATHS['gold']['packing'],
-    DATA_PATHS['silver']['loading'] : DATA_PATHS['gold']['loading']
+    FEATURE_WEB_DATA_COLLECTOR['SILVER']['olpn'] : FEATURE_WEB_DATA_COLLECTOR['GOLD']['olpn'],
+    FEATURE_WEB_DATA_COLLECTOR['SILVER']['picking'] : FEATURE_WEB_DATA_COLLECTOR['GOLD']['picking'],
+    FEATURE_WEB_DATA_COLLECTOR['SILVER']['packing'] : FEATURE_WEB_DATA_COLLECTOR['GOLD']['packing'],
+    FEATURE_WEB_DATA_COLLECTOR['SILVER']['loading'] : FEATURE_WEB_DATA_COLLECTOR['GOLD']['loading']
 }
 
 ELEMENTS = {
@@ -613,13 +612,13 @@ PIPELINE_CONFIG = {
                 'Data do Pedido',
                 'Filial',
                 'Shipment',
-                'Filial Destino',
                 'Status Pedido',
                 'Pedido de Venda',
                 'Wave',
                 'Descrição'
         ],
         'rename_columns': {
+                'Filial Destino': 'filial_destino',
                 'Data Limite Expedição': 'data_limite',
                 'Status oLPN': 'status_olpn',
                 'Data locação pedido': 'data_locacao_pedido',   

@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 # local imports
-from config.settings import PIPELINE_CONFIG, DATA_PATHS
+from config.settings import PIPELINE_CONFIG, FEATURE_WEB_DATA_COLLECTOR
 from utils.config_logger import setup_logger, log_with_context
 from utils.classification import classify_setores
 from utils.reader import read_csv, export_as_parquet, read_parquet_with_tote
@@ -79,7 +79,7 @@ class PackingPipeline:
 
         cfg = self.cfg
 
-        olpn_ref = read_parquet_with_tote(DATA_PATHS['silver']['olpn'])
+        olpn_ref = read_parquet_with_tote(FEATURE_WEB_DATA_COLLECTOR['SILVER']['olpn'])
 
         logger.info('referencia olpn carregada', extra={
             'job': 'PackingPipeline',

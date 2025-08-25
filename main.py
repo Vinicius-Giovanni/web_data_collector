@@ -1,18 +1,14 @@
 # local imports
 from utils.config_logger import setup_logger, log_with_context
-from utils.reader import rename_csv_with_yesterday, move_files, merge_parquet, clear_dirs
+from utils.reader import rename_csv_with_yesterday, move_files, merge_parquet
 from web_data_collector.login import login_csi
 from config.settings import TEMP_DIR, FILE_ROUTER, FILE_ROUTER_MERGE, FEATURE_WEB_DATA_COLLECTOR
 from web_data_collector.olpn import data_extraction_olpn_from_file
-from web_data_collector.cancel import data_extraction_cancel_from_file
 from web_data_collector.picking import data_extraction_picking_from_file
-from web_data_collector.putaway import data_extraction_putaway_from_file
 from web_data_collector.packing import data_extraction_packing_from_file
 from web_data_collector.loading import data_extraction_loading_from_File
 from pipelines.standard_pipeline.olpn_pipeline import OlpnPipeline
 from pipelines.standard_pipeline.picking_pipeline import PickingPipeline
-from pipelines.standard_pipeline.cancel_pipeline import CancelPipeline
-from pipelines.standard_pipeline.putaway_pipeline import PutawayPipeline
 from pipelines.standard_pipeline.packing_pipeline import PackingPipeline
 from pipelines.standard_pipeline.loading_pipeline import LoadingPipeline
 
@@ -86,11 +82,11 @@ def data_update():
         })
         sys.exit(1)
 
-    # for t in [t1,t3,t5,t6]:
-    #     t.start()
+    for t in [t1, t3, t5, t6]:
+        t.start()
 
-    # for t in [t1,t3,t5,t6]:
-    #     t.join()
+    for t in [t1, t3, t5, t6]:
+        t.join()
 
     rename_csv_with_yesterday(temp_dir=FEATURE_WEB_DATA_COLLECTOR['BRONZE'])
 
@@ -120,11 +116,6 @@ def data_update():
         'job': 'main',
         'status': 'success'
         })
-    
-    merge_parquet(FILE_ROUTER_MERGE)
-    
-    move_files(FILE_ROUTER)
-
 
 if __name__ == "__main__":
     main()

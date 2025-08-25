@@ -117,7 +117,8 @@ class OlpnPipeline:
                 'limite',
                 'adiantado',
                 'atrasado'
-            ]
+            ],
+            default = 'indefinido'
         )
 
         df['localizacao'] = np.where(

@@ -10,13 +10,13 @@ from utils.config_logger import setup_logger, log_with_context
 from config.settings import TEMP_DIR, LINKS, ELEMENTS
 from utils.reader import wait_download_csv
 from utils.browser_setup import create_authenticated_driver
-from web_data_collector.login import penultimate_date_olpn, yesterday_date
+from web_data_collector.login import chamada_funcao_dates, yesterday_date
 
 # %(name)s <<< module name
 logger = setup_logger(__name__)
 
 # global support variables
-star_date = penultimate_date_olpn # <<< penultimate update date in the gold/olpn folder
+star_date = chamada_funcao_dates # <<< penultimate update date in the gold/olpn folder
 end_date = yesterday_date # <<< current date entered in the final data field
 control_dir = TEMP_DIR['BRONZE']['olpn'] # <<< folder monitored by the "wait_download_csv" function
 
