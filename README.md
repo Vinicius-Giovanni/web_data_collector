@@ -46,8 +46,7 @@ O desenho arquitetural é escalável e resiliente, permitindo a expansão para n
 
 ## 🧩 Arquitetura Modular
 
-
-```
+---
 
 ## ⚙️ Como Usar  
 
