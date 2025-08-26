@@ -45,7 +45,7 @@ O desenho arquitetural é escalável e resiliente, permitindo a expansão para n
 ---
 
 ## 🧩 Arquitetura Modular
-
+Link de acesso: https://excalidraw.com/#json=MguHa3ZRbh4GmK8XFeDJc,z8TTvXhE0PbPsNWZRSb5tw
 <img width="1046" height="873" alt="image" src="https://github.com/user-attachments/assets/076ff2b1-29e8-4312-a135-6d764a5d10b2" />
 
 ## BI
