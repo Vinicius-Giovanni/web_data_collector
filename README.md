@@ -48,7 +48,12 @@ O desenho arquitetural é escalável e resiliente, permitindo a expansão para n
 
 <img width="1046" height="873" alt="image" src="https://github.com/user-attachments/assets/076ff2b1-29e8-4312-a135-6d764a5d10b2" />
 
+## BI
+
+<img width="1531" height="859" alt="image" src="https://github.com/user-attachments/assets/b9d574a3-e333-41eb-8f45-1e687d8910b9" />
+
 ---
+
 
 ## ⚙️ Como Usar  
 
