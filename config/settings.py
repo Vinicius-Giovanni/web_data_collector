@@ -608,7 +608,6 @@ PIPELINE_CONFIG = {
                 'Data Prevista Entrega',
                 'Marcação de EAD',
                 'Numero da Gaiola',
-                'Tarefa Status',
                 'Data do Pedido',
                 'Filial',
                 'Shipment',
@@ -618,6 +617,7 @@ PIPELINE_CONFIG = {
                 'Descrição'
         ],
         'rename_columns': {
+                'Tarefa Status': 'status_tarefa',
                 'Filial Destino': 'filial_destino',
                 'Data Limite Expedição': 'data_limite',
                 'Status oLPN': 'status_olpn',
@@ -638,6 +638,8 @@ PIPELINE_CONFIG = {
                 'oLPN': 'olpn'
         },
         'column_types': {
+                'status_tarefa': 'string',
+                'filial_destino': 'string',
                 'status_olpn': 'string',
                 'audit_status': 'string',
                 'tote': 'string',
