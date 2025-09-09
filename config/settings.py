@@ -51,19 +51,22 @@ else:
             'olpn': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Bronze (Raw Layer)\3.11 - Status Wave + oLPN'),
             'picking': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Bronze (Raw Layer)\4.05 - Relatório de Produtividade - Picking'),
             'packing': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Bronze (Raw Layer)\5.03 - Produtividade de Packing - Packed por hora'),
-            'loading': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Bronze (Raw Layer)\5.04 - Produtividade Load - Load por hora')
+            'loading': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Bronze (Raw Layer)\5.04 - Produtividade Load - Load por hora'),
+            'putaway': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Bronze (Raw Layer)\6.15 - Produtividade - Outbound Putaway')
         },
         'SILVER': {
             'olpn': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Silver (Cleansed Layer)\3.11 - Status Wave + oLPN'),
             'picking': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Silver (Cleansed Layer)\4.05 - Relatório de Produtividade - Picking'),
             'packing': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Silver (Cleansed Layer)\5.03 - Produtividade de Packing - Packed por hora'),
-            'loading': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Silver (Cleansed Layer)\5.04 - Produtividade Load - Load por hora')           
+            'loading': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Silver (Cleansed Layer)\5.04 - Produtividade Load - Load por hora'),
+            'putaway': Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\web_data_collector\Silver (Cleansed Layer)\6.15 - Produtividade - Outbound Putaway')         
         },
         'GOLD': {
-            'olpn': Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Features/web_data_collector/Gold (Business Layer)/3.11 - Status Wave + oLPN_1'),
+            'olpn': Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Features/web_data_collector/Gold (Business Layer)/3.11 - Status Wave + oLPN'),
             'picking': Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Features/web_data_collector/Gold (Business Layer)/4.05 - Relatório de Produtividade - Picking'),
             'packing': Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Features/web_data_collector/Gold (Business Layer)/5.03 - Produtividade de Packing - Packed por hora'),
-            'loading': Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Features/web_data_collector/Gold (Business Layer)/5.04 - Produtividade Load - Load por hora')
+            'loading': Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Features/web_data_collector/Gold (Business Layer)/5.04 - Produtividade Load - Load por hora'),
+            'putaway': Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Features/web_data_collector/Gold (Business Layer)/6.15 - Produtividade - Outbound Putaway')
         }
 
     }
@@ -209,13 +212,13 @@ ELEMENTS = {
         'element_filial_id': 'dv17_ValueComboBox',
         'element_filial': '1200',
         'element_title': 'tt',
-        'element_dt_start': 'dv58__tblDateTextBox__txtInput',
-        'element_dt_end': 'dv66__tblDateTextBox__txtInput',
-        'element_listbox': '//*[@id="dv74_MultiSelectList"]',
+        'element_dt_start': 'dv59__tblDateTextBox__txtInput',
+        'element_dt_end': 'dv67__tblDateTextBox__txtInput',
+        'element_listbox': '//*[@id="dv75_MultiSelectList"]',
         'elements_listbox': '//tr[@role="option" and @checkboxitem="true"]',
         'element_get_item': 'aria-label',
         'element_get_checked': 'aria-checked',
-        'element_confirm': 'dv134',
+        'element_confirm': 'dv135',
         'list_itens': [
             'S01 - ENTREGA A CLIENTES',
             'S02 - RETIRA CLIENTE DEPOSITO',
@@ -278,13 +281,13 @@ ELEMENTS = {
     'ELEMENTS_PICKING': {
         'element_filial_id': 'dv18_ValueComboBox',
         'element_filial': '1200',
-        'element_dt_start': 'dv113__tblDateTextBox__txtInput',
-        'element_dt_end': 'dv123__tblDateTextBox__txtInput',
-        'element_listbox': '//*[@id="dv57_MultiSelectList"]',
+        'element_dt_start': 'dv114__tblDateTextBox__txtInput',
+        'element_dt_end': 'dv124__tblDateTextBox__txtInput',
+        'element_listbox': '//*[@id="dv58_MultiSelectList"]',
         'elements_listbox': '//tr[@role="option" and @checkboxitem="true"]',
         'element_get_item': 'aria-label',
         'element_get_checked': 'aria-checked',
-        'element_confirm': 'dv130',
+        'element_confirm': 'dv131',
         'list_itens': [
             'S01 - ENTREGA A CLIENTES',
             'S02 - RETIRA CLIENTE DEPOSITO',
@@ -340,13 +343,13 @@ ELEMENTS = {
     'ELEMENTS_PUTAWAY': {
         'element_filial_id': 'dv9_ValueComboBox',
         'element_filial': '1200',
-        'element_dt_start': 'dv50__tblDateTextBox__txtInput',
-        'element_dt_end': 'dv58__tblDateTextBox__txtInput',
-        'element_listbox': '//*[@id="dv66_MultiSelectList"]',
+        'element_dt_start': 'dv51__tblDateTextBox__txtInput',
+        'element_dt_end': 'dv59__tblDateTextBox__txtInput',
+        'element_listbox': '//*[@id="dv67_MultiSelectList"]',
         'elements_listbox': '//tr[@role="option" and @checkboxitem="true"]',
         'element_get_item': 'aria-label',
         'element_get_checked': 'aria-checked',
-        'element_confirm': 'dv126',
+        'element_confirm': 'dv127',
         'list_itens': [
             'S01 - ENTREGA A CLIENTES',
             'S02 - RETIRA CLIENTE DEPOSITO',
@@ -400,23 +403,23 @@ ELEMENTS = {
         ]    
     },
     'ELEMENTS_PACKING': {
-        'element_dt_start': '//*[@id="dv106_DateInput_Current"]',
+        'element_dt_start': '//*[@id="dv107_DateInput_Current"]',
         'calendario_start' : {
-            'retornar': 'dv106__calYear_down'
+            'retornar': 'dv107__calYear_down'
         },
-        'element_dt_end': '//*[@id="dv110_DateInput_Current"]',
+        'element_dt_end': '//*[@id="dv111_DateInput_Current"]',
         'calendario_end': {
-            'retornar': 'dv110__calYear_down'
+            'retornar': 'dv111__calYear_down'
         },
-        'id_dia_inicio': 'dv106__calDay_', # controlar ultimo caracter
-        'id_dia_fim': 'dv110__calDay_', # controlar ultimo caracter
+        'id_dia_inicio': 'dv107__calDay_', # controlar ultimo caracter
+        'id_dia_fim': 'dv111__calDay_', # controlar ultimo caracter
         'element_filial_id': 'dv13_ValueComboBox',
         'element_filial': '1200',
-        'element_listbox': '//*[@id="dv51_MultiSelectList"]',
+        'element_listbox': '//*[@id="dv52_MultiSelectList"]',
         'elements_listbox': '//tr[@role="option" and @checkboxitem="true"]',
         'element_get_item': 'aria-label',
         'element_get_checked': 'aria-checked',
-        'element_confirm': 'dv116',
+        'element_confirm': 'dv117',
         'list_itens': [
             'S01 - ENTREGA A CLIENTES',
             'S02 - RETIRA CLIENTE DEPOSITO',
@@ -470,23 +473,23 @@ ELEMENTS = {
         ]    
     },
     'ELEMENTS_LOADING': {
-        'element_dt_start': '//*[@id="dv106_DateInput_Current"]',
+        'element_dt_start': '//*[@id="dv107_DateInput_Current"]',
         'calendario_start' : {
-            'retornar': 'dv106__calYear_down'
+            'retornar': 'dv107__calYear_down'
         },
-        'element_dt_end': '//*[@id="dv110_DateInput_Current"]',
+        'element_dt_end': '//*[@id="dv111_DateInput_Current"]',
         'calendario_end': {
-            'retornar': 'dv110__calYear_down'
+            'retornar': 'dv111__calYear_down'
         },
-        'id_dia_inicio': 'dv106__calDay_', # controlar ultimo caracter
-        'id_dia_fim': 'dv110__calDay_', # controlar ultimo caracter
+        'id_dia_inicio': 'dv107__calDay_', # controlar ultimo caracter
+        'id_dia_fim': 'dv111__calDay_', # controlar ultimo caracter
         'element_filial_id': 'dv13_ValueComboBox',
         'element_filial': '1200',
-        'element_listbox': '//*[@id="dv51_MultiSelectList"]',
+        'element_listbox': '//*[@id="dv52_MultiSelectList"]',
         'elements_listbox': '//tr[@role="option" and @checkboxitem="true"]',
         'element_get_item': 'aria-label',
         'element_get_checked': 'aria-checked',
-        'element_confirm': 'dv116',
+        'element_confirm': 'dv117',
         'list_itens': [
             'S01 - ENTREGA A CLIENTES',
             'S02 - RETIRA CLIENTE DEPOSITO',

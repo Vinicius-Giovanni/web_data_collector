@@ -1,16 +1,18 @@
 # local imports
 from utils.config_logger import setup_logger, log_with_context
-from utils.reader import rename_csv_with_yesterday, move_files, merge_parquet
+from utils.reader import rename_csv_with_yesterday
 from web_data_collector.login import login_csi
-from config.settings import TEMP_DIR, FILE_ROUTER, FILE_ROUTER_MERGE, FEATURE_WEB_DATA_COLLECTOR
+from config.settings import TEMP_DIR, FEATURE_WEB_DATA_COLLECTOR
 from web_data_collector.olpn import data_extraction_olpn_from_file
 from web_data_collector.picking import data_extraction_picking_from_file
 from web_data_collector.packing import data_extraction_packing_from_file
 from web_data_collector.loading import data_extraction_loading_from_File
+from web_data_collector.putaway import data_extraction_putaway_from_file
 from pipelines.standard_pipeline.olpn_pipeline import OlpnPipeline
 from pipelines.standard_pipeline.picking_pipeline import PickingPipeline
 from pipelines.standard_pipeline.packing_pipeline import PackingPipeline
 from pipelines.standard_pipeline.loading_pipeline import LoadingPipeline
+from pipelines.standard_pipeline.putaway_pipeline import PutawayPipeline
 
 # remote imports
 import sys
@@ -30,7 +32,7 @@ def read_execution_mode(file_path: Path) -> dict:
     return config
 
 def main():
-        data_update()
+    data_update()
 
 def run_pipeline(pipeline_class, input_path, output_path):
     """
@@ -46,6 +48,8 @@ t3 = multiprocessing.Process(
     target=data_extraction_picking_from_file, args=("cookies.json", FEATURE_WEB_DATA_COLLECTOR['BRONZE']['picking']))
 t5 = multiprocessing.Process(
     target=data_extraction_packing_from_file, args=("cookies.json", FEATURE_WEB_DATA_COLLECTOR['BRONZE']['packing']))
+t4 = multiprocessing.Process(
+    target=data_extraction_putaway_from_file, args=("cookies.json", FEATURE_WEB_DATA_COLLECTOR['BRONZE']['putaway']))
 t6 = multiprocessing.Process(
     target=data_extraction_loading_from_File, args=("cookies.json", FEATURE_WEB_DATA_COLLECTOR['BRONZE']['loading']))
 
@@ -56,6 +60,10 @@ p1 = multiprocessing.Process(
 p2 = multiprocessing.Process(
     target=run_pipeline,
     args=(PickingPipeline, FEATURE_WEB_DATA_COLLECTOR['BRONZE']['picking'], FEATURE_WEB_DATA_COLLECTOR['SILVER']['picking']))
+
+p4 = multiprocessing.Process(
+    target=run_pipeline,
+    args=(PutawayPipeline, FEATURE_WEB_DATA_COLLECTOR['BRONZE']['putaway'], FEATURE_WEB_DATA_COLLECTOR['SILVER']['putaway']))
 
 p5 = multiprocessing.Process(
     target=run_pipeline,
@@ -82,10 +90,10 @@ def data_update():
         })
         sys.exit(1)
 
-    for t in [t1, t3, t5, t6]:
+    for t in [t6]:
         t.start()
 
-    for t in [t1, t3, t5, t6]:
+    for t in [t6]:
         t.join()
 
     rename_csv_with_yesterday(temp_dir=FEATURE_WEB_DATA_COLLECTOR['BRONZE'])
@@ -95,22 +103,22 @@ def data_update():
         'status': 'pipelines_started'
         })
 
-    for p in [p1, p2, p6]:
-        p.start()
+    # for p in [p1, p2, p6, p4]:
+    #     p.start()
     
-    for p in [p1, p2, p6]:
-        p.join()
+    # for p in [p1, p2, p6, p4]:
+    #     p.join()
 
     logger.info('primeira etapa dos pipelines finalizada, iniciando segunda etapa de pipelines', extra={
         'job': 'main',
         'status': 'pipelines_started'
         })
     
-    for p in [p5]:
-        p.start()
+    # for p in [p5]:
+    #     p.start()
     
-    for p in [p5]:
-        p.join()
+    # for p in [p5]:
+    #     p.join()
     
     logger.info('pipelines finalizados', extra={
         'job': 'main',
