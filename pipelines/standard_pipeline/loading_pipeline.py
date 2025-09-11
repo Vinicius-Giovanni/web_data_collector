@@ -120,6 +120,3 @@ class LoadingPipeline:
 
         logger.info(f'Pré-processamento finalizado: {df.shape[0]} linhas, {df.shape[1]} colunas.')
         return df  
-
-
-    

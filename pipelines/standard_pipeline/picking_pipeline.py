@@ -93,7 +93,7 @@ class PickingPipeline:
             df['data_hora_fim_tarefa'] - df['data_hora_inicio_tarefa']
         ).dt.total_seconds().abs().astype('Int64')
 
-        df['duracarao_olpn_segundos'] = (
+        df['duracao_olpn_segundos'] = (
             df['data_hora_fim_olpn'] - df['data_hora_inicio_tarefa']
         ).dt.total_seconds().abs().astype('Int64')
 
