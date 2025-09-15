@@ -49,7 +49,7 @@ def data_update():
         })
         return
 
-    # 🔹 processos de extração (sempre recriados a cada ciclo)
+    #processos de extração (sempre recriados a cada ciclo)
     t1 = multiprocessing.Process(
         target=data_extraction_olpn_from_file, args=("cookies.json", FEATURE_WEB_DATA_COLLECTOR['BRONZE']['olpn']))
     t3 = multiprocessing.Process(
@@ -70,7 +70,7 @@ def data_update():
 
     logger.info('processos de extracao finalizados, iniciando pipelines')
 
-    # 🔹 pipelines (sempre recriados a cada ciclo também)
+    #pipelines (sempre recriados a cada ciclo também)
     p1 = multiprocessing.Process(
         target=run_pipeline,
         args=(OlpnPipeline, FEATURE_WEB_DATA_COLLECTOR['BRONZE']['olpn'], FEATURE_WEB_DATA_COLLECTOR['SILVER']['olpn']))
