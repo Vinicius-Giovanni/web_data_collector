@@ -44,5 +44,29 @@ def clear_dirs(dirs: Dict[str, any], prefix: str = '') -> None:
         continue
 
     try:
-        if not folder.existis():
+        if not folder.exists():
+            logger.warning(f'diretorio {full_name} não existe. iniciando a criação de um...', extra={
+                'job': 'clear_dirs',
+                'status': 'criando diretorio',
+            })
+            folder.mkdir(parents=True, exist_ok=True)
+            continue
+        
+        for item in folder.iterdir():
+            try:
+                if item.is_file() or item.is_symlink():
+                    item.unlink()
+                elif item.is_dir():
+                    shutil.rmtree(item)
+            except Exception as e:
+                logger.error(f'falha ao limpar {item} em {full_name}', extra={
+                    'job': 'clear_dirs',
+                    'status': 'falha' 
+                })
+        
+        logger.info(f'diretorio {full_name} limpo com sucesso', extra={
+            'job': 'clear_dirs',
+            'status': 'sucesso'
+        })
+        
             

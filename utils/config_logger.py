@@ -133,7 +133,7 @@ def log_with_context(job=None, logger=None):
             except Exception as e:
                 duration = round(time.time() - start_time, 2)
                 _logger.exception(
-                    f"erro de execução em {func.__name__}: {e}",
+                    f"erro de execução em {func.__name__}",
                     extra={
                         'job': job or func.__name__,
                         'status': 'failure',
