@@ -20,7 +20,7 @@ def get_yesterday_date(format: str = '%d/%m/%Y') -> str:
             'status': 'started'
         })
 
-        yesterday_date = (datetime.now() - timedelta(days=1)).strftime(format)
+        yesterday_date = (datetime.now() - timedelta(days=0)).strftime(format)
 
         logger.info(f'data de ontem calculada: {yesterday_date}', extra={
             'job': 'get_yesterday_date',
@@ -34,6 +34,37 @@ def get_yesterday_date(format: str = '%d/%m/%Y') -> str:
             'job': 'get_yesterday_date',
             'status': 'failure'
         })
+        return None
+    
+@log_with_context(job='get_business_yesterday', logger=logger)
+def get_business_yesterday(format: str = '%d/%m/%Y') -> str:
+
+    try:
+        logger.info('iniciando calculo da data util de ontem', extra={
+                'job': 'get_business_yesterday',
+                'status': 'started'})
+
+        today = datetime.now()
+        weekday = today.weekday()
+
+        if 1 <= weekday <= 5:
+            target_date = today - timedelta(days=1)
+        else:
+            days_to_subtract = (weekday - 4) % 7
+            target_date = today - timedelta(days=days_to_subtract)
+        
+        formatted_date = target_date.strftime(format)
+
+        logger.info(f'data util de ontem calculada: {formatted_date}', extra={
+                'job': 'get_business_yesterday',
+                'status': 'success'})
+        
+        return formatted_date
+    
+    except Exception as e:
+        logger.exception(f'erro ao calcular data util de ontem: {e}', extra={
+                'job': 'get_business_yesterday',
+                'status': 'failure'})
         return None
     
 @log_with_context(job='get_penultimate_date', logger=logger)

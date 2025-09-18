@@ -66,7 +66,7 @@ class PutawayPipeline:
             })
             return pd.DataFrame()
         
-        export_as_parquet(df, output_folder=output_path, pipeline_key=self.key, name='4.05 - Relatório de Produtividade - Picking')
+        export_as_parquet(df, output_folder=output_path, pipeline_key=self.key, name='6.15 - Produtividade - Outbound Putaway')
 
         logger.info(f'pipeline {self.key} finalizado com sucesso', extra={
             'job': 'PutawayPipeline',

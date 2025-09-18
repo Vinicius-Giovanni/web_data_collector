@@ -9,10 +9,10 @@ import locale
 
 # local imports
 from utils.config_logger import setup_logger, log_with_context
-from config.settings import LINKS, ELEMENTS, PASSWORD, EMAIL, DATA_PATHS, CLEAR_DIR
+from config.settings import LINKS, ELEMENTS, PASSWORD, EMAIL, FEATURE_WEB_DATA_COLLECTOR
 from utils.reader import clear_dirs
 from utils.browser_setup import init_browser
-from utils.get_info import load_penultimate_dates, get_yesterday_date
+from utils.get_info import get_business_yesterday, get_yesterday_date
 
 # %(name)s <<< module name
 logger = setup_logger(__name__)
@@ -21,30 +21,18 @@ logger = setup_logger(__name__)
 locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 
 # Extraction dates
-chamada_funcao_dates = load_penultimate_dates(DATA_PATHS['gold'], date_format= '%d/%m/%Y')
-yesterday_date = get_yesterday_date()
+chamada_funcao_dates = get_business_yesterday(format= '%d/%m/%Y')
+yesterday_date = get_yesterday_date(format= '%d/%m/%Y')
 yesterday_date_format =  get_yesterday_date(format='%b %Y')
-chamada_funcao_dates_format = load_penultimate_dates(DATA_PATHS['gold'], date_format= '%b %Y')
+chamada_funcao_dates_format = get_business_yesterday(format= '%b %Y')
 
-# cancel
-penultimate_date_cancel = chamada_funcao_dates['cancel'] or yesterday_date
-
-# loading
-penultimate_date_loading_format = chamada_funcao_dates_format['loading'] or yesterday_date_format
-penultimate_date_loading = chamada_funcao_dates['loading'] or yesterday_date
 
 # olpn
-penultimate_date_olpn = chamada_funcao_dates['olpn'] or yesterday_date
-
-# packing
-penultimate_date_packing_format = chamada_funcao_dates_format['packing'] or yesterday_date_format
-penultimate_date_packing = chamada_funcao_dates['packing'] or yesterday_date
+penultimate_date_olpn =yesterday_date
 
 # picking
-penultimate_date_picking = chamada_funcao_dates['picking'] or yesterday_date
+penultimate_date_picking = yesterday_date
 
-# putaway
-penultimate_date_putaway = chamada_funcao_dates['putaway'] or yesterday_date
 
 
 @log_with_context(job='login_csi', logger=logger)
@@ -58,7 +46,7 @@ def login_csi(download_dir: Path) -> list[dict] | None:
 
     # limpeza de diretorio
     try:
-        clear_dirs(CLEAR_DIR)
+        clear_dirs(FEATURE_WEB_DATA_COLLECTOR)
     except Exception as e:
         logger.error(f'erro ao limpar o diretorio temporario: {e}', extra={
             'job': 'login_csi',

@@ -48,12 +48,41 @@ O desenho arquitetural é escalável e resiliente, permitindo a expansão para n
 Link de acesso: https://excalidraw.com/#json=MguHa3ZRbh4GmK8XFeDJc,z8TTvXhE0PbPsNWZRSb5tw
 <img width="1046" height="873" alt="image" src="https://github.com/user-attachments/assets/076ff2b1-29e8-4312-a135-6d764a5d10b2" />
 
+<<<<<<< HEAD
 ## BI
 
 <img width="1531" height="859" alt="image" src="https://github.com/user-attachments/assets/b9d574a3-e333-41eb-8f45-1e687d8910b9" />
 
 ---
 
+
+## ⚙️ Como Usar  
+
+1. Instale as dependências do projeto:  
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. Crie o arquivo .env na raiz do projeto e configure as variáveis de ambiente:
+    ```bash
+    LOGIN_EMAIL=
+    LOGIN_PASSWORD=
+    CHROME_HEADLESS=true
+    ```
+
+3. Configure o settings.py informando o caminho absoluto do seu .env:
+    ```ini
+    ENV_PATH = Path()
+    ```
+
+4. Execute o pipeline principal:
+    ```python
+    python main.py
+    ```
+=======
+
+```
+>>>>>>> add8c29ecdf5459cc3a9899aff0744fe7acdbf6c
 
 ## ⚙️ Como Usar  
 
