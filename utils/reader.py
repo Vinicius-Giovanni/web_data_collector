@@ -1,4 +1,3 @@
-# remote imports
 import shutil
 import pandas as pd
 from pathlib import Path
@@ -10,13 +9,9 @@ from typing import Union, Tuple
 from unidecode import unidecode
 from datetime import datetime, timedelta
 import shutil
-
-# local imports
-from utils.config_logger import setup_logger, log_with_context
-from config.settings import CHUNKSIZE, PIPELINE_CONFIG, MOTIVOS_OFICIAIS, MAPEAMENTO_TEXTUAL, REGRAS_DIRETAS
-
-# %(name)s <<< module name
-logger = setup_logger(__name__)
+from utils.config_logger import log_with_context
+from config.pipeline_config import logger, CHUNKSIZE, PIPELINE_CONFIG
+from config.regras_de_negocio import MOTIVOS_OFICIAIS, MAPEAMENTO_TEXTUAL, REGRAS_DIRETAS
 
 @log_with_context(job='clear_dirs', logger=logger)
 def clear_dirs(dirs: Dict[str, any], prefix: str = '') -> None:

@@ -1,8 +1,7 @@
-# local imports
 from utils.config_logger import setup_logger, log_with_context
 from utils.reader import rename_csv_with_yesterday, move_files, merge_parquet, clear_dirs
 from web_data_collector.login import login_csi
-from config.settings import TEMP_DIR, FILE_ROUTER, FILE_ROUTER_MERGE, DATA_PATHS, EXECUTION_MODE, CLEAR_DIR_DATA_RELOAD
+from config.paths import TEMP_DIR, FILE_ROUTER, FILE_ROUTER_MERGE, DATA_PATHS, EXECUTION_MODE, CLEAR_DIR_DATA_RELOAD
 from web_data_collector.olpn import data_extraction_olpn_from_file
 from web_data_collector.cancel import data_extraction_cancel_from_file
 from web_data_collector.picking import data_extraction_picking_from_file

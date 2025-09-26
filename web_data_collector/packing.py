@@ -5,13 +5,13 @@ from pathlib import Path
 import json
 import locale
 from datetime import datetime
-from utils.config_logger import setup_logger, log_with_context
-from config.settings import TEMP_DIR, LINKS, ELEMENTS
+from utils.config_logger import log_with_context
+from config.pipeline_config import logger, LINKS
+from config.paths import TEMP_DIR
+from config.elements import ELEMENTS
 from utils.reader import wait_download_csv
 from utils.browser_setup import create_authenticated_driver
 from web_data_collector.login import penultimate_date_packing_format, penultimate_date_packing, yesterday_date_format, yesterday_date
-
-logger = setup_logger(__name__)
 
 locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 

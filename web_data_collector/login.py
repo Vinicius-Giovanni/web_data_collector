@@ -5,13 +5,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from pathlib import Path
 import json
 import locale
-from utils.config_logger import setup_logger, log_with_context
-from config.settings import LINKS, ELEMENTS, PASSWORD, EMAIL, DATA_PATHS, CLEAR_DIR
+from utils.config_logger import log_with_context
+from config.pipeline_config import logger, LINKS, PASSWORD, EMAIL
+from config.paths import DATA_PATHS, CLEAR_DIR
+from config.elements import ELEMENTS
 from utils.reader import clear_dirs
 from utils.browser_setup import init_browser
 from utils.get_info import load_penultimate_dates, get_yesterday_date
-
-logger = setup_logger(__name__)
 
 locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 

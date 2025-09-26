@@ -1,13 +1,11 @@
 from pathlib import Path
 import pandas as pd
-import numpy as np
 from unidecode import unidecode
-from config.settings import PIPELINE_CONFIG
-from utils.config_logger import setup_logger, log_with_context
+from config.pipeline_config import PIPELINE_CONFIG
+from utils.config_logger import log_with_context
+from config.pipeline_config import logger
 from utils.classification import cancel_classify_setores
 from utils.reader import read_csv, export_as_parquet, normalizar_motivo
-
-logger = setup_logger(__name__)
 
 @log_with_context(job='CancelPipeline', logger=logger)
 class CancelPipeline:

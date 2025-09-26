@@ -1,6 +1,6 @@
-# remote imports
 from selenium import webdriver
-from config.settings import TEMP_DIR, LINKS
+from config.paths import TEMP_DIR 
+from config.pipeline_config import LINKS
 from selenium.webdriver.chrome.options import Options
 import os
 from pathlib import Path
@@ -8,13 +8,8 @@ import time
 import json
 import tempfile
 import uuid
-
-# local imports
-from utils.config_logger import setup_logger, log_with_context
-
-# %(name)s <<< module name
-logger = setup_logger(__name__)
-
+from utils.config_logger import log_with_context
+from config.pipeline_config import logger
 try:
     logger.info('verificacao do diretorio temporario', extra={
         'job': 'browser_setup',

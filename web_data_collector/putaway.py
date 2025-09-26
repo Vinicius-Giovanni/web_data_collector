@@ -4,13 +4,13 @@ from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 from pathlib import Path
 import json
-from utils.config_logger import setup_logger, log_with_context
-from config.settings import DATA_PATHS, TEMP_DIR, LINKS, ELEMENTS
+from utils.config_logger import log_with_context
+from config.pipeline_config import logger, LINKS
+from config.paths import DATA_PATHS, TEMP_DIR
+from config.elements import ELEMENTS
 from utils.reader import wait_download_csv
 from utils.browser_setup import create_authenticated_driver
 from web_data_collector.login import yesterday_date, penultimate_date_putaway
-
-logger = setup_logger(__name__)
 
 star_date = penultimate_date_putaway # <<< penultimate update date in the gold/olpn folder
 end_date = yesterday_date # <<< current date entered in the final data field

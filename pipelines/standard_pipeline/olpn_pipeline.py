@@ -1,12 +1,11 @@
 from pathlib import Path
 import pandas as pd
 import numpy as np
-from config.settings import PIPELINE_CONFIG
-from utils.config_logger import setup_logger, log_with_context
+from config.pipeline_config import PIPELINE_CONFIG
+from utils.config_logger import log_with_context
+from config.pipeline_config import logger
 from utils.classification import classify_setores, check_deadline
 from utils.reader import read_csv, export_as_parquet
-
-logger = setup_logger(__name__)
 
 @log_with_context(job='OlpnPipeline', logger=logger)
 class OlpnPipeline:

@@ -1,4 +1,3 @@
-# remote imports
 import os
 import logging
 import time
@@ -7,10 +6,8 @@ from logging.handlers import RotatingFileHandler
 import functools
 import uuid
 import inspect
-
-# local imports
 from utils.info_system import get_user
-from config.settings import LOG_PATH, LOG_DIR, LOCATE
+from config.paths import LOG_PATH, LOG_DIR
 
 class ContextFilter(logging.Filter):
     """
@@ -19,7 +16,7 @@ class ContextFilter(logging.Filter):
     def __init__(self, user=None, locate=None):
         super().__init__()
         self.user = user or get_user()
-        self.locate = locate or LOCATE
+        self.locate = "windows"
 
     def filter(self, record):
         record.user = self.user

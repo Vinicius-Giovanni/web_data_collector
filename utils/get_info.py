@@ -1,13 +1,8 @@
-# remote imports
 from pathlib import Path
 import pandas as pd
 from datetime import datetime, timedelta
-
-# local imports
-from utils.config_logger import setup_logger, log_with_context
-
-# %(name)s <<< module name
-logger = setup_logger(__name__)
+from utils.config_logger import log_with_context
+from config.pipeline_config import logger
 
 @log_with_context(job='get_yesterday_date', logger=logger)
 def get_yesterday_date(format: str = '%d/%m/%Y') -> str:
