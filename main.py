@@ -14,8 +14,6 @@ from pipelines.standard_pipeline.cancel_pipeline import CancelPipeline
 from pipelines.standard_pipeline.putaway_pipeline import PutawayPipeline
 from pipelines.standard_pipeline.packing_pipeline import PackingPipeline
 from pipelines.standard_pipeline.loading_pipeline import LoadingPipeline
-
-# remote imports
 import sys
 import multiprocessing
 from pathlib import Path
