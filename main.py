@@ -1,4 +1,5 @@
-from utils.config_logger import setup_logger, log_with_context
+from utils.config_logger import log_with_context
+from config.pipeline_config import logger
 from utils.reader import rename_csv_with_yesterday, move_files, merge_parquet, clear_dirs
 from web_data_collector.login import login_csi
 from config.paths import TEMP_DIR, FILE_ROUTER, FILE_ROUTER_MERGE, DATA_PATHS, EXECUTION_MODE, CLEAR_DIR_DATA_RELOAD
@@ -17,8 +18,6 @@ from pipelines.standard_pipeline.loading_pipeline import LoadingPipeline
 import sys
 import multiprocessing
 from pathlib import Path
-
-logger = setup_logger(__name__)
 
 def read_execution_mode(file_path: Path) -> dict:
 

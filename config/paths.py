@@ -5,6 +5,7 @@ BASE_PATH = Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP
 
 # path for logs
 LOG_DIR = Path(f'{BASE_PATH}/Gold (Business Layer)/logs')
+LOG_PATH = LOG_DIR / Path(r'log.log')
 
 # path for .env file
 ENV_PATH = Path(r'C:/Users/2960006959/Desktop/project\web_data_collector/config/.env')
@@ -126,5 +127,3 @@ FILE_ROUTER_MERGE = {
     DATA_PATHS['silver']['packing'] : DATA_PATHS['gold']['packing'],
     DATA_PATHS['silver']['loading'] : DATA_PATHS['gold']['loading']
 }
-
-LOG_PATH = LOG_DIR / Path(r'log_web_data_collector.log')
