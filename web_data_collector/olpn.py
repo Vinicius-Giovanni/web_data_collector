@@ -21,65 +21,67 @@ def data_extraction_olpn(cookies: list[dict], dowload_dir: Path) -> None:
     driver = create_authenticated_driver(cookies, download_dir=dowload_dir)
 
     try:
-        wait = WebDriverWait(driver, 30)
-        driver.get(LINKS['LOGIN_OLPN'])
 
-        logger.info('instancia aberta', extra={'status': 'sucesso'})
+        for filial_value in ELEMENTS['ELEMENTS_OLPN']['element_filial']:
+            wait = WebDriverWait(driver, 30)
+            driver.get(LINKS['LOGIN_OLPN'])
 
-        if not wait.until(EC.frame_to_be_available_and_switch_to_it(
-            (By.XPATH, ELEMENTS['frame']))):
-            logger.error('iframe nao encontrado', extra={'status': 'critico'})
+            logger.info('instancia aberta', extra={'status': 'sucesso'})
 
-        logger.info('iniciando extracao do relatorio 3.11 - Status Wave + oLPN', extra={'status': 'iniciado'})
-        
+            if not wait.until(EC.frame_to_be_available_and_switch_to_it(
+                (By.XPATH, ELEMENTS['frame']))):
+                logger.error('iframe nao encontrado', extra={'status': 'critico'})
 
-        filial = wait.until(EC.element_to_be_clickable(
-            (By.ID, ELEMENTS['ELEMENTS_OLPN']['element_filial_id']))
-        )
-        if filial:
-            Select(filial).select_by_value(ELEMENTS['ELEMENTS_OLPN']['element_filial'])
+            logger.info('iniciando extracao do relatorio 3.11 - Status Wave + oLPN', extra={'status': 'iniciado'})
+            
 
-        dt_start = wait.until(EC.element_to_be_clickable(
-            (By.ID, ELEMENTS['ELEMENTS_OLPN']['element_dt_start']))
-        )
-        if dt_start:
-            dt_start.clear()
-            dt_start.send_keys(star_date)
+            filial = wait.until(EC.element_to_be_clickable(
+                (By.ID, ELEMENTS['ELEMENTS_OLPN']['element_filial_id']))
+            )
+            if filial:
+                Select(filial).select_by_value(filial_value)
 
-        dt_end = wait.until(EC.element_to_be_clickable(
-            (By.ID, ELEMENTS['ELEMENTS_OLPN']['element_dt_end']))
-        )
-        if dt_end:
-            dt_end.clear()
-            dt_end.send_keys(end_date)
+            dt_start = wait.until(EC.element_to_be_clickable(
+                (By.ID, ELEMENTS['ELEMENTS_OLPN']['element_dt_start']))
+            )
+            if dt_start:
+                dt_start.clear()
+                dt_start.send_keys(star_date)
 
-        if wait.until(EC.visibility_of_element_located(
-            (By.XPATH, ELEMENTS['ELEMENTS_OLPN']['element_listbox']))):
+            dt_end = wait.until(EC.element_to_be_clickable(
+                (By.ID, ELEMENTS['ELEMENTS_OLPN']['element_dt_end']))
+            )
+            if dt_end:
+                dt_end.clear()
+                dt_end.send_keys(end_date)
 
-            itens = driver.find_elements(By.XPATH, ELEMENTS['ELEMENTS_OLPN']['elements_listbox'])
+            if wait.until(EC.visibility_of_element_located(
+                (By.XPATH, ELEMENTS['ELEMENTS_OLPN']['element_listbox']))):
 
-            for item in itens:
-                nome = item.get_attribute(ELEMENTS['ELEMENTS_OLPN']['element_get_item'])
-                if nome in ELEMENTS['ELEMENTS_OLPN']['list_itens']:
-                    is_checked = item.get_attribute(ELEMENTS['ELEMENTS_OLPN']['element_get_checked']) == 'true'
-                    if not is_checked:
-                        try:
-                            item.click()
-                        except:
-                            driver.execute_script('arguments[0].click();', item)
-                        logger.info(f'item {nome} selecionado', extra={'status': 'sucesso'})
-        
-        confirmar = wait.until(EC.element_to_be_clickable(
-            (By.ID, ELEMENTS['ELEMENTS_OLPN']['element_confirm'])
-        ))
-        if confirmar:
-            confirmar.click()
-            logger.critical('erro na selecao de tipo de pedidos', extra={'status': 'critico'})
-        
-        if wait_download_csv(dir=control_dir):
-            logger.info('download do relatorio 3.11 - Status Wave + oLPN concluido', extra={'status': 'sucesso'})
-        else:
-            logger.critical('download do relatorio 3.11 - Status Wave + oLPN concluido falhou', extra={'status': 'critico'})
+                itens = driver.find_elements(By.XPATH, ELEMENTS['ELEMENTS_OLPN']['elements_listbox'])
+
+                for item in itens:
+                    nome = item.get_attribute(ELEMENTS['ELEMENTS_OLPN']['element_get_item'])
+                    if nome in ELEMENTS['ELEMENTS_OLPN']['list_itens']:
+                        is_checked = item.get_attribute(ELEMENTS['ELEMENTS_OLPN']['element_get_checked']) == 'true'
+                        if not is_checked:
+                            try:
+                                item.click()
+                            except:
+                                driver.execute_script('arguments[0].click();', item)
+                            logger.info(f'item {nome} selecionado', extra={'status': 'sucesso'})
+            
+            confirmar = wait.until(EC.element_to_be_clickable(
+                (By.ID, ELEMENTS['ELEMENTS_OLPN']['element_confirm'])
+            ))
+            if confirmar:
+                confirmar.click()
+                logger.critical('erro na selecao de tipo de pedidos', extra={'status': 'critico'})
+            
+            if wait_download_csv(dir=control_dir):
+                logger.info('download do relatorio 3.11 - Status Wave + oLPN concluido', extra={'status': 'sucesso'})
+            else:
+                logger.critical('download do relatorio 3.11 - Status Wave + oLPN concluido falhou', extra={'status': 'critico'})
 
     except Exception as e:
         logger.exception(f'download do relatorio 3.11 - Status Wave + oLPN concluido falhou', extra={'status': 'critico'})

@@ -12,10 +12,10 @@ ELEMENTS = {
     },
     'ELEMENTS_OLPN': {
         'element_filial_id': 'dv17_ValueComboBox',
-        'element_filial': '1200',
+        'element_filial': ['1200','1400'],
         'element_title': 'tt',
         'element_dt_start': 'dv59__tblDateTextBox__txtInput',
-        'element_dt_end': 'dv67__tblDateTextBox__txtInput]',
+        'element_dt_end': 'dv67__tblDateTextBox__txtInput',
         'element_listbox': '//*[@id="dv75_MultiSelectList"]',
         'elements_listbox': '//tr[@role="option" and @checkboxitem="true"]',
         'element_get_item': 'aria-label',
