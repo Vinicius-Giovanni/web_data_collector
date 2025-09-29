@@ -10,10 +10,9 @@ from config.paths import DATA_PATHS, TEMP_DIR
 from config.elements import ELEMENTS
 from utils.reader import wait_download_csv
 from utils.browser_setup import create_authenticated_driver
-from web_data_collector.login import yesterday_date, penultimate_date_putaway
 
-star_date = penultimate_date_putaway # <<< penultimate update date in the gold/olpn folder
-end_date = yesterday_date # <<< current date entered in the final data field
+star_date = None
+end_date = None
 control_dir = TEMP_DIR['BRONZE']['putaway'] # <<< folder monitored by the "wait_download_csv" function
 
 @log_with_context(job= 'data_extraction_putaway', logger=logger)

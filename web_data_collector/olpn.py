@@ -9,10 +9,8 @@ from config.paths import TEMP_DIR
 from config.elements import ELEMENTS
 from utils.reader import wait_download_csv
 from utils.browser_setup import create_authenticated_driver
-from web_data_collector.login import penultimate_date_olpn, yesterday_date
+from config.regras_de_negocio import todays, yesterdays
 
-star_date = yesterday_date # <<< penultimate update date in the gold/olpn folder
-end_date = yesterday_date # <<< current date entered in the final data field
 control_dir = TEMP_DIR['BRONZE']['olpn'] # <<< folder monitored by the "wait_download_csv" function
 
 @log_with_context(job='data_extraction_olpn', logger=logger)
@@ -23,6 +21,8 @@ def data_extraction_olpn(cookies: list[dict], dowload_dir: Path) -> None:
     try:
 
         for filial_value in ELEMENTS['ELEMENTS_OLPN']['element_filial']:
+
+            print(f'Extraindo relatórios da filial: {filial_value}')
             wait = WebDriverWait(driver, 30)
             driver.get(LINKS['LOGIN_OLPN'])
 
@@ -46,14 +46,14 @@ def data_extraction_olpn(cookies: list[dict], dowload_dir: Path) -> None:
             )
             if dt_start:
                 dt_start.clear()
-                dt_start.send_keys(star_date)
+                dt_start.send_keys(todays)
 
             dt_end = wait.until(EC.element_to_be_clickable(
                 (By.ID, ELEMENTS['ELEMENTS_OLPN']['element_dt_end']))
             )
             if dt_end:
                 dt_end.clear()
-                dt_end.send_keys(end_date)
+                dt_end.send_keys(yesterdays)
 
             if wait.until(EC.visibility_of_element_located(
                 (By.XPATH, ELEMENTS['ELEMENTS_OLPN']['element_listbox']))):

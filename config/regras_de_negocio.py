@@ -1,3 +1,8 @@
+from utils.get_info import today, yesterday, business_date
+
+todays = today()
+yesterdays = yesterday()
+business_dates = business_date()
 
 MOTIVOS_OFICIAIS = {
     1: 'MOTIVO DESCONTINUADO (OUTROS)',

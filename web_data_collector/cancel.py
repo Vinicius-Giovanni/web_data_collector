@@ -12,8 +12,8 @@ from utils.reader import wait_download_csv
 from utils.browser_setup import create_authenticated_driver
 from web_data_collector.login import yesterday_date, penultimate_date_cancel
 
-star_date = penultimate_date_cancel# <<< penultimate update date in the gold/olpn folder
-end_date = yesterday_date # <<< current date entered in the final data field
+star_date = None
+end_date = None
 control_dir = TEMP_DIR['BRONZE']['cancel'] # <<< folder monitored by the "wait_download_csv" function
 
 @log_with_context(job='data_extraction_cancel', logger=logger)

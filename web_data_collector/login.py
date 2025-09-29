@@ -11,28 +11,6 @@ from config.paths import DATA_PATHS, CLEAR_DIR
 from config.elements import ELEMENTS
 from utils.reader import clear_dirs
 from utils.browser_setup import init_browser
-from utils.get_info import load_penultimate_dates, get_yesterday_date
-
-locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
-
-chamada_funcao_dates = load_penultimate_dates(DATA_PATHS['gold'], date_format= '%d/%m/%Y')
-yesterday_date = get_yesterday_date()
-yesterday_date_format =  get_yesterday_date(format='%b %Y')
-chamada_funcao_dates_format = load_penultimate_dates(DATA_PATHS['gold'], date_format= '%b %Y')
-
-penultimate_date_cancel = chamada_funcao_dates['cancel'] or yesterday_date
-
-penultimate_date_loading_format = chamada_funcao_dates_format['loading'] or yesterday_date_format
-penultimate_date_loading = chamada_funcao_dates['loading'] or yesterday_date
-
-penultimate_date_olpn = chamada_funcao_dates['olpn'] or yesterday_date
-
-penultimate_date_packing_format = chamada_funcao_dates_format['packing'] or yesterday_date_format
-penultimate_date_packing = chamada_funcao_dates['packing'] or yesterday_date
-
-penultimate_date_picking = chamada_funcao_dates['picking'] or yesterday_date
-
-penultimate_date_putaway = chamada_funcao_dates['putaway'] or yesterday_date
 
 @log_with_context(job='login_csi', logger=logger)
 def login_csi(download_dir: Path) -> list[dict] | None:

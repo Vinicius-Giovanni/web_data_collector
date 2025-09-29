@@ -11,15 +11,14 @@ from config.paths import TEMP_DIR
 from config.elements import ELEMENTS
 from utils.reader import wait_download_csv
 from utils.browser_setup import create_authenticated_driver
-from web_data_collector.login import penultimate_date_packing_format, penultimate_date_packing, yesterday_date_format, yesterday_date
 
 locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 
-star_date = penultimate_date_packing_format # <<< penultimate update date in the gold/olpn folder
-day_star_date = datetime.strptime(penultimate_date_packing, "%d/%m/%Y").day
+star_date = None
+day_star_date = None
 id_star_date = f'{ELEMENTS['ELEMENTS_PACKING']['id_dia_inicio']}{day_star_date}'
-end_date = yesterday_date_format # <<< current date entered in the final data field
-day_end_date = datetime.strptime(yesterday_date, "%d/%m/%Y").day
+end_date = None
+day_end_date = None
 id_end_date = f'{ELEMENTS['ELEMENTS_PACKING']['id_dia_fim']}{day_end_date}'
 control_dir = TEMP_DIR['BRONZE']['packing'] # <<< folder monitored by the "wait_download_csv" function
 

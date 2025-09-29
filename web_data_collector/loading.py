@@ -17,11 +17,11 @@ from web_data_collector.login import penultimate_date_loading_format, penultimat
 locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 
 # global support variables
-star_date = penultimate_date_loading_format # <<< penultimate update date in the gold/olpn folder
-day_star_date = datetime.strptime(penultimate_date_loading, "%d/%m/%Y").day
+star_date = None
+day_star_date = None
 id_star_date = f'{ELEMENTS['ELEMENTS_LOADING']['id_dia_inicio']}{day_star_date}'
-end_date = yesterday_date_format # <<< current date entered in the final data field
-day_end_date = datetime.strptime(yesterday_date, "%d/%m/%Y").day
+end_date = None
+day_end_date = None
 id_end_date = f'{ELEMENTS['ELEMENTS_LOADING']['id_dia_fim']}{day_end_date}'
 control_dir = TEMP_DIR['BRONZE']['loading'] # <<< folder monitored by the "wait_download_csv" function
 
