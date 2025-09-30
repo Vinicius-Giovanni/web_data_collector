@@ -14,7 +14,7 @@ from collections.abc import Callable
 
 @log_with_context(job='data_extraction_olpn', logger=logger)
 def data_extraction_olpn(cookies: list[dict],
-                         dowload_dir: Path,
+                         download_dir: Path,
                          parquet_folder: Path | None,
                          entry_date: str | Callable,
                          exit_date: str | Callable) -> None:
@@ -33,7 +33,7 @@ def data_extraction_olpn(cookies: list[dict],
         else:
             exit_date = exit_date()
 
-    driver = create_authenticated_driver(cookies, download_dir=dowload_dir)
+    driver = create_authenticated_driver(cookies, download_dir=download_dir)
 
     try:
 
@@ -47,7 +47,7 @@ def data_extraction_olpn(cookies: list[dict],
 
             if not wait.until(EC.frame_to_be_available_and_switch_to_it(
                 (By.XPATH, ELEMENTS['frame']))):
-                logger.error('iframe nao encontrado', extra={'status': 'critico'})
+                logger.critical('iframe nao encontrado', extra={'status': 'critico'})
 
             logger.info('iniciando extracao do relatorio 3.11 - Status Wave + oLPN', extra={'status': 'iniciado'})
             
@@ -93,7 +93,6 @@ def data_extraction_olpn(cookies: list[dict],
             ))
             if confirmar:
                 confirmar.click()
-                logger.critical(f'erro na selecao de tipo de pedidos: {nome}', extra={'status': 'critico'})
             
             if wait_download_csv(dir=TEMP_DIR['BRONZE']['olpn']):
                 logger.info('download do relatorio 3.11 - Status Wave + oLPN concluido', extra={'status': 'sucesso'})
@@ -101,7 +100,7 @@ def data_extraction_olpn(cookies: list[dict],
                 logger.critical('download do relatorio 3.11 - Status Wave + oLPN falhou', extra={'status': 'critico'})
 
     except Exception as e:
-        logger.exception(f'download do relatorio 3.11 - Status Wave + oLPN falhou', extra={'status': 'critico'})
+        logger.critical(f'download do relatorio 3.11 - Status Wave + oLPN falhou', extra={'status': 'critico'})
 
     finally:
         driver.quit()
