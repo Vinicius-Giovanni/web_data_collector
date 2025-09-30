@@ -12,3 +12,4 @@ teste.py
 build/
 dist/
 *.spec
+duvidas.py
