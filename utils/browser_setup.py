@@ -1,6 +1,6 @@
 # remote imports
 from selenium import webdriver
-from config.settings import TEMP_DIR, LINKS
+from config.settings import TEMP_DIR, LINKS, SELENIUM_CHROME
 from selenium.webdriver.chrome.options import Options
 import os
 from pathlib import Path
@@ -8,6 +8,7 @@ import time
 import json
 import tempfile
 import uuid
+from selenium.webdriver.chrome.service import Service
 
 # local imports
 from utils.config_logger import setup_logger, log_with_context
@@ -59,10 +60,11 @@ def get_chrome_options(path_temp_dir: str | Path) -> Options:
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-gpu')
     options.add_argument('--disable-dev-shm-usage')
-    options.add_experimental_option('excludeSwitches', ['enable-automation'])
+    options.add_experimental_option('excludeSwitches', ['enable-automation', 'enable-logging'])
     options.add_experimental_option('useAutomationExtension', False)
+    options.add_argument("--log-level-3")
 
-    user_data_dir = tempfile.mkdtemp(prefix=f'chrome_profile_{uuid.uuid4()}')
+    user_data_dir = tempfile.mkdtemp(prefix=f'chrome_profile_{uuid.uuid4()}_', dir=SELENIUM_CHROME)
     
 
     if os.getenv('CHROME_HEADLESS', 'false').lower() == 'true':

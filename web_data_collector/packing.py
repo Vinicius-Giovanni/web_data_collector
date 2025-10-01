@@ -31,10 +31,10 @@ end_date = chamada_funcao_dates_format # <<< current date entered in the final d
 day_end_date = datetime.strptime(chamada_funcao_dates, "%d/%m/%Y").day
 id_end_date = f'{ELEMENTS['ELEMENTS_PACKING']['id_dia_inicio']}{day_end_date}'
 
-control_dir = TEMP_DIR['BRONZE']['packing'] # <<< folder monitored by the "wait_download_csv" function
-
 @log_with_context(job='data_extraction_packing', logger=logger)
 def data_extraction_packing(cookies: list[dict], dowload_dir: Path) -> None:
+
+    control_dir = dowload_dir
 
     #* Creation of the module responsible for assuming the driver of the 'login_csi' function and extracting a .csv file from the system
 
@@ -75,6 +75,25 @@ def data_extraction_packing(cookies: list[dict], dowload_dir: Path) -> None:
         if filial:
             Select(filial).select_by_value(ELEMENTS['ELEMENTS_PACKING']['element_filial'])
 
+        if wait.until(EC.visibility_of_element_located(
+            (By.XPATH, ELEMENTS['ELEMENTS_PACKING']['element_listbox']))):
+
+            itens = driver.find_elements(By.XPATH, ELEMENTS['ELEMENTS_PACKING']['elements_listbox'])
+
+            for item in itens:
+                nome = item.get_attribute(ELEMENTS['ELEMENTS_PACKING']['element_get_item'])
+                if nome in ELEMENTS['ELEMENTS_PACKING']['list_itens']:
+                    is_checked = item.get_attribute(ELEMENTS['ELEMENTS_PACKING']['element_get_checked']) == 'true'
+                    if not is_checked:
+                        try:
+                            item.click()
+                        except:
+                            driver.execute_script('arguments[0].click();', item)
+                        logger.info(f'item {nome} selecionado com sucesso', extra={
+                            'job': 'data_extraction_packing',
+                            'status': 'success'
+                        })
+
         # Lógica especifica para calendario (data_extraction_packing)
         dt_start = wait.until(EC.presence_of_element_located(
             (By.XPATH, ELEMENTS['ELEMENTS_PACKING']['element_dt_start'])
@@ -99,6 +118,7 @@ def data_extraction_packing(cookies: list[dict], dowload_dir: Path) -> None:
             })
 
         while dt_start_string != star_date:
+            
             logger.info(f'{dt_start_string} != {star_date}, retornando...', extra={
                 'job': 'data_extraction_packing',
                 'status': 'pending'
@@ -106,60 +126,53 @@ def data_extraction_packing(cookies: list[dict], dowload_dir: Path) -> None:
             wait.until(EC.element_to_be_clickable(
                 (By.ID, ELEMENTS['ELEMENTS_PACKING']['calendario_start']['retornar'])
             )).click()
-        
-        logger.info(f'{dt_start_string} = {star_date}, selecionando...',extra={
-            'job': 'data_extraction_packing',
-            'status': 'pending'
-        })
-        wait.until(EC.element_to_be_clickable(
-            (By.ID, id_star_date)
-        )).click()
+            
+            logger.info(f'{dt_start_string} = {star_date}, selecionando...',extra={
+                'job': 'data_extraction_packing',
+                'status': 'pending'
+            })
+            wait.until(EC.element_to_be_clickable(
+                (By.ID, id_star_date)
+            )).click()
+
+            dt_start_string = dt_start.get_attribute("value")
+
         logger.info(f'calendario start preenchido: {dt_start_string} {id_end_date}', extra={
             'job': 'data_extraction_packing',
             'status': 'success'
         })
 
         while dt_end_string != end_date:
+            
             logger.info(f'{dt_end_string} != {end_date}, retornando...', extra={
                 'job': 'data_extraction_packing',
                 'status': 'pending'
             })
+            time.sleep(1)
             wait.until(EC.element_to_be_clickable(
-                (By.ID, ELEMENTS['ELEMENTS_PACKING']['calendario_end']['retornar'])
+                (By.ID, ELEMENTS['ELEMENTS_PACKING']['calendario_end']['retornar']) # retornar correto
+            )).click()
+    
+            logger.info(f'{dt_end_string} = {end_date}, selencionando...',extra={
+                'job': 'data_extraction_packing',
+                'status': 'pending'
+            })
+            time.sleep(1)
+            wait.until(EC.element_to_be_clickable(
+                (By.ID, id_end_date)
             )).click()
 
-        logger.info(f'{dt_end_string} = {end_date}, selencionando...',extra={
-            'job': 'data_extraction_packing',
-            'status': 'pending'
-        })
-
-        wait.until(EC.element_to_be_clickable(
-            (By.ID, id_end_date)
-        )).click()
+            dt_end_string = dt_end.get_attribute("value")
 
         logger.info(f'{dt_end_string} = {end_date}, selecionando...',extra={
             'job': 'data_extraction_packing',
             'status': 'pending'
         })
 
-        if wait.until(EC.visibility_of_element_located(
-            (By.XPATH, ELEMENTS['ELEMENTS_PACKING']['element_listbox']))):
+        print(f'dt_end_string : {dt_end_string}')
+        print(f'end_date : {end_date}')
+        print(f'id_end_date : {id_end_date}')
 
-            itens = driver.find_elements(By.XPATH, ELEMENTS['ELEMENTS_PACKING']['elements_listbox'])
-
-            for item in itens:
-                nome = item.get_attribute(ELEMENTS['ELEMENTS_PACKING']['element_get_item'])
-                if nome in ELEMENTS['ELEMENTS_PACKING']['list_itens']:
-                    is_checked = item.get_attribute(ELEMENTS['ELEMENTS_PACKING']['element_get_checked']) == 'true'
-                    if not is_checked:
-                        try:
-                            item.click()
-                        except:
-                            driver.execute_script('arguments[0].click();', item)
-                        logger.info(f'item {nome} selecionado com sucesso', extra={
-                            'job': 'data_extraction_packing',
-                            'status': 'success'
-                        })
         confirmar = wait.until(EC.element_to_be_clickable(
             (By.ID, ELEMENTS['ELEMENTS_PACKING']['element_confirm'])
         ))
