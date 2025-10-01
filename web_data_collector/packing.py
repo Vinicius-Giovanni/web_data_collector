@@ -23,13 +23,14 @@ logger = setup_logger(__name__)
 locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 
 # global support variables
-star_date = yesterday_date_format # <<< penultimate update date in the gold/olpn folder
-day_star_date = datetime.strptime(yesterday_date, "%d/%m/%Y").day
-id_star_date = f'{ELEMENTS['ELEMENTS_PACKING']['id_dia_fim']}{day_star_date}'
-
-end_date = chamada_funcao_dates_format # <<< current date entered in the final data field
-day_end_date = datetime.strptime(chamada_funcao_dates, "%d/%m/%Y").day
-id_end_date = f'{ELEMENTS['ELEMENTS_PACKING']['id_dia_inicio']}{day_end_date}'
+# primeiro bloco
+star_date = chamada_funcao_dates_format # <<< penultimate update date in the gold/olpn folder
+day_star_date = datetime.strptime(chamada_funcao_dates, "%d/%m/%Y").day 
+id_star_date = f'{ELEMENTS['ELEMENTS_PACKING']['id_dia_inicio']}{day_star_date}'
+# segundo bloco
+end_date = yesterday_date_format # <<< current date entered in the final data field
+day_end_date = datetime.strptime(yesterday_date, "%d/%m/%Y").day
+id_end_date = f'{ELEMENTS['ELEMENTS_PACKING']['id_dia_fim']}{day_end_date}'
 
 @log_with_context(job='data_extraction_packing', logger=logger)
 def data_extraction_packing(cookies: list[dict], dowload_dir: Path) -> None:
@@ -123,6 +124,7 @@ def data_extraction_packing(cookies: list[dict], dowload_dir: Path) -> None:
                 'job': 'data_extraction_packing',
                 'status': 'pending'
             })
+            time.sleep(2)
             wait.until(EC.element_to_be_clickable(
                 (By.ID, ELEMENTS['ELEMENTS_PACKING']['calendario_start']['retornar'])
             )).click()
@@ -131,6 +133,7 @@ def data_extraction_packing(cookies: list[dict], dowload_dir: Path) -> None:
                 'job': 'data_extraction_packing',
                 'status': 'pending'
             })
+            time.sleep(2)
             wait.until(EC.element_to_be_clickable(
                 (By.ID, id_star_date)
             )).click()
@@ -148,7 +151,7 @@ def data_extraction_packing(cookies: list[dict], dowload_dir: Path) -> None:
                 'job': 'data_extraction_packing',
                 'status': 'pending'
             })
-            time.sleep(1)
+            time.sleep(2)
             wait.until(EC.element_to_be_clickable(
                 (By.ID, ELEMENTS['ELEMENTS_PACKING']['calendario_end']['retornar']) # retornar correto
             )).click()
@@ -157,7 +160,7 @@ def data_extraction_packing(cookies: list[dict], dowload_dir: Path) -> None:
                 'job': 'data_extraction_packing',
                 'status': 'pending'
             })
-            time.sleep(1)
+            time.sleep(2)
             wait.until(EC.element_to_be_clickable(
                 (By.ID, id_end_date)
             )).click()
@@ -168,10 +171,6 @@ def data_extraction_packing(cookies: list[dict], dowload_dir: Path) -> None:
             'job': 'data_extraction_packing',
             'status': 'pending'
         })
-
-        print(f'dt_end_string : {dt_end_string}')
-        print(f'end_date : {end_date}')
-        print(f'id_end_date : {id_end_date}')
 
         confirmar = wait.until(EC.element_to_be_clickable(
             (By.ID, ELEMENTS['ELEMENTS_PACKING']['element_confirm'])

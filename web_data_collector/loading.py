@@ -23,18 +23,18 @@ logger = setup_logger(__name__)
 locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 
 # global support variables
-star_date = yesterday_date_format # <<< penultimate update date in the gold/olpn folder
-day_star_date = datetime.strptime(yesterday_date, "%d/%m/%Y").day
-id_star_date = f'{ELEMENTS['ELEMENTS_LOADING']['id_dia_fim']}{day_star_date}'
+star_date = chamada_funcao_dates_format # <<< penultimate update date in the gold/olpn folder
+day_star_date = datetime.strptime(chamada_funcao_dates, "%d/%m/%Y").day
+id_star_date = f'{ELEMENTS['ELEMENTS_LOADING']['id_dia_inicio']}{day_star_date}'
 
-end_date = chamada_funcao_dates_format # <<< current date entered in the final data field
-day_end_date = datetime.strptime(chamada_funcao_dates, "%d/%m/%Y").day
-id_end_date = f'{ELEMENTS['ELEMENTS_LOADING']['id_dia_inicio']}{day_end_date}'
-
-control_dir = TEMP_DIR['BRONZE']['loading'] # <<< folder monitored by the "wait_download_csv" function
+end_date = yesterday_date_format # <<< current date entered in the final data field
+day_end_date = datetime.strptime(yesterday_date, "%d/%m/%Y").day
+id_end_date = f'{ELEMENTS['ELEMENTS_LOADING']['id_dia_fim']}{day_end_date}'
 
 @log_with_context(job='data_extraction_loading', logger=logger)
 def data_extraction_loading(cookies: list[dict], dowload_dir: Path) -> None:
+
+    control_dir = dowload_dir
 
     #* Creation of the module responsible for assuming the driver of the 'login_csi' function and extracting a .csv file from the system
 
@@ -84,61 +84,6 @@ def data_extraction_loading(cookies: list[dict], dowload_dir: Path) -> None:
             (By.XPATH, ELEMENTS['ELEMENTS_LOADING']['element_dt_end'])
         ))
 
-        if dt_start:
-            dt_start_string = dt_start.get_attribute('value')
-            logger.info(f'data inicio extraida: {dt_start}', extra={
-                'job': 'data_extraction_loading',
-                'status': 'pending'
-            })
-        
-        if dt_end:
-            dt_end_string = dt_end.get_attribute("value")
-            logger.info(f'data fim extraida: {dt_end}', extra={
-                'job': 'data_extraction_loading',
-                'status': 'pending'
-            })
-
-        while dt_start_string != star_date:
-            logger.info(f'{dt_start_string} != {star_date}, retornando...', extra={
-                'job': 'data_extraction_loading',
-                'status': 'pending'
-            })
-            wait.until(EC.element_to_be_clickable(
-                (By.ID, ELEMENTS['ELEMENTS_LOADING']['calendario_start']['retornar'])
-            )).click()
-        
-        logger.info(f'{dt_start_string} = {star_date}, selecionando...', extra={
-            'job': 'data_extraction_loading',
-            'status': 'pending'
-        })
-        wait.until(EC.element_to_be_clickable(
-            (By.ID, id_end_date)
-        )).click()
-        logger.info(f'calendario start preenchido: {dt_start_string} {id_end_date}')
-
-        while dt_end_string != end_date:
-            logger.info(f'{dt_end_string} != {end_date}, retornando...', extra={
-                'job': 'data_extraction_loading',
-                'status': 'pending'
-            })
-            wait.until(EC.element_to_be_clickable(
-                (By.ID, ELEMENTS['ELEMENTS_LOADING']['calendario_end']['retornar'])
-            )).click()
-        
-        logger.info(f'{dt_end_string} = {end_date}, selecionando...', extra={
-            'job': 'data_extraction_loading',
-            'status': 'pending'
-        })
-
-        wait.until(EC.element_to_be_clickable(
-            (By.ID, id_star_date)
-        )).click()
-
-        logger.info(f'{dt_end_string} = {end_date}, selecionando...', extra={
-            'job': 'data_extraction_loading',
-            'status': 'pending'
-        })
-
         if wait.until(EC.visibility_of_element_located(
             (By.XPATH, ELEMENTS['ELEMENTS_LOADING']['elements_listbox']))):
 
@@ -157,6 +102,72 @@ def data_extraction_loading(cookies: list[dict], dowload_dir: Path) -> None:
                             'job': 'data_extraction_loading',
                             'status': 'success'
                         })
+
+        if dt_start:
+            dt_start_string = dt_start.get_attribute('value')
+            logger.info(f'data inicio extraida: {dt_start}', extra={
+                'job': 'data_extraction_loading',
+                'status': 'pending'
+            })
+        
+        if dt_end:
+            dt_end_string = dt_end.get_attribute("value")
+            logger.info(f'data fim extraida: {dt_end}', extra={
+                'job': 'data_extraction_loading',
+                'status': 'pending'
+            })
+
+        while dt_start_string != star_date:
+
+            logger.info(f'{dt_start_string} != {star_date}, retornando...', extra={
+                'job': 'data_extraction_loading',
+                'status': 'pending'
+            })
+            time.sleep(2)
+            wait.until(EC.element_to_be_clickable(
+                (By.ID, ELEMENTS['ELEMENTS_LOADING']['calendario_start']['retornar'])
+            )).click()
+        
+            logger.info(f'{dt_start_string} = {star_date}, selecionando...', extra={
+                'job': 'data_extraction_loading',
+                'status': 'pending'
+            })
+            time.sleep(2)
+            wait.until(EC.element_to_be_clickable(
+                (By.ID, id_star_date)
+            )).click()
+
+            dt_start_string = dt_start.get_attribute('value')
+
+        logger.info(f'calendario start preenchido: {dt_start_string} {id_end_date}')
+
+        while dt_end_string != end_date:
+
+            logger.info(f'{dt_end_string} != {end_date}, retornando...', extra={
+                'job': 'data_extraction_loading',
+                'status': 'pending'
+            })
+            time.sleep(2)
+            wait.until(EC.element_to_be_clickable(
+                (By.ID, ELEMENTS['ELEMENTS_LOADING']['calendario_end']['retornar'])
+            )).click()
+
+            logger.info(f'{dt_end_string} = {end_date}, selecionando...', extra={
+                'job': 'data_extraction_loading',
+                'status': 'pending'
+            })
+            time.sleep(2)
+            wait.until(EC.element_to_be_clickable(
+                (By.ID, id_end_date)
+            )).click()
+
+            dt_end_string = dt_end.get_attribute("value")
+
+        logger.info(f'{dt_end_string} = {end_date}, selecionando...', extra={
+            'job': 'data_extraction_loading',
+            'status': 'pending'
+        })
+
         confirmar = wait.until(EC.element_to_be_clickable(
             (By.ID, ELEMENTS['ELEMENTS_LOADING']['element_confirm'])
         ))

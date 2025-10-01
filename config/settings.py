@@ -406,16 +406,21 @@ ELEMENTS = {
         ]    
     },
     'ELEMENTS_PACKING': {
+
+        # primeiro bloco
         'element_dt_start': '//*[@id="dv107_DateInput_Current"]',
         'calendario_start' : {
             'retornar': 'dv107__calYear_down'
         },
+        'id_dia_inicio': 'dv107__calDay_', # controlar ultimo caracter
+
+        # segundo bloco
         'element_dt_end': '//*[@id="dv111_DateInput_Current"]',
         'calendario_end': {
             'retornar': 'dv111__calYear_down'
         },
-        'id_dia_inicio': 'dv111__calDay_', # controlar ultimo caracter
-        'id_dia_fim': 'dv107__calDay_', # controlar ultimo caracter
+        'id_dia_fim': 'dv111__calDay_', # controlar ultimo caracter
+
         'element_filial_id': 'dv13_ValueComboBox',
         'element_filial': '1200',
         'element_listbox': '//*[@id="dv52_MultiSelectList"]',
@@ -476,16 +481,21 @@ ELEMENTS = {
         ]    
     },
     'ELEMENTS_LOADING': {
+        
+        # primeiro bloco
         'element_dt_start': '//*[@id="dv107_DateInput_Current"]',
         'calendario_start' : {
             'retornar': 'dv107__calYear_down'
         },
+        'id_dia_inicio': 'dv107__calDay_', # controlar ultimo caracter
+
+        # segundo bloco
         'element_dt_end': '//*[@id="dv111_DateInput_Current"]',
         'calendario_end': {
             'retornar': 'dv111__calYear_down'
         },
-        'id_dia_inicio': 'dv107__calDay_', # controlar ultimo caracter
         'id_dia_fim': 'dv111__calDay_', # controlar ultimo caracter
+
         'element_filial_id': 'dv13_ValueComboBox',
         'element_filial': '1200',
         'element_listbox': '//*[@id="dv52_MultiSelectList"]',

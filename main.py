@@ -61,14 +61,9 @@ def data_update():
     t6 = multiprocessing.Process(
         target=data_extraction_loading_from_File, args=("cookies.json", FEATURE_WEB_DATA_COLLECTOR['BRONZE']['loading']))
 
-    # for t in [t1, t3, t5, t4, t6]:
-    #     t.start()
-    # for t in [t1, t3, t5, t4, t6]:
-    #     t.join()
-
-    for t in [t5]:
+    for t in [t1, t3, t5, t4, t6]:
         t.start()
-    for t in [t5]:
+    for t in [t1, t3, t5, t4, t6]:
         t.join()
 
     rename_csv_with_yesterday(temp_dir=FEATURE_WEB_DATA_COLLECTOR['BRONZE'])
@@ -89,16 +84,16 @@ def data_update():
         target=run_pipeline,
         args=(LoadingPipeline, FEATURE_WEB_DATA_COLLECTOR['BRONZE']['loading'], FEATURE_WEB_DATA_COLLECTOR['SILVER']['loading']))
 
-    # for p in [p1, p2, p6, p4]:
-    #     p.start()
-    # for p in [p1, p2, p6, p4]:
-    #     p.join()
+    for p in [p1, p2, p6, p4]:
+        p.start()
+    for p in [p1, p2, p6, p4]:
+        p.join()
 
     p5 = multiprocessing.Process(
         target=run_pipeline,
         args=(PackingPipeline, FEATURE_WEB_DATA_COLLECTOR['BRONZE']['packing'], FEATURE_WEB_DATA_COLLECTOR['SILVER']['packing']))
-    # p5.start()
-    # p5.join()
+    p5.start()
+    p5.join()
 
     logger.info('pipelines finalizados', extra={
         'job': 'main',
@@ -111,4 +106,4 @@ if __name__ == "__main__":
             main()
         except Exception as e:
             logger.error(f"Falha na execução do ciclo: {e}")
-        time.sleep(5)
+        time.sleep(300)

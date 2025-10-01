@@ -18,10 +18,11 @@ logger = setup_logger(__name__)
 # global support variables
 star_date = chamada_funcao_dates # <<< penultimate update date in the gold/olpn folder
 end_date = yesterday_date # <<< current date entered in the final data field
-control_dir = TEMP_DIR['BRONZE']['picking'] # <<< folder monitored by the "wait_download_csv" function
 
 @log_with_context(job='data_extraction_picking', logger=logger)
 def data_extraction_picking(cookies: list[dict], dowload_dir: Path) -> None:
+
+    control_dir = dowload_dir
 
     #* Creation of the module responsible for assuming the driver of the 'login_csi' function and extracting a .csv file from the system
 
