@@ -48,7 +48,7 @@ else:
     SELENIUM_CHROME = Path(r'C:/Users/2960006959/Desktop/selenium_chrome')
 
     FEATURE_WEB_DATA_COLLECTOR = {
-        'SELENIUM_CHROME': SELENIUM_CHROME,
+        'SELENIUM_CHROME': {SELENIUM_CHROME},
         'BRONZE': {
             'olpn': Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Features/web_data_collector/Bronze (Raw Layer)/3.11 - Status Wave + oLPN'),
             'picking': Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Features/web_data_collector/Bronze (Raw Layer)/4.05 - Relatório de Produtividade - Picking'),

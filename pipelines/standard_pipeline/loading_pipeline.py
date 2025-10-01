@@ -7,7 +7,7 @@ import numpy as np
 from config.settings import PIPELINE_CONFIG, TEMP_DIR
 from utils.config_logger import setup_logger, log_with_context
 from utils.classification import classify_setores
-from utils.reader import read_csv, export_as_parquet, read_parquet_with_tote
+from utils.reader import read_csv, export_as_parquet
 
 # %(name)s <<< module name
 logger = setup_logger(__name__)
