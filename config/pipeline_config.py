@@ -72,6 +72,40 @@ PIPELINE_CONFIG = {
             'olpn': 'string'
         },
     },
+        'expedicoes':{
+        'remove_columns': [
+            'Data integração WMS',
+            'Inventory Type ID',
+            'Wave',
+            'Pedido de venda',
+            'Bandeira',
+            'Status do pedido',
+            'Destinatário',
+            'CEP destinatário',
+            'Cidade',
+            'Estado',
+            'Item',
+            'Descrição do item',
+            'Código do Setor',
+            'Empresa',
+            'Status da Nota Fiscal',
+            'Shipment',
+            'Marcação de EAD',
+            'Ship Via',
+            'Descrição',
+            'UF',
+            'Data Prometida',
+            'Data Prevista Entrega',
+            'Data Limite Expedição'
+        ],
+        'rename_columns': {
+            'Data ultima movimentação':'dt_ultima_movimentacao',
+            'Filial':'filial',
+            'Pedido':'pedido',
+            'Box':'box',
+            'Tipo do pedido':'tipo_de_pedido'
+        }
+        },
         'olpn': {
         'remove_columns': [
                 'Cod Setor Item',
