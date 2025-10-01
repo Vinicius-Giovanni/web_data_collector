@@ -45,7 +45,7 @@ else:
     TEMP_DIR_BASE = {
         "DIR_CHROME_BASE": Path('C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector'),
 }   
-    SELENIUM_CHROME = Path(r'C:\Users\2960006959\OneDrive - Grupo Casas Bahia S.A\Sala PCP - Online_A.B.S - Data Lakehouse\Features\selenium_chrome')
+    SELENIUM_CHROME = Path(r'C:\Users\2960006959\Desktop\selenium_chrome')
 
     
     FEATURE_WEB_DATA_COLLECTOR = {
