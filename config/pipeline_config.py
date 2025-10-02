@@ -103,8 +103,29 @@ PIPELINE_CONFIG = {
             'Filial':'filial',
             'Pedido':'pedido',
             'Box':'box',
-            'Tipo do pedido':'tipo_de_pedido'
-        }
+            'Tipo do pedido':'tipo_de_pedido',
+            'Descrição':'descricao',
+            'Setor do item':'setor_item',
+            'Status':'status',
+            'Qtde. original':'qtd_pcs_solicitada',
+            'Qtde. Expedida':'qtd_pcs_expedida'
+        },
+        'column_types': {
+            'filial':'string',
+            'pedido':'string',
+            'box':'Int64',
+            'tipo_de_pedido':'string',
+            'descricao':'string',
+            'setor_item':'string',
+            'status':'string',
+            'qtd_pcs_solicitada':'Int64',
+            'qtd_pcs_expedida':'Int64'
+        },
+        'datetime_columns': [
+            'dt_ultima_movimentacao'
+        ],
+        'encoding':'utf-16',
+        'sep':'\t'
         },
         'olpn': {
         'remove_columns': [

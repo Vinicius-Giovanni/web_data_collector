@@ -16,12 +16,11 @@ class OlpnPipeline:
 
         if not self.cfg:
             logger.critical(f'pipeline {self.key} nao encontrado no modulo settings.py', extra={'status': 'critico'})
-            raise ValueError(f'pipeline {self.key} nao encontrado no modulo settings.py')
         
     def run(self, input_path: Path, output_path: Path) -> pd.DataFrame:
+
         logger.info(f'Iniciando pipeline {self.key}', extra={'status': 'iniciado'})
 
-        input_path.mkdir(parents=True, exist_ok=True)
         output_path.mkdir(parents=True, exist_ok=True)
 
         df = read_csv(
@@ -37,7 +36,7 @@ class OlpnPipeline:
 
         export_as_parquet(df, output_folder=output_path, pipeline_key=self.key ,name='3.11 - Status Wave + oLPN')
 
-        logger.info(f'pipeline "{self.key}" finalizado com sucesso', extra={'status': 'iniciado'})
+        logger.info(f'pipeline "{self.key}" finalizado com sucesso', extra={'status': 'sucesso'})
 
         return df
     
