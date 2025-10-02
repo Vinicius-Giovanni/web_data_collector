@@ -116,7 +116,6 @@ PIPELINE_CONFIG = {
                 'Numero da Gaiola',
                 'Tarefa Status',
                 'Data do Pedido',
-                'Filial',
                 'Shipment',
                 'Filial Destino',
                 'Status Pedido',
@@ -125,6 +124,7 @@ PIPELINE_CONFIG = {
                 'Descrição'
         ],
         'rename_columns': {
+                'Filial': 'filial',
                 'Status oLPN': 'status_olpn',
                 'Data locação pedido': 'data_locacao_pedido',   
                 'Audit Status': 'audit_status',
@@ -167,7 +167,6 @@ PIPELINE_CONFIG = {
     },
         'picking': {
         'remove_columns': [
-                'Filial',
                 'Status Tarefa',
                 'Tipo de Transação',
                 'Qtde Alocada',
@@ -184,6 +183,7 @@ PIPELINE_CONFIG = {
                 'Status Detalhe da Tarefa'
         ],
         'rename_columns': {
+                'Filial':'filial',
                 'Tarefa': 'tarefa',
                 'Qtde requerida': 'qt_requerida',
                 'Qtde Separada': 'qt_separada',
@@ -222,7 +222,6 @@ PIPELINE_CONFIG = {
     },
         'cancel' : {
         'remove_columns': [
-                'Filial',
                 'Inventory Type ID',
                 'Pedido de Venda',
                 'Carga',
@@ -234,6 +233,7 @@ PIPELINE_CONFIG = {
                 'Código Reference Text'
         ],
         'rename_columns': {
+                'Filial':'filial',
                 'Pedido': 'pedido',
                 'Tipo da Ordem ': 'tipo_de_pedido',
                 'Qtde Ajustada': 'qt_pecas',
@@ -257,7 +257,6 @@ PIPELINE_CONFIG = {
     },
         'packing' : {
         'remove_columns': [
-                'Filial',
                 'Inventory Type ID',
                 'Pallet',
                 'Descrição item',
@@ -274,6 +273,7 @@ PIPELINE_CONFIG = {
                 'Descrição do Item'
         ],
         'rename_columns': {
+                'Filial':'filial',
                 'OLPN': 'olpn',
                 'Pedido': 'pedido',
                 'Item': 'item',
@@ -339,7 +339,6 @@ PIPELINE_CONFIG = {
     },
         'putaway' : {
         'remove_columns': [
-                'Filial',
                 'Data',
                 'Status',
                 'DESCRIÇÃO ITEM',
@@ -348,6 +347,7 @@ PIPELINE_CONFIG = {
                 'Inventory Type ID'
         ],
         'rename_columns': {
+                'Filial':'filial',
                 'Order': 'pedido',
                 'OLPN': 'olpn',
                 'ITEM': 'item',
