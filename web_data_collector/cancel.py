@@ -10,8 +10,6 @@ from config.elements import ELEMENTS
 from config.pipeline_config import LINKS
 from utils.reader import wait_download_csv
 from utils.browser_setup import create_authenticated_driver
-
-
 import inspect
 from collections.abc import Callable
 
