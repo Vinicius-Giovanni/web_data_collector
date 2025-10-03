@@ -6,7 +6,7 @@ import json
 from utils.config_logger import log_with_context
 import locale
 from datetime import datetime
-from utils.config_logger import log_with_contextid_exit_data
+from utils.config_logger import log_with_context
 from config.pipeline_config import logger, LINKS
 from config.paths import TEMP_DIR
 from config.elements import ELEMENTS

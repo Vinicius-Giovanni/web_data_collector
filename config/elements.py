@@ -101,8 +101,8 @@ ELEMENTS = {
                             "1877", "1887", "1895","1999","2241",
                             "2600"
                         ],
-        'element_dt_start': 'dv63__tblDateTextBox__txtInput',
-        'element_dt_end': 'dv72__tblDateTextBox__txtInput',
+        'element_dt_start': 'dv72__tblDateTextBox__txtInput',
+        'element_dt_end': 'dv63__tblDateTextBox__txtInput',
         'element_confirm': 'dv82'
     },
     'ELEMENTS_PICKING': {
