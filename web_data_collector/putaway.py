@@ -6,18 +6,35 @@ from pathlib import Path
 import json
 from utils.config_logger import log_with_context
 from config.pipeline_config import logger, LINKS
-from config.paths import DATA_PATHS, TEMP_DIR
+from config.paths import TEMP_DIR
 from config.elements import ELEMENTS
 from utils.reader import wait_download_csv
 from utils.browser_setup import create_authenticated_driver
+import inspect
+from collections.abc import Callable
 
-star_date = None
-end_date = None
-control_dir = TEMP_DIR['BRONZE']['putaway'] # <<< folder monitored by the "wait_download_csv" function
-
-@log_with_context(job= 'data_extraction_putaway', logger=logger)
-def data_extraction_putaway(cookies: list[dict], dowload_dir: Path) -> None:
-    driver = create_authenticated_driver(cookies, download_dir=dowload_dir)
+@log_with_context(job='data_extraction_putaway', logger=logger)
+def data_extraction_putaway(cookies: list[dict],
+                         download_dir: Path,
+                         parquet_folder: Path | None,
+                         entry_date: str | Callable,
+                         exit_date: str | Callable) -> None:
+    
+    if callable(entry_date):
+        sig = inspect.signature(entry_date)
+        if 'parquet_folder' in sig.parameters:
+            entry_date = entry_date(parquet_folder)
+        else:
+            entry_date = entry_date()
+    
+    if callable(exit_date):
+        sig = inspect.signature(exit_date)
+        if 'parquet_folder' in sig.parameters:
+            exit_date = exit_date(parquet_folder)
+        else:
+            exit_date = exit_date()
+    
+    driver = create_authenticated_driver(cookies, download_dir=download_dir)
 
     try:
         wait = WebDriverWait(driver, 30)
@@ -40,14 +57,14 @@ def data_extraction_putaway(cookies: list[dict], dowload_dir: Path) -> None:
         ))
         if dt_start:
             dt_start.clear()
-            dt_start.send_keys(star_date)
+            dt_start.send_keys(entry_date)
 
         dt_end = wait.until(EC.element_to_be_clickable(
             (By.ID, ELEMENTS['ELEMENTS_PUTAWAY']['element_dt_end'])
         ))
         if dt_end:
             dt_end.clear()
-            dt_end.send_keys(end_date)
+            dt_end.send_keys(exit_date)
 
         if wait.until(EC.visibility_of_element_located(
             (By.XPATH, ELEMENTS['ELEMENTS_PUTAWAY']['element_listbox']))):
@@ -73,7 +90,7 @@ def data_extraction_putaway(cookies: list[dict], dowload_dir: Path) -> None:
         else:
             logger.critical('erro na selecao de tipo de pedidos', extra={'status': 'critico'})
 
-        if wait_download_csv(dir=control_dir):
+        if wait_download_csv(dir=TEMP_DIR['BRONZE']['putaway']):
             logger.info('download do relatorio 6.15 - Produtividade - Outbound Putaway concluido', extra={'status': 'sucesso'})
         else:
             logger.critical('download do relatorio 6.15 - Produtividade - Outbound Putaway falhou', extra={'status': 'critico'})
@@ -83,7 +100,17 @@ def data_extraction_putaway(cookies: list[dict], dowload_dir: Path) -> None:
     finally:
         driver.quit()
 
-def data_extraction_putaway_from_file(cookies_path: str, download_dir: Path) -> None:
+def data_extraction_putaway_from_file(cookies_path: str,
+                         download_dir: Path,
+                         parquet_folder: Path | None,
+                         entry_date: str | Callable,
+                         exit_date: str | Callable) -> None:
+    
     with open(cookies_path, 'r', encoding='utf-8') as f:
         cookies = json.load(f)
-    data_extraction_putaway(cookies, download_dir)
+
+    data_extraction_putaway(cookies,
+                                  download_dir,
+                                  parquet_folder,
+                                  entry_date,
+                                  exit_date)
