@@ -94,10 +94,16 @@ ELEMENTS = {
     },
     'ELEMENTS_CANCEL': {
         'element_filial_id': 'dv20_ValueComboBox',
-        'element_filial': '1200',
-        'element_dt_start': 'dv62__tblDateTextBox__txtInput',
-        'element_dt_end': 'dv71__tblDateTextBox__txtInput',
-        'element_confirm': 'dv81'
+        'element_filial':[
+                            "1200","1400","1401","1445","1475",
+                            "1500","1600","1624","1635","1640",
+                            "1673","1736", "1760","1792","1875",
+                            "1877", "1887", "1895","1999","2241",
+                            "2600"
+                        ],
+        'element_dt_start': 'dv63__tblDateTextBox__txtInput',
+        'element_dt_end': 'dv72__tblDateTextBox__txtInput',
+        'element_confirm': 'dv82'
     },
     'ELEMENTS_PICKING': {
         'element_filial_id': 'dv18_ValueComboBox',

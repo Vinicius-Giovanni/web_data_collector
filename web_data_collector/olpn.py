@@ -50,7 +50,6 @@ def data_extraction_olpn(cookies: list[dict],
                 logger.critical('iframe nao encontrado', extra={'status': 'critico'})
 
             logger.info('iniciando extracao do relatorio 3.11 - Status Wave + oLPN', extra={'status': 'iniciado'})
-            
 
             filial = wait.until(EC.element_to_be_clickable(
                 (By.ID, ELEMENTS['ELEMENTS_OLPN']['element_filial_id']))
