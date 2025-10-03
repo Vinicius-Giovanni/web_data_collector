@@ -46,7 +46,7 @@ def data_extraction_loading(cookies: list[dict],
 
     try:
 
-        for filial_value in ELEMENTS['ELEMENTS_OLPN']['element_filial']:
+        for filial_value in ELEMENTS['ELEMENTS_LOADING']['element_filial']:
             wait = WebDriverWait(driver, 30)
             driver.get(LINKS['LOGIN_LOADING'])
 
@@ -62,7 +62,7 @@ def data_extraction_loading(cookies: list[dict],
                 (By.ID, ELEMENTS['ELEMENTS_LOADING']['element_filial_id'])
             ))
             if filial:
-                Select(filial).select_by_value(ELEMENTS['ELEMENTS_LOADING']['element_filial'])
+                Select(filial).select_by_value(filial_value)
 
             if wait.until(EC.visibility_of_element_located(
                 (By.XPATH, ELEMENTS['ELEMENTS_LOADING']['elements_listbox']))):
