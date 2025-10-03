@@ -107,7 +107,13 @@ ELEMENTS = {
     },
     'ELEMENTS_PICKING': {
         'element_filial_id': 'dv18_ValueComboBox',
-        'element_filial': '1200',
+        'element_filial':[
+                            "1200","1400","1401","1445","1475",
+                            "1500","1600","1624","1635","1640",
+                            "1673","1736", "1760","1792","1875",
+                            "1877", "1887", "1895","1999","2241",
+                            "2600"
+                        ],
         'element_dt_start': 'dv114__tblDateTextBox__txtInput',
         'element_dt_end': 'dv124__tblDateTextBox__txtInput',
         'element_listbox': '//*[@id="dv58_MultiSelectList"]',
@@ -169,14 +175,20 @@ ELEMENTS = {
     },
     'ELEMENTS_PUTAWAY': {
         'element_filial_id': 'dv9_ValueComboBox',
-        'element_filial': '1200',
+        'element_filial':[
+                            "1200","1400","1401","1445","1475",
+                            "1500","1600","1624","1635","1640",
+                            "1673","1736", "1760","1792","1875",
+                            "1877", "1887", "1895","1999","2241",
+                            "2600"
+                        ],
         'element_dt_start': 'dv51__tblDateTextBox__txtInput',
         'element_dt_end': 'dv59__tblDateTextBox__txtInput',
         'element_listbox': '//*[@id="dv67_MultiSelectList"]',
         'elements_listbox': '//tr[@role="option" and @checkboxitem="true"]',
         'element_get_item': 'aria-label',
         'element_get_checked': 'aria-checked',
-        'element_confirm': 'dv126',
+        'element_confirm': 'dv127',
         'list_itens': [
             'S01 - ENTREGA A CLIENTES',
             'S02 - RETIRA CLIENTE DEPOSITO',
@@ -230,23 +242,34 @@ ELEMENTS = {
         ]    
     },
     'ELEMENTS_PACKING': {
-        'element_dt_start': '//*[@id="dv106_DateInput_Current"]',
+
+        # primeiro bloco
+        'element_dt_start': '//*[@id="dv107_DateInput_Current"]',
         'calendario_start' : {
-            'retornar': 'dv106__calYear_down'
+            'retornar': 'dv107__calYear_down'
         },
-        'element_dt_end': '//*[@id="dv110_DateInput_Current"]',
+       'id_dia_inicio': 'dv107__calDay_', # controlar ultimo caracter
+
+        # segundo bloco
+        'element_dt_end': '//*[@id="dv111_DateInput_Current"]',
         'calendario_end': {
-            'retornar': 'dv110__calYear_down'
+            'retornar': 'dv111__calYear_down'
         },
-        'id_dia_inicio': 'dv106__calDay_', # controlar ultimo caracter
-        'id_dia_fim': 'dv110__calDay_', # controlar ultimo caracter
+        'id_dia_fim': 'dv111__calDay_', # controlar ultimo caracter
+
         'element_filial_id': 'dv13_ValueComboBox',
-        'element_filial': '1200',
-        'element_listbox': '//*[@id="dv51_MultiSelectList"]',
+        'element_filial':[
+                            "1200","1400","1401","1445","1475",
+                            "1500","1600","1624","1635","1640",
+                            "1673","1736", "1760","1792","1875",
+                            "1877", "1887", "1895","1999","2241",
+                            "2600"
+                        ],
+        'element_listbox': '//*[@id="dv52_MultiSelectList"]',
         'elements_listbox': '//tr[@role="option" and @checkboxitem="true"]',
         'element_get_item': 'aria-label',
         'element_get_checked': 'aria-checked',
-        'element_confirm': 'dv116',
+        'element_confirm': 'dv117',
         'list_itens': [
             'S01 - ENTREGA A CLIENTES',
             'S02 - RETIRA CLIENTE DEPOSITO',
