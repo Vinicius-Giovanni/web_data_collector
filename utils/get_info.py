@@ -18,7 +18,7 @@ def today(format: str = '%d/%m/%Y') -> str:
     return current_date
 
 @log_with_context(job='yesterday', logger=logger)
-def yesterday(format: str ='%d/%m/%Y') -> str:
+def yesterday(format: str = '%d/%m/%Y') -> str:
     """
     Retornar a data de ontem e permite a mudança de formato
     Será usada para o modo de atualização de histórico

@@ -94,6 +94,12 @@ def data_extraction_cancel_from_file(cookies_path: str,
                                     parquet_folder: Path | None,
                                     entry_date: str | Callable,
                                     exit_date: str | Callable) -> None:
+    
     with open(cookies_path, 'r', encoding='utf-8') as f:
         cookies = json.load(f)
-    data_extraction_cancel(cookies, download_dir, parquet_folder, entry_date, exit_date)
+
+    data_extraction_cancel(cookies,
+                           download_dir,
+                           parquet_folder,
+                           entry_date,
+                           exit_date)
