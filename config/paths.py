@@ -1,18 +1,14 @@
 from pathlib import Path
 
-# path for base data
 BASE_PATH = Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP - Online_A.B.S - Data Lakehouse')
 
-# path for logs
 LOG_DIR = Path(f'{BASE_PATH}/Gold (Business Layer)/logs')
 LOG_PATH = LOG_DIR / Path(r'log.log')
 
-# path for .env file
 ENV_PATH = Path(r'C:/Users/2960006959/Desktop/project\web_data_collector/config/.env')
 
 EXECUTION_MODE = Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/execution_mode.txt')
 
-# data paths temporary for chrome
 TEMP_DIR = {
     "BRONZE": {
         'olpn': Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_olpn'),
@@ -64,8 +60,7 @@ CLEAR_DIR = {
         'loading' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '5.04 - Produtividade Load - Load por hora'),
         'expedicao' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '6.06 - Expedicao - CD')
     }}
-
-    
+  
 CLEAR_DIR_DATA_RELOAD = {
     'silver': {
         'olpn' : CLEAR_DIR['SILVER']['olpn'],
@@ -87,7 +82,6 @@ CLEAR_DIR_DATA_RELOAD = {
     }
 }
 
-# all data paths
 DATA_PATHS = {
     'bronze': {
         'olpn' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '3.11 - Status Wave + oLPN'),
@@ -114,11 +108,14 @@ DATA_PATHS = {
         'putaway' : CLEAR_DIR_DATA_RELOAD['gold']['putaway'],
         'packing' : CLEAR_DIR_DATA_RELOAD['gold']['packing'],
         'loading' : CLEAR_DIR_DATA_RELOAD['gold']['loading'],
-        'expedicao' : CLEAR_DIR_DATA_RELOAD['gold']['expedicao']
+        'expedicao' : CLEAR_DIR_DATA_RELOAD['gold']['expedicao'],
+        'time_lead_olpn' : Path(f'{BASE_PATH}/Gold (Business Layer)/analise_time_lead_olpn'),
+        'jornada' : Path(f'{BASE_PATH}/Gold (Business Layer)/jornada'),
+        'bottleneck_box' : Path(f'{BASE_PATH}/Gold (Business Layer)/analise_botteneck_box'),
+        'bottleneck_salao' : Path(f'{BASE_PATH}/Gold (Business Layer)/analise_botteneck_salao')
     }
 }
 
-# function move_files
 FILE_ROUTER = {
     TEMP_DIR['BRONZE']['olpn'] : DATA_PATHS['bronze']['olpn'],
     TEMP_DIR['BRONZE']['cancel'] : DATA_PATHS['bronze']['cancel'],
@@ -129,7 +126,6 @@ FILE_ROUTER = {
     TEMP_DIR['BRONZE']['expedicao'] : DATA_PATHS['bronze']['expedicao']
 }
 
-# function merge_files
 FILE_ROUTER_MERGE = {
     DATA_PATHS['silver']['olpn'] : DATA_PATHS['gold']['olpn'],
     DATA_PATHS['silver']['cancel'] : DATA_PATHS['gold']['cancel'],
@@ -138,4 +134,10 @@ FILE_ROUTER_MERGE = {
     DATA_PATHS['silver']['packing'] : DATA_PATHS['gold']['packing'],
     DATA_PATHS['silver']['loading'] : DATA_PATHS['gold']['loading'],
     DATA_PATHS['silver']['expedicao'] : DATA_PATHS['gold']['expedicao']
+}
+
+PIPELINE_PATHS = {
+    'time_lead_olpn': {
+        'loading': CLEAR_DIR_DATA_RELOAD['gold']['loading'],
+        'output_parquet': DATA_PATHS['gold']['time_lead_olpn']}
 }
