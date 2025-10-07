@@ -138,6 +138,7 @@ FILE_ROUTER_MERGE = {
 
 PIPELINE_PATHS = {
     'time_lead_olpn': {
-        'loading': CLEAR_DIR_DATA_RELOAD['gold']['loading'],
-        'output_parquet': DATA_PATHS['gold']['time_lead_olpn']}
+        'parquet_load': Path(CLEAR_DIR_DATA_RELOAD['gold']['loading']),
+        'output_parquet': Path(DATA_PATHS['gold']['time_lead_olpn'])
+        }
 }
