@@ -2,7 +2,7 @@ import os
 import logging
 import time
 from pythonjsonlogger import jsonlogger
-from logging.handlers import RotatingFileHandler
+from concurrent_log_handler import ConcurrentRotatingFileHandler
 import functools
 import uuid
 import inspect
@@ -47,7 +47,7 @@ def setup_logger(name=__name__, locate_value=None):
     logger.propagate = False
 
     if not logger.handlers:
-        logHandler = RotatingFileHandler(LOG_PATH, maxBytes=10 * 1024 * 1024, backupCount=5)
+        logHandler = ConcurrentRotatingFileHandler(LOG_PATH, maxBytes=10 * 1024 * 1024, backupCount=5)
 
         formatter = CustomJsonFormatter(
             fmt=' '.join([

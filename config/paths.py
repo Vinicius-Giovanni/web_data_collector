@@ -9,6 +9,8 @@ ENV_PATH = Path(r'C:/Users/2960006959/Desktop/project\web_data_collector/config/
 
 EXECUTION_MODE = Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/execution_mode.txt')
 
+SELENIUM_CHROME = Path('C:/Users/2960006959/Desktop/selenium_chrome')
+
 TEMP_DIR = {
     "BRONZE": {
         'olpn': Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_olpn'),
@@ -41,6 +43,7 @@ TEMP_DIR = {
 }
 
 CLEAR_DIR = {
+    'SELENIUM_CHROME': SELENIUM_CHROME,
     "BRONZE": {
         'olpn': TEMP_DIR['BRONZE']['olpn'],
         'dir_chrome_login': TEMP_DIR['BRONZE']['dir_chrome_login'],

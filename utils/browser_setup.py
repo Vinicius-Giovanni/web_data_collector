@@ -1,5 +1,5 @@
 from selenium import webdriver
-from config.paths import TEMP_DIR 
+from config.paths import TEMP_DIR, SELENIUM_CHROME
 from config.pipeline_config import LINKS
 from selenium.webdriver.chrome.options import Options
 import os
