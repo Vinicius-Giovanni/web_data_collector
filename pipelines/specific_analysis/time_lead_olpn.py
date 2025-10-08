@@ -1,11 +1,9 @@
-from pathlib import Path
 import pandas as pd
-import numpy as np
 from config.pipeline_config import PIPELINE_CONFIG
 from config.paths import PIPELINE_PATHS
 from utils.config_logger import log_with_context
 from config.pipeline_config import logger
-from utils.reader import export_as_parquet
+from utils.reader import export_as_parquet, read_parquet_files
 
 
 @log_with_context(job='TimeLeadOLPNPipeline', logger=logger)
@@ -21,16 +19,6 @@ class TimeLeadOLPNPipeline:
                 f'pipeline "{self.key}" nao encontrado no modulo pipeline_config.py',
                 extra={'status': 'critico'}
             )
-    def read_parquet_files(self, folder: Path) -> pd.DataFrame:
-        dfs = []
-        for file in folder.rglob('*.parquet'):
-            try:
-                df = pd.read_parquet(file, columns=self.cfg['read_columns'])
-                dfs.append(df)
-                logger.info(f'Lido: {file.name}')
-            except Exception as e:
-                logger.warning(f'Erro ao ler {file.name}: {e}')
-        return pd.concat(dfs, ignore_index=True) if dfs else pd.DataFrame()
 
     def run(self) -> pd.DataFrame:
         logger.info(f'iniciando pipeline "{self.key}"', extra={'status': 'iniciado'})
@@ -39,7 +27,7 @@ class TimeLeadOLPNPipeline:
         output_path = self.paths['output_parquet']
         output_path.mkdir(parents=True, exist_ok=True)
 
-        df = self.read_parquet_files(
+        df = read_parquet_files(self=self,
             folder=input_path
         )
 

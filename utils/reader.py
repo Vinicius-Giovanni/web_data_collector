@@ -335,3 +335,13 @@ def merge_parquet(file_router_merge: dict):
                 'status': 'success'
             })
 
+def read_parquet_files(self, folder: Path) -> pd.DataFrame:
+    dfs = []
+    for file in folder.rglob('*.parquet'):
+        try:
+            df = pd.read_parquet(file, columns=self.cfg['read_columns'])
+            dfs.append(df)
+            logger.info(f'Lido: {file.name}')
+        except Exception as e:
+            logger.warning(f'Erro ao ler {file.name}: {e}')
+    return pd.concat(dfs, ignore_index=True) if dfs else pd.DataFrame()
