@@ -112,7 +112,7 @@ DATA_PATHS = {
         'time_lead_olpn' : Path(f'{BASE_PATH}/Gold (Business Layer)/analise_time_lead_olpn'),
         'jornada' : Path(f'{BASE_PATH}/Gold (Business Layer)/jornada'),
         'bottleneck_box' : Path(f'{BASE_PATH}/Gold (Business Layer)/analise_botteneck_box'),
-        'bottleneck_salao' : Path(f'{BASE_PATH}/Gold (Business Layer)/analise_botteneck_salao')
+        'bottleneck_salao' : Path(f'{BASE_PATH}/Gold (Business Layer)/analise_bottleneck_salao')
     }
 }
 
@@ -144,6 +144,11 @@ PIPELINE_PATHS = {
     'jornada': {
         'raw': Path(f'{BASE_PATH}/Bronze (Raw Layer)/Jornada'),
         'processed': Path(f'{BASE_PATH}/Silver (Cleansed Layer)/Jornada'),
-        'parquet': Path(f'{BASE_PATH}/Gold (Business Layer)/Jornada')
+        'parquet': Path(DATA_PATHS['gold']['jornada'])
+    },
+    'bottleneck_salao': {
+        'parquet_packed': Path(DATA_PATHS['gold']['picking']),
+        'parquet_putaway': Path(DATA_PATHS['gold']['putaway']),
+        'output_parquet': Path(DATA_PATHS['gold']['bottleneck_salao'])
     }
 }

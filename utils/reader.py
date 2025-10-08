@@ -188,7 +188,7 @@ def export_as_parquet(df: pd.DataFrame, output_folder: Path, pipeline_key: str, 
 
     try:
         df.to_parquet(output_file, index=False)
-        logger.info(f'sucesso ao exportar: {output_file.name} ({len(df):,} linhas)'.replace(',','.'))
+        logger.info(f'sucesso ao exportar: {output_file.name} ({len(df):,} linhas) para I{output_folder}I'.replace(',','.'))
     except Exception as e:
         logger.critical(f'erro ao exportar para parquet: {e}')
 
@@ -340,6 +340,17 @@ def read_parquet_files(self, folder: Path) -> pd.DataFrame:
     for file in folder.rglob('*.parquet'):
         try:
             df = pd.read_parquet(file, columns=self.cfg['read_columns'])
+            dfs.append(df)
+            logger.info(f'Lido: {file.name}')
+        except Exception as e:
+            logger.warning(f'Erro ao ler {file.name}: {e}')
+    return pd.concat(dfs, ignore_index=True) if dfs else pd.DataFrame()
+
+def read_parquet_folder_columns(self, folder_path: Path, columns: list[str]) -> pd.DataFrame:
+    dfs = []
+    for file in Path(folder_path).rglob('*.parquet'):
+        try:
+            df = pd.read_parquet(file, columns=columns)
             dfs.append(df)
             logger.info(f'Lido: {file.name}')
         except Exception as e:
