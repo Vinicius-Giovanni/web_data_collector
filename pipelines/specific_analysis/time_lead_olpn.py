@@ -5,7 +5,7 @@ from config.pipeline_config import PIPELINE_CONFIG
 from config.paths import PIPELINE_PATHS
 from utils.config_logger import log_with_context
 from config.pipeline_config import logger
-from utils.reader import read_csv, export_as_parquet
+from utils.reader import export_as_parquet
 
 
 @log_with_context(job='TimeLeadOLPNPipeline', logger=logger)

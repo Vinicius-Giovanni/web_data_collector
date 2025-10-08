@@ -404,7 +404,7 @@ PIPELINE_CONFIG = {
                 'hora': 'hora'
         },
         'column_types': {
-                'matricula': 'string',
+                'matricula': 'Int64',
                 'cod': 'string',
         },
         'datetime_columns': [
