@@ -111,7 +111,7 @@ DATA_PATHS = {
         'expedicao' : CLEAR_DIR_DATA_RELOAD['gold']['expedicao'],
         'time_lead_olpn' : Path(f'{BASE_PATH}/Gold (Business Layer)/analise_time_lead_olpn'),
         'jornada' : Path(f'{BASE_PATH}/Gold (Business Layer)/jornada'),
-        'bottleneck_box' : Path(f'{BASE_PATH}/Gold (Business Layer)/analise_botteneck_box'),
+        'bottleneck_box' : Path(f'{BASE_PATH}/Gold (Business Layer)/analise_bottleneck_box'),
         'bottleneck_salao' : Path(f'{BASE_PATH}/Gold (Business Layer)/analise_bottleneck_salao')
     }
 }
@@ -150,5 +150,10 @@ PIPELINE_PATHS = {
         'parquet_packed': Path(DATA_PATHS['gold']['picking']),
         'parquet_putaway': Path(DATA_PATHS['gold']['putaway']),
         'output_parquet': Path(DATA_PATHS['gold']['bottleneck_salao'])
+    },
+    'bottleneck_box': {
+        'parquet_load': Path(DATA_PATHS['gold']['loading']),
+        'parquet_putaway': Path(DATA_PATHS['gold']['putaway']),
+        'output_parquet': Path(DATA_PATHS['gold']['bottleneck_box'])
     }
 }

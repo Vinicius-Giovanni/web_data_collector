@@ -5,11 +5,11 @@ from utils.config_logger import log_with_context
 from config.pipeline_config import logger
 from utils.reader import export_as_parquet, read_parquet_folder_columns
 
-@log_with_context(job='BottleneckSalaoPipeline', logger=logger)
-class BottleneckSalaoPipeline:
+@log_with_context(job='BottleneckBoxPipeline', logger=logger)
+class BottleneckBoxPipeline:
 
     def __init__(self):
-        self.key = 'bottleneck_salao'
+        self.key = 'bottleneck_box'
         self.cfg = PIPELINE_CONFIG[self.key]
         self.paths = PIPELINE_PATHS[self.key]
 
@@ -19,32 +19,34 @@ class BottleneckSalaoPipeline:
                 extra={'status':'critico'}
             )
 
-    def run(self) -> pd.DataFrame:
+    def run(self):
         logger.info(f'iniciando pipeline "{self.key}"', extra={'status':'iniciado'})
 
         output_path = self.paths['output_parquet']
         output_path.mkdir(parents=True, exist_ok=True)
 
-        df_packed = read_parquet_folder_columns(
+        df_load = read_parquet_folder_columns(
             self=self,
-            folder_path=self.paths['parquet_packed'],
-            columns=self.cfg['read_columns_packed'])
-        
+            folder_path=self.paths['parquet_load'],
+            columns=self.cfg['read_columns_load']
+        )
         df_putaway = read_parquet_folder_columns(
             self=self,
             folder_path=self.paths['parquet_putaway'],
-            columns=self.cfg['read_columns_putaway'])
-        
-        if df_packed.empty or df_putaway.empty:
+            columns=self.cfg['read_columns_putaway']
+        )
+
+        if df_load.empty or df_putaway.empty:
             logger.critical('dataframes vazios - encerrando pipeline', extra={'status':'critico'})
             return pd.DataFrame()
         
-        df_packed['olpn'] = df_packed['olpn'].astype(self.cfg['column_type']['olpn'])
+        df_load['olpn'] = df_load['olpn'].astype(self.cfg['column_type']['olpn'])
         df_putaway['olpn'] = df_putaway['olpn'].astype(self.cfg['column_type']['olpn'])
 
-        df = pd.merge(df_packed, df_putaway, on='olpn', how='left')
+        df = pd.merge(df_load, df_putaway, on='olpn', how='left')
         df = df.drop_duplicates(subset='olpn', keep='first')
         df = df.dropna(subset=['data_hora_putaway'])
+
 
         df = self.preprocess(df)
 
@@ -52,12 +54,12 @@ class BottleneckSalaoPipeline:
             df,
             output_folder=output_path,
             pipeline_key=self.key,
-            name='bottleneck_salao'
+            name='bottleneck_box'
         )
 
         logger.info(f'pipeline "{self.key}" finalizado com sucesso', extra={'status': 'sucesso'})
         return df
-
+    
     def preprocess(self, df: pd.DataFrame) -> pd.DataFrame:
 
         for col in self.cfg['datetime_columns']:
@@ -65,11 +67,12 @@ class BottleneckSalaoPipeline:
                 df[col] = pd.to_datetime(df[col], errors='coerce')
 
         df['diferenca_segundos'] = (
-            (df['data_hora_putaway'] - df['data_hora_fim_olpn'])
+            (df['data_hora_load'] - df['data_hora_putaway'])
             .dt.total_seconds().abs()
         ).astype('Int64')
 
         df['data_criterio'] = df['data_hora_putaway'].dt.strftime('%d-%m-%Y')
+        df['mes_ano'] = df['data_hora_putaway'].dt.strftime('%m-%Y')
 
         output_path = self.paths['output_parquet']
         output_path.mkdir(parents=True, exist_ok=True)
