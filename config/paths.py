@@ -140,5 +140,10 @@ PIPELINE_PATHS = {
     'time_lead_olpn': {
         'parquet_load': Path(CLEAR_DIR_DATA_RELOAD['gold']['loading']),
         'output_parquet': Path(DATA_PATHS['gold']['time_lead_olpn'])
-        }
+        },
+    'jornada': {
+        'raw': Path(f'{BASE_PATH}/Bronze (Raw Layer)/Jornada'),
+        'processed': Path(f'{BASE_PATH}/Silver (Cleansed Layer)/Jornada'),
+        'parquet': Path(f'{BASE_PATH}/Gold (Business Layer)/Jornada')
+    }
 }
