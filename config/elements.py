@@ -1,3 +1,10 @@
+LIST_FILIAL = [
+    "1200","1400","1401","1445","1475",
+    "1500","1600","1624","1635","1640",
+    "1673","1736", "1760","1792","1875",
+    "1877", "1887", "1895","1999","2241",
+    "2600"]
+
 ELEMENTS = {
     'frame': '//*[@id="rsIFrameManager_1"]',
     'ELEMENTS_LOGIN': {
@@ -12,26 +19,12 @@ ELEMENTS = {
     },
     'ELEMENTS_EXPEDICAO': {
         'element_filial_id': 'dv21_ValueComboBox',
-        'element_filial':[
-                            "1200","1400","1401","1445","1475",
-                            "1500","1600","1624","1635","1640",
-                            "1673","1736", "1760","1792","1875",
-                            "1877", "1887", "1895","1999","2241",
-                            "2600"
-                        ],
         'element_dt_start': 'dv73__tblDateTextBox__txtInput',
         'element_dt_end': 'dv64__tblDateTextBox__txtInput',
         'element_confirm': 'dv428'
     },
     'ELEMENTS_OLPN': {
         'element_filial_id': 'dv17_ValueComboBox',
-        'element_filial':[
-                            "1200","1400","1401","1445","1475",
-                            "1500","1600","1624","1635","1640",
-                            "1673","1736", "1760","1792","1875",
-                            "1877", "1887", "1895","1999","2241",
-                            "2600"
-                        ],
         'element_title': 'tt',
         'element_dt_start': 'dv67__tblDateTextBox__txtInput',
         'element_dt_end': 'dv59__tblDateTextBox__txtInput',
@@ -94,28 +87,14 @@ ELEMENTS = {
     },
     'ELEMENTS_CANCEL': {
         'element_filial_id': 'dv20_ValueComboBox',
-        'element_filial':[
-                            "1200","1400","1401","1445","1475",
-                            "1500","1600","1624","1635","1640",
-                            "1673","1736", "1760","1792","1875",
-                            "1877", "1887", "1895","1999","2241",
-                            "2600"
-                        ],
         'element_dt_start': 'dv72__tblDateTextBox__txtInput',
         'element_dt_end': 'dv63__tblDateTextBox__txtInput',
         'element_confirm': 'dv82'
     },
     'ELEMENTS_PICKING': {
         'element_filial_id': 'dv18_ValueComboBox',
-        'element_filial':[
-                            "1200","1400","1401","1445","1475",
-                            "1500","1600","1624","1635","1640",
-                            "1673","1736", "1760","1792","1875",
-                            "1877", "1887", "1895","1999","2241",
-                            "2600"
-                        ],
-        'element_dt_start': 'dv114__tblDateTextBox__txtInput',
-        'element_dt_end': 'dv124__tblDateTextBox__txtInput',
+        'element_dt_start': 'dv124__tblDateTextBox__txtInput',
+        'element_dt_end': 'dv114__tblDateTextBox__txtInput',
         'element_listbox': '//*[@id="dv58_MultiSelectList"]',
         'elements_listbox': '//tr[@role="option" and @checkboxitem="true"]',
         'element_get_item': 'aria-label',
@@ -175,13 +154,6 @@ ELEMENTS = {
     },
     'ELEMENTS_PUTAWAY': {
         'element_filial_id': 'dv9_ValueComboBox',
-        'element_filial':[
-                            "1200","1400","1401","1445","1475",
-                            "1500","1600","1624","1635","1640",
-                            "1673","1736", "1760","1792","1875",
-                            "1877", "1887", "1895","1999","2241",
-                            "2600"
-                        ],
         'element_dt_start': 'dv59__tblDateTextBox__txtInput',
         'element_dt_end': 'dv51__tblDateTextBox__txtInput',
         'element_listbox': '//*[@id="dv67_MultiSelectList"]',
@@ -258,13 +230,6 @@ ELEMENTS = {
         'id_dia_fim': 'dv111__calDay_', # controlar ultimo caracter
 
         'element_filial_id': 'dv13_ValueComboBox',
-        'element_filial':[
-                            "1200","1400","1401","1445","1475",
-                            "1500","1600","1624","1635","1640",
-                            "1673","1736", "1760","1792","1875",
-                            "1877", "1887", "1895","1999","2241",
-                            "2600"
-                        ],
         'element_listbox': '//*[@id="dv52_MultiSelectList"]',
         'elements_listbox': '//tr[@role="option" and @checkboxitem="true"]',
         'element_get_item': 'aria-label',
@@ -339,13 +304,6 @@ ELEMENTS = {
         'id_dia_fim': 'dv111__calDay_',
 
         'element_filial_id': 'dv13_ValueComboBox',
-        'element_filial':[
-                            "1200","1400","1401","1445","1475",
-                            "1500","1600","1624","1635","1640",
-                            "1673","1736", "1760","1792","1875",
-                            "1877", "1887", "1895","1999","2241",
-                            "2600"
-                        ],
         'element_listbox': '//*[@id="dv52_MultiSelectList"]',
         'elements_listbox': '//tr[@role="option" and @checkboxitem="true"]',
         'element_get_item': 'aria-label',

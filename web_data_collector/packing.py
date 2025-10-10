@@ -19,6 +19,7 @@ import time
 @log_with_context(job='data_extraction_packing', logger=logger)
 def data_extraction_packing(cookies: list[dict],
                          download_dir: Path,
+                         list_filial: list,
                          parquet_folder: Path | None,
                          entry_date: str | Callable,
                          exit_date: str | Callable,
@@ -49,7 +50,7 @@ def data_extraction_packing(cookies: list[dict],
 
     try:
 
-        for filial_value in ELEMENTS['ELEMENTS_PACKING']['element_filial']:
+        for filial_value in list_filial:
             wait = WebDriverWait(driver, 30)
             driver.get(LINKS['LOGIN_PACKING'])
 
@@ -154,6 +155,7 @@ def data_extraction_packing(cookies: list[dict],
 
 def data_extraction_packing_from_file(cookies_path: str,
                          download_dir: Path,
+                         list_filial: list,
                          parquet_folder: Path | None,
                          entry_date: str | Callable,
                          exit_date: str | Callable,
@@ -165,6 +167,7 @@ def data_extraction_packing_from_file(cookies_path: str,
         
     data_extraction_packing(cookies,
                             download_dir,
+                            list_filial,
                             parquet_folder,
                             entry_date, exit_date,
                             id_data_entry,

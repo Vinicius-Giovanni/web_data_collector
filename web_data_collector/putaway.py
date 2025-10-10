@@ -1,4 +1,3 @@
-# remote imports
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
@@ -16,6 +15,7 @@ from collections.abc import Callable
 @log_with_context(job='data_extraction_putaway', logger=logger)
 def data_extraction_putaway(cookies: list[dict],
                          download_dir: Path,
+                         list_filial: list,
                          parquet_folder: Path | None,
                          entry_date: str | Callable,
                          exit_date: str | Callable) -> None:
@@ -38,7 +38,7 @@ def data_extraction_putaway(cookies: list[dict],
 
     try:
 
-        for filial_value in ELEMENTS['ELEMENTS_PUTAWAY']['element_filial']:
+        for filial_value in list_filial:
             wait = WebDriverWait(driver, 30)
             driver.get(LINKS['LOGIN_PUTAWAY'])
 
@@ -98,12 +98,13 @@ def data_extraction_putaway(cookies: list[dict],
                 logger.critical('download do relatorio 6.15 - Produtividade - Outbound Putaway falhou', extra={'status': 'critico'})
 
     except Exception as e:
-        logger.critical('download do relatorio 6.15 - Produtividade - Outbound Putaway falhou', extra={'status': 'critico'})
+        logger.exception('download do relatorio 6.15 - Produtividade - Outbound Putaway falhou', extra={'status': 'critico'})
     finally:
         driver.quit()
 
 def data_extraction_putaway_from_file(cookies_path: str,
                          download_dir: Path,
+                         list_filial: list,
                          parquet_folder: Path | None,
                          entry_date: str | Callable,
                          exit_date: str | Callable) -> None:
@@ -113,6 +114,7 @@ def data_extraction_putaway_from_file(cookies_path: str,
 
     data_extraction_putaway(cookies,
                                   download_dir,
+                                  list_filial,
                                   parquet_folder,
                                   entry_date,
                                   exit_date)

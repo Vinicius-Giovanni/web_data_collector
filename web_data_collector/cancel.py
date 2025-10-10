@@ -18,7 +18,8 @@ def data_extraction_cancel(cookies: list[dict],
                          download_dir: Path,
                          parquet_folder: Path | None,
                          entry_date: str | Callable,
-                         exit_date: str | Callable) -> None:
+                         exit_date: str | Callable,
+                         list_filial: list) -> None:
     
     if callable(entry_date):
         sig = inspect.signature(entry_date)
@@ -38,7 +39,7 @@ def data_extraction_cancel(cookies: list[dict],
 
     try:
 
-        for filial_value in ELEMENTS['ELEMENTS_CANCEL']['element_filial']:
+        for filial_value in list_filial:
 
             wait = WebDriverWait(driver, 30)
             driver.get(LINKS['LOGIN_CANCEL'])
@@ -93,7 +94,8 @@ def data_extraction_cancel_from_file(cookies_path: str,
                                     download_dir: Path,
                                     parquet_folder: Path | None,
                                     entry_date: str | Callable,
-                                    exit_date: str | Callable) -> None:
+                                    exit_date: str | Callable,
+                                    list_filial: list) -> None:
     
     with open(cookies_path, 'r', encoding='utf-8') as f:
         cookies = json.load(f)
@@ -102,4 +104,5 @@ def data_extraction_cancel_from_file(cookies_path: str,
                            download_dir,
                            parquet_folder,
                            entry_date,
-                           exit_date)
+                           exit_date,
+                           list_filial)

@@ -19,6 +19,7 @@ def data_extraction_loading(cookies: list[dict],
                          parquet_folder: Path | None,
                          entry_date: str | Callable,
                          exit_date: str | Callable,
+                         list_filial: list,
                          id_data_entry = str,
                          id_exit_data = str) -> None:
     
@@ -46,7 +47,7 @@ def data_extraction_loading(cookies: list[dict],
 
     try:
 
-        for filial_value in ELEMENTS['ELEMENTS_LOADING']['element_filial']:
+        for filial_value in list_filial:
             wait = WebDriverWait(driver, 30)
             driver.get(LINKS['LOGIN_LOADING'])
 
@@ -153,6 +154,7 @@ def data_extraction_loading_from_File(cookies_path: str,
                          parquet_folder: Path | None,
                          entry_date: str | Callable,
                          exit_date: str | Callable,
+                         list_filial: list,
                          id_data_entry = str,
                          id_exit_data = str) -> None:
     
@@ -164,4 +166,5 @@ def data_extraction_loading_from_File(cookies_path: str,
                             parquet_folder,
                             entry_date, exit_date,
                             id_data_entry,
-                            id_exit_data)
+                            id_exit_data,
+                            list_filial)

@@ -15,6 +15,7 @@ from collections.abc import Callable
 @log_with_context(job='data_extraction_olpn', logger=logger)
 def data_extraction_olpn(cookies: list[dict],
                          download_dir: Path,
+                         list_filial: list,
                          parquet_folder: Path | None,
                          entry_date: str | Callable,
                          exit_date: str | Callable) -> None:
@@ -37,7 +38,7 @@ def data_extraction_olpn(cookies: list[dict],
 
     try:
 
-        for filial_value in ELEMENTS['ELEMENTS_OLPN']['element_filial']:
+        for filial_value in list_filial:
 
             wait = WebDriverWait(driver, 30)
             driver.get(LINKS['LOGIN_OLPN'])
@@ -106,6 +107,7 @@ def data_extraction_olpn(cookies: list[dict],
 
 def data_extraction_olpn_from_file(cookies_path: str, 
                                     download_dir: Path,
+                                    list_filial: list,
                                     parquet_folder: Path | None,
                                     entry_date: str | Callable,
                                     exit_date: str | Callable) -> None:
@@ -117,4 +119,5 @@ def data_extraction_olpn_from_file(cookies_path: str,
                          download_dir,
                          parquet_folder,
                          entry_date,
-                         exit_date)
+                         exit_date,
+                         list_filial)
