@@ -36,10 +36,10 @@ def data_extraction_loading(cookies: list[dict],
         else:
             exit_date = exit_date()
 
-    id_data_entry = int(entry_date.split('/')[0])
+    id_data_entry = int(id_data_entry.split('/')[0])
     id_start_date = f'{ELEMENTS['ELEMENTS_LOADING']['id_dia_fim']}{id_data_entry}'
 
-    id_exit_data = int(exit_date.split('/')[0])
+    id_exit_data = int(id_exit_data.split('/')[0])
     id_end_date = f'{ELEMENTS['ELEMENTS_PACKING']['id_dia_fim']}{id_exit_data}'
     
     driver = create_authenticated_driver(cookies, download_dir=download_dir)
@@ -64,6 +64,14 @@ def data_extraction_loading(cookies: list[dict],
             if filial:
                 Select(filial).select_by_value(filial_value)
 
+            dt_start = wait.until(EC.presence_of_element_located(
+                (By.XPATH, ELEMENTS['ELEMENTS_LOADING']['element_dt_start'])
+            ))
+
+            dt_end = wait.until(EC.presence_of_element_located(
+                (By.XPATH, ELEMENTS['ELEMENTS_LOADING']['element_dt_end'])
+            ))
+
             if wait.until(EC.visibility_of_element_located(
                 (By.XPATH, ELEMENTS['ELEMENTS_LOADING']['elements_listbox']))):
 
@@ -79,14 +87,6 @@ def data_extraction_loading(cookies: list[dict],
                             except:
                                 driver.execute_script('arguments[0].click();', item)
                             logger.info(f'item {nome} selecionado', extra={'status': 'sucesso'})
-
-            dt_start = wait.until(EC.presence_of_element_located(
-                (By.XPATH, ELEMENTS['ELEMENTS_LOADING']['element_dt_start'])
-            ))
-
-            dt_end = wait.until(EC.presence_of_element_located(
-                (By.XPATH, ELEMENTS['ELEMENTS_LOADING']['element_dt_end'])
-            ))
 
             if dt_start:
                 dt_start_string = dt_start.get_attribute('value')

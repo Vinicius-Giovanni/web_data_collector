@@ -39,10 +39,10 @@ def data_extraction_packing(cookies: list[dict],
         else:
             exit_date = exit_date()
 
-    id_data_entry = int(entry_date.split('/')[0])
+    id_data_entry = int(id_data_entry.split('/')[0])
     id_start_date = f'{ELEMENTS['ELEMENTS_LOADING']['id_dia_fim']}{id_data_entry}'
 
-    id_exit_data = int(exit_date.split('/')[0])
+    id_exit_data = int(id_exit_data.split('/')[0])
     id_end_date = f'{ELEMENTS['ELEMENTS_PACKING']['id_dia_fim']}{id_exit_data}'
 
     driver = create_authenticated_driver(cookies, download_dir=download_dir)

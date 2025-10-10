@@ -182,8 +182,8 @@ ELEMENTS = {
                             "1877", "1887", "1895","1999","2241",
                             "2600"
                         ],
-        'element_dt_start': 'dv51__tblDateTextBox__txtInput',
-        'element_dt_end': 'dv59__tblDateTextBox__txtInput',
+        'element_dt_start': 'dv59__tblDateTextBox__txtInput',
+        'element_dt_end': 'dv51__tblDateTextBox__txtInput',
         'element_listbox': '//*[@id="dv67_MultiSelectList"]',
         'elements_listbox': '//tr[@role="option" and @checkboxitem="true"]',
         'element_get_item': 'aria-label',

@@ -37,63 +37,65 @@ def data_extraction_putaway(cookies: list[dict],
     driver = create_authenticated_driver(cookies, download_dir=download_dir)
 
     try:
-        wait = WebDriverWait(driver, 30)
-        driver.get(LINKS['LOGIN_PUTAWAY'])
 
-        logger.info('instancia aberta', extra={'status': 'sucesso'})
+        for filial_value in ELEMENTS['ELEMENTS_PUTAWAY']['element_filial']:
+            wait = WebDriverWait(driver, 30)
+            driver.get(LINKS['LOGIN_PUTAWAY'])
 
-        if not wait.until(EC.frame_to_be_available_and_switch_to_it(
-            (By.XPATH, ELEMENTS['frame']))):
-            logger.error('iframe nao encontrado', extra={'status': 'critico'})
+            logger.info('instancia aberta', extra={'status': 'sucesso'})
 
-        filial = wait.until(EC.element_to_be_clickable(
-            (By.ID, ELEMENTS['ELEMENTS_PUTAWAY']['element_filial_id'])
-        ))
-        if filial:
-            Select(filial).select_by_value(ELEMENTS['ELEMENTS_PUTAWAY']['element_filial'])
-        
-        dt_start = wait.until(EC.element_to_be_clickable(
-            (By.ID, ELEMENTS['ELEMENTS_PUTAWAY']['element_dt_start'])
-        ))
-        if dt_start:
-            dt_start.clear()
-            dt_start.send_keys(entry_date)
+            if not wait.until(EC.frame_to_be_available_and_switch_to_it(
+                (By.XPATH, ELEMENTS['frame']))):
+                logger.error('iframe nao encontrado', extra={'status': 'critico'})
 
-        dt_end = wait.until(EC.element_to_be_clickable(
-            (By.ID, ELEMENTS['ELEMENTS_PUTAWAY']['element_dt_end'])
-        ))
-        if dt_end:
-            dt_end.clear()
-            dt_end.send_keys(exit_date)
+            filial = wait.until(EC.element_to_be_clickable(
+                (By.ID, ELEMENTS['ELEMENTS_PUTAWAY']['element_filial_id'])
+            ))
+            if filial:
+                Select(filial).select_by_value(filial_value)
+            
+            dt_start = wait.until(EC.element_to_be_clickable(
+                (By.ID, ELEMENTS['ELEMENTS_PUTAWAY']['element_dt_start'])
+            ))
+            if dt_start:
+                dt_start.clear()
+                dt_start.send_keys(entry_date)
 
-        if wait.until(EC.visibility_of_element_located(
-            (By.XPATH, ELEMENTS['ELEMENTS_PUTAWAY']['element_listbox']))):
+            dt_end = wait.until(EC.element_to_be_clickable(
+                (By.ID, ELEMENTS['ELEMENTS_PUTAWAY']['element_dt_end'])
+            ))
+            if dt_end:
+                dt_end.clear()
+                dt_end.send_keys(exit_date)
 
-            itens = driver.find_elements(By.XPATH, ELEMENTS['ELEMENTS_PUTAWAY']['elements_listbox'])
+            if wait.until(EC.visibility_of_element_located(
+                (By.XPATH, ELEMENTS['ELEMENTS_PUTAWAY']['element_listbox']))):
 
-            for item in itens:
-                nome = item.get_attribute(ELEMENTS['ELEMENTS_OLPN']['element_get_item'])
-                if nome in ELEMENTS['ELEMENTS_PUTAWAY']['list_itens']:
-                    is_checked = item.get_attribute(ELEMENTS['ELEMENTS_PUTAWAY']['element_get_checked']) == 'true'
-                    if not is_checked:
-                        try:
-                            item.click()
-                        except:
-                            driver.execute_script('arguments[0].click();', item)
-                        logger.info(f'item {nome} selecionado', extra={'status': 'sucesso'})
+                itens = driver.find_elements(By.XPATH, ELEMENTS['ELEMENTS_PUTAWAY']['elements_listbox'])
 
-        confirmar = wait.until(EC.element_to_be_clickable(
-            (By.ID, ELEMENTS['ELEMENTS_PUTAWAY']['element_confirm'])
-        ))
-        if confirmar:
-            confirmar.click()
-        else:
-            logger.critical('erro na selecao de tipo de pedidos', extra={'status': 'critico'})
+                for item in itens:
+                    nome = item.get_attribute(ELEMENTS['ELEMENTS_OLPN']['element_get_item'])
+                    if nome in ELEMENTS['ELEMENTS_PUTAWAY']['list_itens']:
+                        is_checked = item.get_attribute(ELEMENTS['ELEMENTS_PUTAWAY']['element_get_checked']) == 'true'
+                        if not is_checked:
+                            try:
+                                item.click()
+                            except:
+                                driver.execute_script('arguments[0].click();', item)
+                            logger.info(f'item {nome} selecionado', extra={'status': 'sucesso'})
 
-        if wait_download_csv(dir=TEMP_DIR['BRONZE']['putaway']):
-            logger.info('download do relatorio 6.15 - Produtividade - Outbound Putaway concluido', extra={'status': 'sucesso'})
-        else:
-            logger.critical('download do relatorio 6.15 - Produtividade - Outbound Putaway falhou', extra={'status': 'critico'})
+            confirmar = wait.until(EC.element_to_be_clickable(
+                (By.ID, ELEMENTS['ELEMENTS_PUTAWAY']['element_confirm'])
+            ))
+            if confirmar:
+                confirmar.click()
+            else:
+                logger.critical('erro na selecao de tipo de pedidos', extra={'status': 'critico'})
+
+            if wait_download_csv(dir=TEMP_DIR['BRONZE']['putaway']):
+                logger.info('download do relatorio 6.15 - Produtividade - Outbound Putaway concluido', extra={'status': 'sucesso'})
+            else:
+                logger.critical('download do relatorio 6.15 - Produtividade - Outbound Putaway falhou', extra={'status': 'critico'})
 
     except Exception as e:
         logger.critical('download do relatorio 6.15 - Produtividade - Outbound Putaway falhou', extra={'status': 'critico'})
