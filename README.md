@@ -1,3 +1,47 @@
+'''
+├── 📁 config/
+│   ├── 🔒 .env
+│   ├── 🐍 elements.py
+│   ├── 🐍 paths.py
+│   ├── 🐍 pipeline_config.py
+│   └── 🐍 regras_de_negocio.py
+├── 📁 pipelines/
+│   ├── 📁 specific_analysis/
+│   │   ├── 🐍 bottleneck_box.py
+│   │   ├── 🐍 bottleneck_salao.py
+│   │   ├── 🐍 jornada_pipeline.py
+│   │   └── 🐍 time_lead_olpn.py
+│   ├── 📁 standard_pipeline/
+│       ├── 🐍 cancel_pipeline.py
+│       ├── 🐍 expedicao_cd_pipeline.py
+│       ├── 🐍 loading_pipeline.py
+│       ├── 🐍 olpn_pipeline.py
+│       ├── 🐍 packing_pipeline.py
+│       ├── 🐍 picking_pipeline.py
+│       └── 🐍 putaway_pipeline.py
+├── 📁 utils/
+│   ├── 🐍 browser_setup.py
+│   ├── 🐍 classification.py
+│   ├── 🐍 config_logger.py
+│   ├── 🐍 get_info.py
+│   ├── 🐍 info_system.py
+│   └── 🐍 reader.py
+├── 📁 web_data_collector/
+│   ├── 🐍 cancel.py
+│   ├── 🐍 expedicao_cd.py
+│   ├── 🐍 loading.py
+│   ├── 🐍 login.py
+│   ├── 🐍 olpn.py
+│   ├── 🐍 packing.py
+│   ├── 🐍 picking.py
+│   └── 🐍 putaway.py
+├── 🐳 Dockerfile
+├── 📖 README.md
+├── ⚙️ docker-compose.yml
+├── 🐍 main.py
+├── 📄 requirements.txt
+'''
+
 # 🧠 Web Data Collector: Arquitetura Híbrida RPA + ETL Automatizado
 
 Este projeto apresenta uma solução de automação de dados ponta a ponta, unindo RPA e pipelines de ETL para garantir a coleta, tratamento e disponibilização de indicadores estratégicos de forma totalmente
