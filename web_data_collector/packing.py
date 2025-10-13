@@ -4,8 +4,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from pathlib import Path
 import json
 from utils.config_logger import log_with_context
-import locale
-from datetime import datetime
 from utils.config_logger import log_with_context
 from config.pipeline_config import logger, LINKS
 from config.paths import TEMP_DIR
@@ -25,7 +23,7 @@ def data_extraction_packing(cookies: list[dict],
                          exit_date: str | Callable,
                          id_data_entry = str,
                          id_exit_data = str) -> None:
-    
+
     if callable(entry_date):
         sig = inspect.signature(entry_date)
         if 'parquet_folder' in sig.parameters:
@@ -41,7 +39,7 @@ def data_extraction_packing(cookies: list[dict],
             exit_date = exit_date()
 
     id_data_entry = int(id_data_entry.split('/')[0])
-    id_start_date = f'{ELEMENTS['ELEMENTS_LOADING']['id_dia_fim']}{id_data_entry}'
+    id_start_date = f'{ELEMENTS['ELEMENTS_LOADING']['id_dia_inicio']}{id_data_entry}'
 
     id_exit_data = int(id_exit_data.split('/')[0])
     id_end_date = f'{ELEMENTS['ELEMENTS_PACKING']['id_dia_fim']}{id_exit_data}'
@@ -99,40 +97,40 @@ def data_extraction_packing(cookies: list[dict],
                 dt_end_string = dt_end.get_attribute("value")
 
             while dt_start_string != entry_date:
-
                 logger.info(f'{dt_start_string} != {entry_date}, retornando...', extra={'status': 'iniciado'})
-                time.sleep(2)
+                time.sleep(1)
                 wait.until(EC.element_to_be_clickable(
                     (By.ID, ELEMENTS['ELEMENTS_LOADING']['calendario_start']['retornar'])
                 )).click()
-                
-                logger.info(f'{dt_start_string} = {entry_date}, selecionando...', extra={'status': 'sucesso'})
-                time.sleep(2)
-                wait.until(EC.element_to_be_clickable(
-                    (By.ID, id_start_date)
-                )).click()
-
+                time.sleep(1)
                 dt_start_string = dt_start.get_attribute('value')
+                time.sleep(1)
+                if dt_start_string == entry_date:
+                    break
 
-            logger.info(f'data inicio preenchida: data: {dt_start_string} id: {id_end_date}', extra={'status': 'sucesso'})
+            time.sleep(1)
+
+            wait.until(EC.element_to_be_clickable((By.ID, id_start_date))).click()                
+
+            logger.info(f'data inicio preenchida: data: {dt_start_string} id: {id_start_date}', extra={'status': 'sucesso'})
 
             while dt_end_string != exit_date:
-
                 logger.info(f'{dt_end_string} != {exit_date}, retornando...', extra={'status': 'iniciado'})
-                time.sleep(2)
+                time.sleep(1)
                 wait.until(EC.element_to_be_clickable(
                     (By.ID, ELEMENTS['ELEMENTS_LOADING']['calendario_end']['retornar'])
                 )).click()
-            
-                logger.info(f'{dt_end_string} = {exit_date}, selecionando...', extra={'status': 'sucesso'})
-                time.sleep(2)
-                wait.until(EC.element_to_be_clickable(
-                    (By.ID, id_end_date)
-                )).click()
-
+                time.sleep(1)
                 dt_end_string = dt_end.get_attribute("value")
+                time.sleep(1)
+                if dt_end_string == exit_date:
+                    break
 
-            logger.info(f'{dt_end_string} = {exit_date}, selecionando...',extra={'status': 'sucesso'})
+            time.sleep(1)
+
+            wait.until(EC.element_to_be_clickable((By.ID, id_end_date))).click()
+
+            logger.info(f'data fim preenchida: data: {dt_end_string} id: {id_end_date}', extra={'status': 'sucesso'})
                             
             confirmar = wait.until(EC.element_to_be_clickable(
                 (By.ID, ELEMENTS['ELEMENTS_PACKING']['element_confirm'])

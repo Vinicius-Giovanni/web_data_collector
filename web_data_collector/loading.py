@@ -38,7 +38,7 @@ def data_extraction_loading(cookies: list[dict],
             exit_date = exit_date()
 
     id_data_entry = int(id_data_entry.split('/')[0])
-    id_start_date = f'{ELEMENTS['ELEMENTS_LOADING']['id_dia_fim']}{id_data_entry}'
+    id_start_date = f'{ELEMENTS['ELEMENTS_LOADING']['id_dia_inicio']}{id_data_entry}'
 
     id_exit_data = int(id_exit_data.split('/')[0])
     id_end_date = f'{ELEMENTS['ELEMENTS_PACKING']['id_dia_fim']}{id_exit_data}'
@@ -96,38 +96,38 @@ def data_extraction_loading(cookies: list[dict],
                 dt_end_string = dt_end.get_attribute("value")
 
             while dt_start_string != entry_date:
-
                 logger.info(f'{dt_start_string} != {entry_date}, retornando...', extra={'status': 'iniciado'})
-                time.sleep(2)
+                time.sleep(1)
                 wait.until(EC.element_to_be_clickable(
                     (By.ID, ELEMENTS['ELEMENTS_LOADING']['calendario_start']['retornar'])
                 )).click()
-                
-                logger.info(f'{dt_start_string} = {entry_date}, selecionando...', extra={'status': 'sucesso'})
-                time.sleep(2)
-                wait.until(EC.element_to_be_clickable(
-                    (By.ID, id_start_date)
-                )).click()
-
+                time.sleep(1)
                 dt_start_string = dt_start.get_attribute('value')
+                time.sleep(1)
+                if dt_start_string == entry_date:
+                    break
+
+            time.sleep(1)
+
+            wait.until(EC.element_to_be_clickable((By.ID, id_start_date))).click()
 
             logger.info(f'data inicio preenchida: data: {dt_start_string} id: {id_end_date}', extra={'status': 'sucesso'})
 
             while dt_end_string != exit_date:
-
                 logger.info(f'{dt_end_string} != {exit_date}, retornando...', extra={'status': 'iniciado'})
-                time.sleep(2)
+                time.sleep(1)
                 wait.until(EC.element_to_be_clickable(
                     (By.ID, ELEMENTS['ELEMENTS_LOADING']['calendario_end']['retornar'])
                 )).click()
-            
-                logger.info(f'{dt_end_string} = {exit_date}, selecionando...', extra={'status': 'sucesso'})
-                time.sleep(2)
-                wait.until(EC.element_to_be_clickable(
-                    (By.ID, id_end_date)
-                )).click()
-
+                time.sleep(1)
                 dt_end_string = dt_end.get_attribute("value")
+                time.sleep(1)
+                if dt_end_string == exit_date:
+                    break
+
+            time.sleep(1)
+
+            wait.until(EC.element_to_be_clickable((By.ID, id_end_date))).click()
 
             logger.info(f'{dt_end_string} = {exit_date}, selecionando...', extra={'status': 'sucesso'})
 
@@ -164,7 +164,8 @@ def data_extraction_loading_from_File(cookies_path: str,
     data_extraction_loading(cookies,
                             download_dir,
                             parquet_folder,
-                            entry_date, exit_date,
+                            entry_date,
+                            exit_date,
+                            list_filial,
                             id_data_entry,
-                            id_exit_data,
-                            list_filial)
+                            id_exit_data)

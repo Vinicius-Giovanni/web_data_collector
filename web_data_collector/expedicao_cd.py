@@ -11,6 +11,7 @@ from utils.reader import wait_download_csv
 from utils.browser_setup import create_authenticated_driver
 import inspect
 from collections.abc import Callable
+import time
 
 @log_with_context(job='data_extraction_expedicao', logger=logger)
 def data_extraction_expedicao(cookies: list[dict],

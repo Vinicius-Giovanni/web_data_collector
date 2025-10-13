@@ -117,7 +117,7 @@ def data_extraction_olpn_from_file(cookies_path: str,
 
     data_extraction_olpn(cookies,
                          download_dir,
+                         list_filial,
                          parquet_folder,
                          entry_date,
-                         exit_date,
-                         list_filial)
+                         exit_date)
