@@ -13,6 +13,85 @@ from utils.config_logger import log_with_context
 from config.pipeline_config import logger, CHUNKSIZE, PIPELINE_CONFIG
 from config.regras_de_negocio import MOTIVOS_OFICIAIS, MAPEAMENTO_TEXTUAL, REGRAS_DIRETAS
 
+@log_with_context(job='move_files',logger=logger)
+def move_files(path: dict):
+    """
+    Move files from source (keys) to destination (values) according to the file_router dictionary
+    """
+
+    for src_dir, dest_dir in path.items():
+        src_dir = Path(src_dir)
+        dest_dir = Path(dest_dir)
+
+        dest_dir.mkdir(parents=True, exist_ok=True)
+
+        for file in src_dir.glob('*.*'):
+            dest_path = dest_dir / file.name
+            shutil.move(str(file), str(dest_path))
+            logger.info(f'movendo {file.name} de {src_dir} para {dest_dir}', extra={
+                'job': 'move_files',
+                'status': 'success'
+            })
+
+@log_with_context(job='merge_parquet', logger=logger)
+def merge_parquet(path: dict):
+    for src_dir, dest_ir in path.items():
+        src_dir = Path(src_dir)
+        dest_dir = Path(dest_dir)
+        dest_dir.mkdir(parents=True, exist_ok=True)
+
+        dfs = []
+
+        dest_files = list(dest_dir.glob('*.parquet'))
+        for f in dest_files:
+            dfs.append(pd.read_parquet(f))
+
+        src_files = list(src_dir.glob('*.parquet'))
+        for f in src_files:
+            dfs.append(pd.read_parquet(f))
+
+        if not dfs:
+            logger.info(f'nenhum arquivo parquet encontrado em {src_dir} ou {dest_dir}. pulando...', extra={
+                'job': 'merge_parquet',
+                'status': 'skipped'
+            })
+            continue
+
+        merge_df = pd.concat(dfs, ignore_index=True)
+
+        output_file = dest_dir / f'{src_dir.name}_consolidated.parquet'
+
+        merge_df.to_parquet(output_file, index=False)
+
+        for f in dest_files:
+            if f != output_file:
+                f.unlink()
+        
+        logger.info(f'merge concluido: {len(src_files)} arquivos da origem + {len(dest_files)} arquivos do destino -> {output_file.name} ({len(merge_df)} registros)',
+                    extra={
+                'job': 'merge_parquet',
+                'status': 'success'
+            })
+
+@log_with_context(job='rename_csv', logger=logger)
+def rename_csv(path: dict):
+    """
+    Rename CSV files, add yesterday to the file name
+    """
+    yesterday = (datetime.now() - timedelta(days=1)).strftime('%d-%m-%Y')
+
+    for key, dir_path in path.items():
+        for file in Path(dir_path).glob('*.csv'):
+            new_name = file.stem + f'_{yesterday}' + file.suffix
+            new_path = file.with_name(new_name)
+
+            file.rename(new_path)
+
+            logger.info(f'arquivo {file.name} renomeado para {new_name}', extra={
+                'job': 'rename_csv',
+                'status': 'success'
+            })
+
 @log_with_context(job='clear_dirs', logger=logger)
 def clear_dirs(dirs: Dict[str, any], prefix: str = '') -> None:
     """

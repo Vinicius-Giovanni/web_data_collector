@@ -11,6 +11,34 @@ EXECUTION_MODE = Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_
 
 SELENIUM_CHROME = Path('C:/Users/2960006959/Desktop/selenium_chrome')
 
+REAL_TIME_UPDATE = {
+    'SELENIUM_CHROME': SELENIUM_CHROME,
+    'BRONZE': {
+        'olpn': Path(f'{BASE_PATH}/Features/web_data_collector/Bronze (Raw Layer)/3.11 - Status Wave + oLPN'),
+        'picking': Path(f'{BASE_PATH}/Features/web_data_collector/Bronze (Raw Layer)/4.05 - Relatório de Produtividade - Picking'),
+        'packing': Path(f'{BASE_PATH}/Features/web_data_collector/Bronze (Raw Layer)/5.03 - Produtividade de Packing - Packed por hora'),
+        'loading': Path(f'{BASE_PATH}/Features/web_data_collector/Bronze (Raw Layer)/5.04 - Produtividade Load - Load por hora'),
+        'putaway': Path(f'{BASE_PATH}/Features/web_data_collector/Bronze (Raw Layer)/6.15 - Produtividade - Outbound Putaway'),
+        'expedicao': Path(f'{BASE_PATH}/Features/web_data_collector/Bronze (Raw Layer)/6.06 - Expedicao - CD')  
+    },
+    'SILVER': {
+        'olpn': Path(f'{BASE_PATH}/Features/web_data_collector/Silver (Cleansed Layer)/3.11 - Status Wave + oLPN'),
+        'picking': Path(f'{BASE_PATH}/Features/web_data_collector/Silver (Cleansed Layer)/4.05 - Relatório de Produtividade - Picking'),
+        'packing': Path(f'{BASE_PATH}/Features/web_data_collector/Silver (Cleansed Layer)/5.03 - Produtividade de Packing - Packed por hora'),
+        'loading': Path(f'{BASE_PATH}/Features/web_data_collector/Silver (Cleansed Layer)/5.04 - Produtividade Load - Load por hora'),
+        'putaway': Path(f'{BASE_PATH}/Features/web_data_collector/Silver (Cleansed Layer)/6.15 - Produtividade - Outbound Putaway'),
+        'expedicao': Path(f'{BASE_PATH}/Features/web_data_collector/Silver (Cleansed Layer)/6.06 - Expedicao - CD')   
+    },
+    'GOLD': {
+        'olpn': Path(f'{BASE_PATH}/Features/web_data_collector/Gold (Business Layer)/3.11 - Status Wave + oLPN'),
+        'picking': Path(f'{BASE_PATH}/Features/web_data_collector/Gold (Business Layer)/4.05 - Relatório de Produtividade - Picking'),
+        'packing': Path(f'{BASE_PATH}/Features/web_data_collector/Gold (Business Layer)/5.03 - Produtividade de Packing - Packed por hora'),
+        'loading': Path(f'{BASE_PATH}/Features/web_data_collector/Gold (Business Layer)/5.04 - Produtividade Load - Load por hora'),
+        'putaway': Path(f'{BASE_PATH}/Features/web_data_collector/Gold (Business Layer)/6.15 - Produtividade - Outbound Putaway'),
+        'expedicao': Path(f'{BASE_PATH}/Features/web_data_collector/Gold (Business Layer)/6.06 - Expedicao - CD')
+    }
+}
+
 TEMP_DIR = {
     "BRONZE": {
         'olpn': Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_olpn'),
