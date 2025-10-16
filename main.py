@@ -80,8 +80,8 @@ def database_update():
             'entry_date':yesterday(format='%b %Y'),
             'exit_date':penultimate_date(parquet_folder=DATA_PATHS['gold']['loading'], format='%b %Y'),
             'list_filial':['1200'],
-            'id_data_entry':yesterdays,
-            'id_exit_data':penultimate_date(parquet_folder=DATA_PATHS['gold']['loading'])
+            'id_data_entry':penultimate_date(parquet_folder=DATA_PATHS['gold']['loading']),
+            'id_exit_data':yesterdays
         }
     )
     instance_5 = multiprocessing.Process(
@@ -118,15 +118,10 @@ def database_update():
         }
     )
 
-    for process in [instance_3]:
+    for process in [instance_1, instance_2, instance_3, instance_4, instance_5, instance_6]:
         process.start()
-    for process in [instance_3]:
+    for process in [instance_1, instance_2, instance_3, instance_4, instance_5, instance_6]:
         process.join()
-
-    # for process in [instance_1, instance_2, instance_3, instance_4, instance_5, instance_6, instance_7]:
-    #     process.start()
-    # for process in [instance_1, instance_2, instance_3, instance_4, instance_5, instance_6, instance_7]:
-    #     process.join()
     
     rename_csv(path=TEMP_DIR['BRONZE'])
 
@@ -149,19 +144,14 @@ def database_update():
         target=run,
         args=(ExpedicaoPipeline, TEMP_DIR['BRONZE']['expedicao'], DATA_PATHS['silver']['expedicao']))
 
-    # for pipelines in [pipeline_1, pipeline_2, pipeline_4, pipeline_5, pipeline_6, pipeline_7]:
-    #     pipelines.start()
-    # for pipelines in [pipeline_1, pipeline_2, pipeline_4, pipeline_5, pipeline_6, pipeline_7]:
-    #     pipelines.join()
+    for pipelines in [pipeline_1, pipeline_2, pipeline_4, pipeline_5, pipeline_6]:
+        pipelines.start()
+    for pipelines in [pipeline_1, pipeline_2, pipeline_4, pipeline_5, pipeline_6]:
+        pipelines.join()
     
     pipeline_3= multiprocessing.Process(
     target=run,
     args=(PackingPipeline, TEMP_DIR['BRONZE']['packing'], DATA_PATHS['silver']['packing']))
-
-    # for pipelines in [pipeline_3]:
-    #     pipelines.start()
-    # for pipelines in [pipeline_3]:
-    #     pipelines.join()
 
     for pipelines in [pipeline_3]:
         pipelines.start()
@@ -171,20 +161,20 @@ def database_update():
     merge_parquet(FILE_ROUTER_MERGE)
     move_files(FILE_ROUTER)
 
-    # bottleneck_box_pipeline = BottleneckBoxPipeline()
-    # df_bottleneck_box_pipeline = bottleneck_box_pipeline.run()
-    # if not df_bottleneck_box_pipeline.empty:
-    #     print('Pipeline executado com sucesso.')
+    bottleneck_box_pipeline = BottleneckBoxPipeline()
+    df_bottleneck_box_pipeline = bottleneck_box_pipeline.run()
+    if not df_bottleneck_box_pipeline.empty:
+        print('Pipeline executado com sucesso.')
 
-    # bottleneck_salao_pipeline = BottleneckSalaoPipeline()
-    # df_bottleneck_salao_pipeline = bottleneck_salao_pipeline.run()
-    # if not df_bottleneck_salao_pipeline.empty:
-    #     print('Pipeline executado com sucesso.')
+    bottleneck_salao_pipeline = BottleneckSalaoPipeline()
+    df_bottleneck_salao_pipeline = bottleneck_salao_pipeline.run()
+    if not df_bottleneck_salao_pipeline.empty:
+        print('Pipeline executado com sucesso.')
 
-    # time_lead = TimeLeadOLPNPipeline()
-    # df_time_lead = time_lead.run()
-    # if not df_time_lead.empty:
-    #     print('Pipeline executado com sucesso.')
+    time_lead = TimeLeadOLPNPipeline()
+    df_time_lead = time_lead.run()
+    if not df_time_lead.empty:
+        print('Pipeline executado com sucesso.')
 
 
 def real_time_update():

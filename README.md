@@ -1,4 +1,4 @@
-'''
+```
 ├── 📁 config/
 │   ├── 🔒 .env
 │   ├── 🐍 elements.py
@@ -40,7 +40,8 @@
 ├── ⚙️ docker-compose.yml
 ├── 🐍 main.py
 ├── 📄 requirements.txt
-'''
+```
+---
 
 # 🧠 Web Data Collector: Arquitetura Híbrida RPA + ETL Automatizado
 
