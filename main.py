@@ -21,6 +21,7 @@ from utils.get_info import today, yesterday, business_date, penultimate_date
 from pipelines.specific_analysis.bottleneck_box import BottleneckBoxPipeline
 from pipelines.specific_analysis.time_lead_olpn import TimeLeadOLPNPipeline
 from pipelines.specific_analysis.bottleneck_salao import BottleneckSalaoPipeline
+from pipelines.specific_analysis.jornada_pipeline import JornadaPipeline
 
 def run(pipeline_class, input_path, output_path):
     pipeline = pipeline_class()
@@ -174,6 +175,11 @@ def database_update():
     time_lead = TimeLeadOLPNPipeline()
     df_time_lead = time_lead.run()
     if not df_time_lead.empty:
+        print('Pipeline executado com sucesso.')
+
+    jornada_pipeline = JornadaPipeline()
+    df_jornada_pipeline = jornada_pipeline.run()
+    if not df_jornada_pipeline.empty:
         print('Pipeline executado com sucesso.')
 
 
