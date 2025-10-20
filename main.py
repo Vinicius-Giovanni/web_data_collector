@@ -35,7 +35,7 @@ def database_update():
     cookies = login_csi(TEMP_DIR['BRONZE']['dir_chrome_login'])
 
     if not cookies:
-        logger.c('')
+        logger.critical('Login falhou, cookies não obtidos.')
 
     instance_1 = multiprocessing.Process(
         target=data_extraction_olpn_from_file,
@@ -59,6 +59,7 @@ def database_update():
             "list_filial": ["1200"]
         }
     )
+    
     instance_3 = multiprocessing.Process(
         target = data_extraction_packing_from_file,
         kwargs={

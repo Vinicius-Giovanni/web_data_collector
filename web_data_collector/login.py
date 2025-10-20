@@ -96,7 +96,7 @@ def login_csi(download_dir: Path) -> list[dict] | None:
             json.dump(cookies, f)
 
     except Exception as e:
-        logger.critical(f'download do relatorio 5.04 - Produtividade Load - Load falhou', extra={'status': 'critico'})
+        logger.critical(f'Login falhou', extra={'status': 'critico'})
         return None
     
     finally:
