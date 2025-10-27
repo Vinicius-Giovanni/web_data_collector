@@ -27,6 +27,166 @@ def run(pipeline_class, input_path, output_path):
     pipeline = pipeline_class()
     pipeline.run(input_path=input_path, output_path=output_path)
 
+def update_database_no_reload():
+    "update for dabase"
+
+    yesterdays = yesterday()
+    
+    cookies = login_csi(TEMP_DIR['BRONZE']['dir_chrome_login'])
+
+    if not cookies:
+        logger.critical('Login falhou, cookies não obtidos.')
+
+    instance_1 = multiprocessing.Process(
+        target=data_extraction_olpn_from_file,
+        kwargs={
+            "cookies_path": "cookies.json",
+            "download_dir": TEMP_DIR['BRONZE']['olpn'],
+            "parquet_folder": DATA_PATHS['gold']['olpn'],
+            "entry_date": yesterdays,
+            "exit_date": penultimate_date(parquet_folder=DATA_PATHS['gold']['olpn']),
+            "list_filial": ["1200"]
+        }
+    )
+    instance_2 = multiprocessing.Process(
+        target = data_extraction_picking_from_file,
+        kwargs={
+            "cookies_path": "cookies.json",
+            "download_dir": TEMP_DIR['BRONZE']['picking'],
+            "parquet_folder": DATA_PATHS['gold']['picking'],
+            "entry_date": yesterdays,
+            "exit_date": penultimate_date(parquet_folder=DATA_PATHS['gold']['picking']),
+            "list_filial": ["1200"]
+        }
+    )
+    
+    instance_3 = multiprocessing.Process(
+        target = data_extraction_packing_from_file,
+        kwargs={
+            'cookies_path':"cookies.json",
+            'download_dir':TEMP_DIR['BRONZE']['packing'],
+            'parquet_folder':TEMP_DIR['GOLD']['packing'],
+            'entry_date':yesterday(format='%b %Y'),
+            'exit_date':penultimate_date(parquet_folder=DATA_PATHS['gold']['packing'], format='%b %Y'),
+            'list_filial':['1200'],
+            'id_data_entry':penultimate_date(parquet_folder=DATA_PATHS['gold']['packing']),
+            'id_exit_data':yesterdays
+        }
+    )
+    instance_4 = multiprocessing.Process(
+        target = data_extraction_loading_from_File,
+        kwargs={
+            'cookies_path':"cookies.json",
+            'download_dir':TEMP_DIR['BRONZE']['loading'],
+            'parquet_folder':TEMP_DIR['GOLD']['loading'],
+            'entry_date':yesterday(format='%b %Y'),
+            'exit_date':penultimate_date(parquet_folder=DATA_PATHS['gold']['loading'], format='%b %Y'),
+            'list_filial':['1200'],
+            'id_data_entry':penultimate_date(parquet_folder=DATA_PATHS['gold']['loading']),
+            'id_exit_data':yesterdays
+        }
+    )
+    instance_5 = multiprocessing.Process(
+        target = data_extraction_putaway_from_file,
+        kwargs={
+            "cookies_path": "cookies.json",
+            "download_dir": TEMP_DIR['BRONZE']['putaway'],
+            "parquet_folder": DATA_PATHS['gold']['putaway'],
+            "entry_date": yesterdays,
+            "exit_date": penultimate_date(parquet_folder=DATA_PATHS['gold']['putaway']),
+            "list_filial": ["1200"]
+        }
+    )
+    instance_6 = multiprocessing.Process(
+        target = data_extraction_cancel_from_file,
+        kwargs={
+            "cookies_path": "cookies.json",
+            "download_dir": TEMP_DIR['BRONZE']['cancel'],
+            "parquet_folder": DATA_PATHS['gold']['cancel'],
+            "entry_date": yesterdays,
+            "exit_date": penultimate_date(parquet_folder=DATA_PATHS['gold']['cancel']),
+            "list_filial": ["1200"]
+        }
+    )
+    instance_7 = multiprocessing.Process(
+        target = data_extraction_expedicao_from_file,
+        kwargs={
+            "cookies_path": "cookies.json",
+            "download_dir": TEMP_DIR['BRONZE']['expedicao'],
+            "parquet_folder": DATA_PATHS['gold']['expedicao'],
+            "entry_date": yesterdays,
+            "exit_date": penultimate_date(parquet_folder=DATA_PATHS['gold']['expedicao']),
+            "list_filial": ["1200"]
+        }
+    )
+
+    for process in [instance_1, instance_2, instance_3, instance_4, instance_5, instance_6]:
+        process.start()
+    for process in [instance_1, instance_2, instance_3, instance_4, instance_5, instance_6]:
+        process.join()
+    
+    rename_csv(path=TEMP_DIR['BRONZE'])
+
+def reread_database():
+    "reread database"
+
+    pipeline_1= multiprocessing.Process(
+        target=run,
+        args=(OlpnPipeline, DATA_PATHS['bronze']['olpn'], DATA_PATHS['silver']['olpn']))
+    pipeline_2= multiprocessing.Process(
+        target=run,
+        args=(PickingPipeline, DATA_PATHS['bronze']['picking'], DATA_PATHS['silver']['picking']))
+    pipeline_4= multiprocessing.Process(
+        target=run,
+        args=(LoadingPipeline, DATA_PATHS['bronze']['loading'], DATA_PATHS['silver']['loading']))
+    pipeline_5= multiprocessing.Process(
+        target=run,
+        args=(PutawayPipeline, DATA_PATHS['bronze']['putaway'], DATA_PATHS['silver']['putaway']))
+    pipeline_6= multiprocessing.Process(
+        target=run,
+        args=(CancelPipeline, DATA_PATHS['bronze']['cancel'], DATA_PATHS['silver']['cancel']))
+    pipeline_7= multiprocessing.Process(
+        target=run,
+        args=(ExpedicaoPipeline, DATA_PATHS['bronze']['expedicao'], DATA_PATHS['silver']['expedicao']))
+
+    for pipelines in [pipeline_1, pipeline_2, pipeline_4, pipeline_5, pipeline_6]:
+        pipelines.start()
+    for pipelines in [pipeline_1, pipeline_2, pipeline_4, pipeline_5, pipeline_6]:
+        pipelines.join()
+    
+    pipeline_3= multiprocessing.Process(
+    target=run,
+    args=(PackingPipeline, DATA_PATHS['bronze']['packing'], DATA_PATHS['silver']['packing']))
+
+    for pipelines in [pipeline_3]:
+        pipelines.start()
+    for pipelines in [pipeline_3]:
+        pipelines.join()
+    
+    merge_parquet(FILE_ROUTER_MERGE)
+    move_files(FILE_ROUTER)
+
+    bottleneck_box_pipeline = BottleneckBoxPipeline()
+    df_bottleneck_box_pipeline = bottleneck_box_pipeline.run()
+    if not df_bottleneck_box_pipeline.empty:
+        print('Pipeline executado com sucesso.')
+
+    bottleneck_salao_pipeline = BottleneckSalaoPipeline()
+    df_bottleneck_salao_pipeline = bottleneck_salao_pipeline.run()
+    if not df_bottleneck_salao_pipeline.empty:
+        print('Pipeline executado com sucesso.')
+
+    time_lead = TimeLeadOLPNPipeline()
+    df_time_lead = time_lead.run()
+    if not df_time_lead.empty:
+        print('Pipeline executado com sucesso.')
+
+    jornada_pipeline = JornadaPipeline()
+    df_jornada_pipeline = jornada_pipeline.run()
+    if not df_jornada_pipeline.empty:
+        print('Pipeline executado com sucesso.')
+
+
 def database_update():
     "update for dabase"
 
