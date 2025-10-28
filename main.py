@@ -17,7 +17,7 @@ from pipelines.standard_pipeline.packing_pipeline import PackingPipeline
 from pipelines.standard_pipeline.loading_pipeline import LoadingPipeline
 from pipelines.standard_pipeline.expedicao_cd_pipeline import ExpedicaoPipeline
 from config.pipeline_config import logger
-from utils.get_info import today, yesterday, business_date, penultimate_date
+from utils.get_info import yesterday, penultimate_date
 from pipelines.specific_analysis.bottleneck_box import BottleneckBoxPipeline
 from pipelines.specific_analysis.time_lead_olpn import TimeLeadOLPNPipeline
 from pipelines.specific_analysis.bottleneck_salao import BottleneckSalaoPipeline
