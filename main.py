@@ -149,30 +149,6 @@ def reread_database():
         target=run,
         args=(ExpedicaoPipeline, DATA_PATHS['bronze']['expedicao'], DATA_PATHS['silver']['expedicao']))
 
-    for pipelines in [pipeline_1]:
-        pipelines.start()
-    for pipelines in [pipeline_1]:
-        pipelines.join()
-    
-    for pipelines in [pipeline_2]:
-        pipelines.start()
-    for pipelines in [pipeline_2]:
-        pipelines.join()
-
-    for pipelines in [pipeline_4]:
-        pipelines.start()
-    for pipelines in [pipeline_4]:
-        pipelines.join()
-
-    for pipelines in [pipeline_5]:
-        pipelines.start()
-    for pipelines in [pipeline_5]:
-        pipelines.join()
-
-    for pipelines in [pipeline_6]:
-        pipelines.start()
-    for pipelines in [pipeline_6]:
-        pipelines.join()
 
     for pipelines in [pipeline_7]:
         pipelines.start()
@@ -305,15 +281,11 @@ def database_update():
         }
     )
 
-    for process in [instance_3]:
-        process.start()
-    for process in [instance_3]:
-        process.join()
 
-    # for process in [instance_1, instance_2, instance_3, instance_4, instance_5, instance_6]:
-    #     process.start()
-    # for process in [instance_1, instance_2, instance_3, instance_4, instance_5, instance_6]:
-    #     process.join()
+    for process in [instance_1, instance_2, instance_3, instance_4, instance_5, instance_6]:
+        process.start()
+    for process in [instance_1, instance_2, instance_3, instance_4, instance_5, instance_6]:
+        process.join()
     
     rename_csv(path=TEMP_DIR['BRONZE'])
 
@@ -336,10 +308,10 @@ def database_update():
         target=run,
         args=(ExpedicaoPipeline, TEMP_DIR['BRONZE']['expedicao'], DATA_PATHS['silver']['expedicao']))
 
-    # for pipelines in [pipeline_1, pipeline_2, pipeline_4, pipeline_5, pipeline_6]:
-    #     pipelines.start()
-    # for pipelines in [pipeline_1, pipeline_2, pipeline_4, pipeline_5, pipeline_6]:
-    #     pipelines.join()
+    for pipelines in [pipeline_1, pipeline_2, pipeline_4, pipeline_5, pipeline_6]:
+        pipelines.start()
+    for pipelines in [pipeline_1, pipeline_2, pipeline_4, pipeline_5, pipeline_6]:
+        pipelines.join()
     
     pipeline_3= multiprocessing.Process(
     target=run,
