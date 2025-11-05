@@ -148,7 +148,31 @@ def reread_database():
     pipeline_7= multiprocessing.Process(
         target=run,
         args=(ExpedicaoPipeline, DATA_PATHS['bronze']['expedicao'], DATA_PATHS['silver']['expedicao']))
+    
+    for pipelines in [pipeline_1]:
+        pipelines.start()
+    for pipelines in [pipeline_1]:
+        pipelines.join()
 
+    for pipelines in [pipeline_2]:
+        pipelines.start()
+    for pipelines in [pipeline_2]:
+        pipelines.join()
+
+    for pipelines in [pipeline_4]:
+        pipelines.start()
+    for pipelines in [pipeline_4]:
+        pipelines.join()
+
+    for pipelines in [pipeline_5]:
+        pipelines.start()
+    for pipelines in [pipeline_5]:
+        pipelines.join()
+
+    for pipelines in [pipeline_6]:
+        pipelines.start()
+    for pipelines in [pipeline_6]:
+        pipelines.join()
 
     for pipelines in [pipeline_7]:
         pipelines.start()
@@ -281,7 +305,6 @@ def database_update():
         }
     )
 
-
     for process in [instance_1, instance_2, instance_3, instance_4, instance_5, instance_6]:
         process.start()
     for process in [instance_1, instance_2, instance_3, instance_4, instance_5, instance_6]:
@@ -347,7 +370,6 @@ def database_update():
 
 
 def real_time_update():
-
     "update for real time"
 
     cookies = login_csi(TEMP_DIR['BRONZE']['dir_chrome_login'])
@@ -405,6 +427,5 @@ def real_time_update():
 def main():
     database_update()
     
-
 if __name__ == "__main__":
     main()
