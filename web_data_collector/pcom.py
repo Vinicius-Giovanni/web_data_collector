@@ -3,59 +3,81 @@ from pathlib import Path
 import time
 import getpass
 import ctypes
+import sys
 
-# Importe de usuario atual
-user = getpass.getuser()
-print(f'Usuario atual: {user}')
+EXE_PATH = Path(r'C:\Program Files\IBM\Personal Communications\pcsws.exe')
+DLL_PATH = Path(r'C:\Program Files\IBM\Personal Communications\pcshll32.dll')
+SESSION_FILE_TEMPLATE = r'C:\Users\{user}\Desktop\3270(PCOM).ws'
 
-# Iniciando o PCOMM com o arquivo de sessao especifico
-exe_path = Path(r'C:\Program Files\IBM\Personal Communications\pcsws.exe')
-session_file = Path(fr'C:\Users\{user}\Desktop\3270(PCOM).ws')
-print(f'Arquivo de sessao: {session_file}')
+def log(msg):
+    now = time.strftime("%Y-%m-%d %H:%M:%S")
+    print(f"[{now}] {msg}", file=sys.stdout)
 
-proc =subprocess.Popen([exe_path, session_file], shell=False)
-time.sleep(2)
-print(f'PCOMM inciado com PID {proc.pid}')
+def print_screen_formatted(text):
+    print("\n" + "=" * 50)
+    for i in range(0, len(text), 80):
+        print(text[i:i+80])
+    print("=" * 50 + "\n")
 
-# Carregando DLL do PCOM (EHLLAPI)
-dll = ctypes.WinDLL(r'C:\Program Files\IBM\Personal Communications\pcshll32.dll')
+dll = ctypes.WinDLL(str(DLL_PATH))
 
-def hllapi(function, data):
-    func = ctypes.c_int(function)
-    if isinstance(data, str):
-        data = data.encode('ascii')
+def hllapi(func, data, length):
+    f = ctypes.c_int(func)
     buf = ctypes.create_string_buffer(data)
-    lenght = ctypes.c_int(len(data))
+    l = ctypes.c_int(length)
     rc = ctypes.c_int(0)
-    dll.hllapi(ctypes.byref(func), buf, ctypes.byref(lenght), ctypes.byref(rc))
-    return rc.value
-
-def wait():
-    func = ctypes.c_int(23)
-    buf = ctypes.create_string_buffer(b"")
-    lenght = ctypes.c_int(0)
-    rc = ctypes.c_int(0)
-    dll.hllapi(ctypes.byref(func), buf, ctypes.byref(lenght), ctypes.byref(rc))
+    dll.hllapi(ctypes.byref(f), buf, ctypes.byref(l), ctypes.byref(rc))
     return rc.value
 
 def connect(session='A'):
-    return hllapi(1, session)
+    return hllapi(1, session.encode('ascii'), len(session))
 
-def send_string(text):
-    return hllapi(3, text)
+def wait():
+    return hllapi(23, b'', 0)
+
+def read_screen(length=1920):
+    buf = ctypes.create_string_buffer(length)
+    func = ctypes.c_int(8)
+    l = ctypes.c_int(length)
+    rc = ctypes.c_int(0)
+    dll.hllapi(ctypes.byref(func), buf, ctypes.byref(l), ctypes.byref(rc))
+    screen = buf.value.decode('ascii', errors='ignore')
+    return screen, rc.value
 
 def send_enter():
-    return hllapi(7, '@E')
+    # função 7 = SendKey
+    return hllapi(7, b'@E', 2)
 
-connect('A')
-wait()
+if __name__ == "__main__":
+    user = getpass.getuser()
+    session_file = Path(SESSION_FILE_TEMPLATE.format(user=user))
+    log(f"Iniciando PCOMM com sessão: {session_file}")
 
-send_enter()
-wait()
+    proc = subprocess.Popen([str(EXE_PATH), str(session_file)], shell=False)
+    log(f"PCOMM iniciado com PID {proc.pid}")
 
-send_string('1')
-send_enter()
-wait()
+    log("Aguardando 7 segundos para inicialização completa...")
+    time.sleep(7)
 
-send_string('J2CD')
-wait()
+    rc = connect('A')
+    log(f"Retorno connect: {rc}")
+
+    if rc != 0:
+        log("❌ Não foi possível conectar. Verifique o ID da sessão ('A', 'B', etc).")
+        sys.exit()
+
+    log("✅ Sessão conectada. Aguardando resposta do host...")
+    log("🔹 Enviando tecla ENTER...")
+    send_enter()
+
+    for i in range(10):
+        wait()
+        screen, rc_screen = read_screen()
+        non_empty = len(screen.strip())
+        log(f"Tentativa {i+1}: tela tem {non_empty} caracteres não vazios")
+        if non_empty > 0:
+            print_screen_formatted(screen)
+            break
+        time.sleep(2)
+    else:
+        log("⚠️ Mesmo após várias tentativas, a tela continua vazia.")
