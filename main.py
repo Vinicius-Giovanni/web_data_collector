@@ -132,22 +132,22 @@ def reread_database():
 
     pipeline_1= multiprocessing.Process(
         target=run,
-        args=(OlpnPipeline, DATA_PATHS['bronze']['olpn'], DATA_PATHS['silver']['olpn']))
+        args=(OlpnPipeline, DATA_PATHS['bronze']['olpn'], DATA_PATHS['gold']['olpn']))
     pipeline_2= multiprocessing.Process(
         target=run,
-        args=(PickingPipeline, DATA_PATHS['bronze']['picking'], DATA_PATHS['silver']['picking']))
+        args=(PickingPipeline, DATA_PATHS['bronze']['picking'], DATA_PATHS['gold']['picking']))
     pipeline_4= multiprocessing.Process(
         target=run,
-        args=(LoadingPipeline, DATA_PATHS['bronze']['loading'], DATA_PATHS['silver']['loading']))
+        args=(LoadingPipeline, DATA_PATHS['bronze']['loading'], DATA_PATHS['gold']['loading']))
     pipeline_5= multiprocessing.Process(
         target=run,
-        args=(PutawayPipeline, DATA_PATHS['bronze']['putaway'], DATA_PATHS['silver']['putaway']))
+        args=(PutawayPipeline, DATA_PATHS['bronze']['putaway'], DATA_PATHS['gold']['putaway']))
     pipeline_6= multiprocessing.Process(
         target=run,
-        args=(CancelPipeline, DATA_PATHS['bronze']['cancel'], DATA_PATHS['silver']['cancel']))
+        args=(CancelPipeline, DATA_PATHS['bronze']['cancel'], DATA_PATHS['gold']['cancel']))
     pipeline_7= multiprocessing.Process(
         target=run,
-        args=(ExpedicaoPipeline, DATA_PATHS['bronze']['expedicao'], DATA_PATHS['silver']['expedicao']))
+        args=(ExpedicaoPipeline, DATA_PATHS['bronze']['expedicao'], DATA_PATHS['gold']['expedicao']))
     
     for pipelines in [pipeline_1]:
         pipelines.start()
@@ -187,7 +187,7 @@ def reread_database():
         pipelines.start()
     for pipelines in [pipeline_3]:
         pipelines.join()
-    
+
     merge_parquet(FILE_ROUTER_MERGE)
     move_files(FILE_ROUTER)
 
@@ -251,8 +251,8 @@ def database_update():
             'cookies_path':"cookies.json",
             'download_dir':TEMP_DIR['BRONZE']['packing'],
             'parquet_folder':TEMP_DIR['GOLD']['packing'],
-            'entry_date':yesterday(format='%b %Y'),
-            'exit_date':penultimate_date(parquet_folder=DATA_PATHS['gold']['packing'], format='%b %Y'),
+            'entry_date':penultimate_date(parquet_folder=DATA_PATHS['gold']['packing'], format='%b %Y'),
+            'exit_date':yesterday(format='%b %Y'),
             'list_filial':['1200'],
             'id_data_entry':penultimate_date(parquet_folder=DATA_PATHS['gold']['packing']),
             'id_exit_data':yesterdays
@@ -267,8 +267,8 @@ def database_update():
             'entry_date':yesterday(format='%b %Y'),
             'exit_date':penultimate_date(parquet_folder=DATA_PATHS['gold']['loading'], format='%b %Y'),
             'list_filial':['1200'],
-            'id_data_entry':penultimate_date(parquet_folder=DATA_PATHS['gold']['loading']),
-            'id_exit_data':yesterdays
+            'id_data_entry':yesterdays,
+            'id_exit_data':penultimate_date(parquet_folder=DATA_PATHS['gold']['loading'])
         }
     )
     instance_5 = multiprocessing.Process(
@@ -305,9 +305,9 @@ def database_update():
         }
     )
 
-    for process in [instance_1, instance_2, instance_3, instance_4, instance_5, instance_6]:
+    for process in [ instance_1, instance_2, instance_3, instance_4, instance_5, instance_6, instance_7]:
         process.start()
-    for process in [instance_1, instance_2, instance_3, instance_4, instance_5, instance_6]:
+    for process in [ instance_1, instance_2, instance_3, instance_4, instance_5, instance_6, instance_7]:
         process.join()
     
     rename_csv(path=TEMP_DIR['BRONZE'])
@@ -425,7 +425,7 @@ def real_time_update():
     rename_csv(path=REAL_TIME_UPDATE['BRONZE'])
 
 def main():
-    database_update()
+    reread_database()
     
 if __name__ == "__main__":
     main()
