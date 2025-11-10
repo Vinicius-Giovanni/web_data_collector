@@ -23,6 +23,11 @@ ELEMENTS = {
         'element_dt_end': 'dv64__tblDateTextBox__txtInput',
         'element_confirm': 'dv428'
     },
+    'ELEMENTS_MOV_ESTOQUE':{
+        'element_filial_id': 'dv13_ValueComboBox',
+        'element_dt_start': 'dv56__tblDateTextBox__txtInput',
+        'element_dt_end': 'dv65__tblDateTextBox__txtInput'
+    },
     'ELEMENTS_OLPN': {
         'element_filial_id': 'dv17_ValueComboBox',
         'element_title': 'tt',
