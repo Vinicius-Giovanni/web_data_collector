@@ -8,6 +8,7 @@ from web_data_collector.loading import data_extraction_loading_from_File
 from web_data_collector.putaway import data_extraction_putaway_from_file
 from web_data_collector.cancel import data_extraction_cancel_from_file
 from web_data_collector.expedicao_cd import data_extraction_expedicao_from_file
+from extracao_recebimento.movimentacao_estoque import data_extraction_mov_estoque_from_file
 from utils.reader import rename_csv, merge_parquet, move_files
 from pipelines.standard_pipeline.olpn_pipeline import OlpnPipeline
 from pipelines.standard_pipeline.picking_pipeline import PickingPipeline
@@ -17,7 +18,7 @@ from pipelines.standard_pipeline.packing_pipeline import PackingPipeline
 from pipelines.standard_pipeline.loading_pipeline import LoadingPipeline
 from pipelines.standard_pipeline.expedicao_cd_pipeline import ExpedicaoPipeline
 from config.pipeline_config import logger
-from utils.get_info import yesterday, penultimate_date
+from utils.get_info import today, yesterday, penultimate_date
 from pipelines.specific_analysis.bottleneck_box import BottleneckBoxPipeline
 from pipelines.specific_analysis.time_lead_olpn import TimeLeadOLPNPipeline
 from pipelines.specific_analysis.bottleneck_salao import BottleneckSalaoPipeline
@@ -424,8 +425,36 @@ def real_time_update():
 
     rename_csv(path=REAL_TIME_UPDATE['BRONZE'])
 
+def teste():
+
+    todays = today()
+
+    yesterdays = yesterday()
+    
+    cookies = login_csi(TEMP_DIR['BRONZE']['dir_chrome_login'])
+
+    if not cookies:
+        logger.critical('Login falhou, cookies não obtidos.')
+
+    instance_0 = multiprocessing.Process(
+        target=data_extraction_mov_estoque_from_file,
+        kwargs={
+            "cookies_path": "cookies.json",
+            "download_dir": TEMP_DIR['BRONZE']['estoque_mov'],
+            "parquet_folder": DATA_PATHS['gold']['estoque_mov'],
+            "entry_date": yesterdays,
+            "exit_date": todays,
+            "list_filial": ["1200"]
+        }
+    )
+
+    for process in [instance_0]:
+        process.start()
+    for process in [instance_0]:
+        process.join()
+
 def main():
-    database_update()
+    teste()
     
 if __name__ == "__main__":
     main()

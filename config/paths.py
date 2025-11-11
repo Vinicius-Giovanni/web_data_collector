@@ -48,6 +48,7 @@ TEMP_DIR = {
         'putaway': Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_putaway'),
         'packing': Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_packing'),
         'loading': Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_loading'),
+        'estoque_mov': Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_estoque_mov'),
         'expedicao': Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_expedicao')
     },
     "SILVER": {
@@ -89,6 +90,7 @@ CLEAR_DIR = {
         'putaway' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '6.15 - Produtividade - Outbound Putaway'),
         'packing' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '5.03 - Produtividade de Packing - Packed por hora'),
         'loading' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '5.04 - Produtividade Load - Load por hora'),
+        'estoque_mov' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '7.05 - Movimentacao de estoque'),
         'expedicao' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '6.06 - Expedicao - CD')
     }}
   
@@ -109,6 +111,7 @@ CLEAR_DIR_DATA_RELOAD = {
         'putaway' : Path(BASE_PATH / 'Gold (Business Layer)' / '6.15 - Produtividade - Outbound Putaway'),
         'packing' : Path(BASE_PATH / 'Gold (Business Layer)' / '5.03 - Produtividade de Packing - Packed por hora'),
         'loading' : Path(BASE_PATH / 'Gold (Business Layer)' / '5.04 - Produtividade Load - Load por hora'),
+        'estoque_mov' : Path(BASE_PATH / 'Gold (Business Layer)' / '7.05 - Movimentacao de estoque'),
         'expedicao' : Path(BASE_PATH / 'Gold (Business Layer)' / '6.06 - Expedicao - CD')
     }
 }
@@ -121,6 +124,7 @@ DATA_PATHS = {
         'putaway' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '6.15 - Produtividade - Outbound Putaway'),
         'packing' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '5.03 - Produtividade de Packing - Packed por hora'),
         'loading' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '5.04 - Produtividade Load - Load por hora'),
+        'estoque_mov' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '7.05 - Movimentacao de estoque'),
         'expedicao' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '6.06 - Expedicao - CD')
     },
     'silver': {
@@ -130,6 +134,7 @@ DATA_PATHS = {
         'putaway' : CLEAR_DIR['SILVER']['putaway'],
         'packing' : CLEAR_DIR['SILVER']['packing'],
         'loading' : CLEAR_DIR['SILVER']['loading'],
+        'estoque_mov' : CLEAR_DIR['SILVER']['estoque_mov'],
         'expedicao' : CLEAR_DIR['SILVER']['expedicao']
     },
     'gold': {
@@ -138,6 +143,7 @@ DATA_PATHS = {
         'picking' : CLEAR_DIR_DATA_RELOAD['gold']['picking'],
         'putaway' : CLEAR_DIR_DATA_RELOAD['gold']['putaway'],
         'packing' : CLEAR_DIR_DATA_RELOAD['gold']['packing'],
+        'estoque_mov' : CLEAR_DIR_DATA_RELOAD['gold']['estoque_mov'],
         'loading' : CLEAR_DIR_DATA_RELOAD['gold']['loading'],
         'expedicao' : CLEAR_DIR_DATA_RELOAD['gold']['expedicao'],
         'time_lead_olpn' : Path(f'{BASE_PATH}/Gold (Business Layer)/analise_time_lead_olpn'),

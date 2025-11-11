@@ -48,7 +48,7 @@ def data_extraction_mov_estoque(cookies: list[dict],
 
             if not wait.until(EC.frame_to_be_available_and_switch_to_it(
                 (By.XPATH, ELEMENTS['frame']))):
-                logger.critical('ifrae nao encontrado', extra={'status':'critico'})
+                logger.critical('iframe nao encontrado', extra={'status':'critico'})
 
             logger.info('iniciando extracao do relatorio 7.05 - Movimentacao de Estoque', extra={'status':'iniciado'})
 
@@ -71,3 +71,38 @@ def data_extraction_mov_estoque(cookies: list[dict],
             if dt_end:
                 dt_end.clear()
                 dt_end.send_keys(exit_date)
+
+            confirmar = wait.until(EC.element_to_be_clickable(
+                (By.ID, ELEMENTS['ELEMENTS_MOV_ESTOQUE']['element_confirm'])
+            ))
+            if confirmar:
+                confirmar.click()
+
+            if wait_download_csv(dir=TEMP_DIR['BRONZE']['estoque_mov']):
+                logger.info('download do relatorio 7.05 - Movimentacao de Estoque concluido', extra={'status':'sucesso'})
+            else:
+                logger.critical('download do relatorio 7.05 - MOvimentacao de Estoque falhou', extra={'status':'critico'})
+
+    
+    except Exception as e:
+        logger.info('download do relatorio 7.05 - Movimentacao de Estoque falhou', extra={'status':'critico'})
+
+    finally:
+        driver.quit()
+
+def data_extraction_mov_estoque_from_file(cookies_path: str,
+                                download_dir: Path,
+                                list_filial: list,
+                                parquet_folder: Path | None,
+                                entry_date: str | Callable,
+                                exit_date: str | Callable) -> None:
+    
+    with open(cookies_path, 'r', encoding='utf-8') as f:
+        cookies = json.load(f)
+
+    data_extraction_mov_estoque(cookies,
+                                download_dir,
+                                list_filial,
+                                parquet_folder,
+                                entry_date,
+                                exit_date)

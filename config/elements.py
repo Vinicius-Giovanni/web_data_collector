@@ -26,7 +26,8 @@ ELEMENTS = {
     'ELEMENTS_MOV_ESTOQUE':{
         'element_filial_id': 'dv13_ValueComboBox',
         'element_dt_start': 'dv56__tblDateTextBox__txtInput',
-        'element_dt_end': 'dv65__tblDateTextBox__txtInput'
+        'element_dt_end': 'dv65__tblDateTextBox__txtInput',
+        'element_confirm': 'dv250'
     },
     'ELEMENTS_OLPN': {
         'element_filial_id': 'dv17_ValueComboBox',
