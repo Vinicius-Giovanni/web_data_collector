@@ -41,7 +41,7 @@ def data_extraction_mov_estoque(cookies: list[dict],
         for filial_value in list_filial:
 
             wait = WebDriverWait(driver, 30)
-            driver.get(LINKS['LOGIN_MOV_ESTOQUE'])
+            driver.get(LINKS['LOGIN_ESTOQUE_MOV'])
 
             logger.info(f'extraindo relatorio 7.05 - Movimentacao de Estoque da filial: {filial_value}', extra={'status':'iniciado'})
             logger.info('instancia aberta', extra={'status':'sucesso'})
