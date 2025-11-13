@@ -149,35 +149,35 @@ def reread_database():
         target=run,
         args=(ExpedicaoPipeline, DATA_PATHS['bronze']['expedicao'], DATA_PATHS['gold']['expedicao']))
     
-    for pipelines in [pipeline_1]:
-        pipelines.start()
-    for pipelines in [pipeline_1]:
-        pipelines.join()
+    # for pipelines in [pipeline_1]:
+    #     pipelines.start()
+    # for pipelines in [pipeline_1]:
+    #     pipelines.join()
 
-    for pipelines in [pipeline_2]:
-        pipelines.start()
-    for pipelines in [pipeline_2]:
-        pipelines.join()
+    # for pipelines in [pipeline_2]:
+    #     pipelines.start()
+    # for pipelines in [pipeline_2]:
+    #     pipelines.join()
 
-    for pipelines in [pipeline_4]:
-        pipelines.start()
-    for pipelines in [pipeline_4]:
-        pipelines.join()
+    # for pipelines in [pipeline_4]:
+    #     pipelines.start()
+    # for pipelines in [pipeline_4]:
+    #     pipelines.join()
 
-    for pipelines in [pipeline_5]:
-        pipelines.start()
-    for pipelines in [pipeline_5]:
-        pipelines.join()
+    # for pipelines in [pipeline_5]:
+    #     pipelines.start()
+    # for pipelines in [pipeline_5]:
+    #     pipelines.join()
 
-    for pipelines in [pipeline_6]:
-        pipelines.start()
-    for pipelines in [pipeline_6]:
-        pipelines.join()
+    # for pipelines in [pipeline_6]:
+    #     pipelines.start()
+    # for pipelines in [pipeline_6]:
+    #     pipelines.join()
 
-    for pipelines in [pipeline_7]:
-        pipelines.start()
-    for pipelines in [pipeline_7]:
-        pipelines.join()
+    # for pipelines in [pipeline_7]:
+    #     pipelines.start()
+    # for pipelines in [pipeline_7]:
+    #     pipelines.join()
     
     pipeline_3= multiprocessing.Process(
     target=run,
@@ -336,36 +336,6 @@ def database_update():
     for pipelines in [pipeline_1, pipeline_2, pipeline_4, pipeline_5, pipeline_6, pipeline_7]:
         pipelines.join()
 
-    for pipelines in [pipeline_1]:
-        pipelines.start()
-    for pipelines in [pipeline_1]:
-        pipelines.join()
-
-    for pipelines in [pipeline_2]:
-        pipelines.start()
-    for pipelines in [pipeline_2]:
-        pipelines.join()
-
-    for pipelines in [pipeline_4]:
-        pipelines.start()
-    for pipelines in [pipeline_4]:
-        pipelines.join()
-
-    for pipelines in [pipeline_5]:
-        pipelines.start()
-    for pipelines in [pipeline_5]:
-        pipelines.join()
-
-    for pipelines in [pipeline_6]:
-        pipelines.start()
-    for pipelines in [pipeline_6]:
-        pipelines.join()
-
-    for pipelines in [pipeline_7]:
-        pipelines.start()
-    for pipelines in [pipeline_7]:
-        pipelines.join()    
-
     pipeline_3= multiprocessing.Process(
     target=run,
     args=(PackingPipeline, TEMP_DIR['BRONZE']['packing'], DATA_PATHS['silver']['packing']))
@@ -455,7 +425,7 @@ def real_time_update():
     rename_csv(path=REAL_TIME_UPDATE['BRONZE'])
 
 def main():
-    reread_database()
+    database_update()
     
 if __name__ == "__main__":
     main()
