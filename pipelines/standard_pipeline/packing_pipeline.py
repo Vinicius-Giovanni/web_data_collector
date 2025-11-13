@@ -44,7 +44,7 @@ class PackingPipeline:
     def preprocess(self, df: pd.DataFrame) -> pd.DataFrame:
         cfg = self.cfg
 
-        olpn_ref = read_parquet_with_tote(DATA_PATHS['silver']['olpn'])
+        olpn_ref = read_parquet_with_tote(DATA_PATHS['gold']['olpn'])
 
         logger.info('relatorio 3.11 - Status Wave + oLPN carregado', extra={'status': 'sucesso'})
 
