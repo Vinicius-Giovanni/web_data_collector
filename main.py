@@ -453,8 +453,12 @@ def teste():
     for process in [instance_0]:
         process.join()
 
+    rename_csv(path=TEMP_DIR['BRONZE'])
+
+    move_files(FILE_ROUTER)
+
 def main():
-    teste()
+    database_update()
     
 if __name__ == "__main__":
     main()

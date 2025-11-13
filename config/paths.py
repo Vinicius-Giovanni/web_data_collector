@@ -81,7 +81,8 @@ CLEAR_DIR = {
         'putaway': TEMP_DIR['BRONZE']['putaway'],
         'packing': TEMP_DIR['BRONZE']['packing'],
         'loading': TEMP_DIR['BRONZE']['loading'],
-        'expedicao': TEMP_DIR['BRONZE']['expedicao']
+        'expedicao': TEMP_DIR['BRONZE']['expedicao'],
+        'estoque_mov': TEMP_DIR['BRONZE']['estoque_mov']
     },
     "SILVER": {
         'olpn' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '3.11 - Status Wave + oLPN'),
@@ -160,7 +161,8 @@ FILE_ROUTER = {
     TEMP_DIR['BRONZE']['putaway'] : DATA_PATHS['bronze']['putaway'],
     TEMP_DIR['BRONZE']['packing'] : DATA_PATHS['bronze']['packing'],
     TEMP_DIR['BRONZE']['loading'] : DATA_PATHS['bronze']['loading'],
-    TEMP_DIR['BRONZE']['expedicao'] : DATA_PATHS['bronze']['expedicao']
+    TEMP_DIR['BRONZE']['expedicao'] : DATA_PATHS['bronze']['expedicao'],
+    TEMP_DIR['BRONZE']['estoque_mov'] : DATA_PATHS['bronze']['estoque_mov']
 }
 
 FILE_ROUTER_MERGE = {
@@ -170,7 +172,8 @@ FILE_ROUTER_MERGE = {
     DATA_PATHS['silver']['putaway'] : DATA_PATHS['gold']['putaway'],
     DATA_PATHS['silver']['packing'] : DATA_PATHS['gold']['packing'],
     DATA_PATHS['silver']['loading'] : DATA_PATHS['gold']['loading'],
-    DATA_PATHS['silver']['expedicao'] : DATA_PATHS['gold']['expedicao']
+    DATA_PATHS['silver']['expedicao'] : DATA_PATHS['gold']['expedicao'],
+    DATA_PATHS['silver']['estoque_mov'] : DATA_PATHS['gold']['estoque_mov']
 }
 
 PIPELINE_PATHS = {
