@@ -49,6 +49,8 @@ TEMP_DIR = {
         'packing': Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_packing'),
         'loading': Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_loading'),
         'estoque_mov': Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_estoque_mov'),
+        'pendencia_asn': Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_pendencia_asn'),
+        'recebimento': Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_recebimento'),
         'expedicao': Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/raw_temp/raw_temp_expedicao')
     },
     "SILVER": {
@@ -82,6 +84,8 @@ CLEAR_DIR = {
         'packing': TEMP_DIR['BRONZE']['packing'],
         'loading': TEMP_DIR['BRONZE']['loading'],
         'expedicao': TEMP_DIR['BRONZE']['expedicao'],
+        'pendencia_asn': TEMP_DIR['BRONZE']['pendencia_asn'],
+        'recebimento': TEMP_DIR['BRONZE']['recebimento'],
         'estoque_mov': TEMP_DIR['BRONZE']['estoque_mov']
     },
     "SILVER": {
@@ -92,6 +96,8 @@ CLEAR_DIR = {
         'packing' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '5.03 - Produtividade de Packing - Packed por hora'),
         'loading' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '5.04 - Produtividade Load - Load por hora'),
         'estoque_mov' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '7.05 - Movimentacao de estoque'),
+        'pendencia_asn' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '1.05 - Pendencia de fechamento de ASN'),
+        'recebimento' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '1.06 - Recebimento'),
         'expedicao' : Path(BASE_PATH / 'Silver (Cleansed Layer)' / '6.06 - Expedicao - CD')
     }}
   
@@ -113,6 +119,8 @@ CLEAR_DIR_DATA_RELOAD = {
         'packing' : Path(BASE_PATH / 'Gold (Business Layer)' / '5.03 - Produtividade de Packing - Packed por hora'),
         'loading' : Path(BASE_PATH / 'Gold (Business Layer)' / '5.04 - Produtividade Load - Load por hora'),
         'estoque_mov' : Path(BASE_PATH / 'Gold (Business Layer)' / '7.05 - Movimentacao de estoque'),
+        'pendencia_asn' : Path(BASE_PATH / 'Gold (Business Layer)' / '1.05 - Pendencia de fechamento de ASN'),
+        'recebimento' : Path(BASE_PATH / 'Gold (Business Layer)' / '1.06 - Recebimento'),
         'expedicao' : Path(BASE_PATH / 'Gold (Business Layer)' / '6.06 - Expedicao - CD')
     }
 }
@@ -126,6 +134,8 @@ DATA_PATHS = {
         'packing' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '5.03 - Produtividade de Packing - Packed por hora'),
         'loading' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '5.04 - Produtividade Load - Load por hora'),
         'estoque_mov' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '7.05 - Movimentacao de estoque'),
+        'pendencia_asn' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '1.05 - Pendencia de fechamento de ASN'),
+        'recebimento' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '1.06 - Recebimento'),
         'expedicao' : Path(BASE_PATH / 'Bronze (Raw Layer)' / '6.06 - Expedicao - CD')
     },
     'silver': {
@@ -136,6 +146,8 @@ DATA_PATHS = {
         'packing' : CLEAR_DIR['SILVER']['packing'],
         'loading' : CLEAR_DIR['SILVER']['loading'],
         'estoque_mov' : CLEAR_DIR['SILVER']['estoque_mov'],
+        'pendencia_asn' : CLEAR_DIR['SILVER']['pendencia_asn'],
+        'recebimento' : CLEAR_DIR['SILVER']['recebimento'],
         'expedicao' : CLEAR_DIR['SILVER']['expedicao']
     },
     'gold': {
@@ -145,6 +157,8 @@ DATA_PATHS = {
         'putaway' : CLEAR_DIR_DATA_RELOAD['gold']['putaway'],
         'packing' : CLEAR_DIR_DATA_RELOAD['gold']['packing'],
         'estoque_mov' : CLEAR_DIR_DATA_RELOAD['gold']['estoque_mov'],
+        'pendencia_asn' : CLEAR_DIR_DATA_RELOAD['gold']['pendencia_asn'],
+        'recebimento' : CLEAR_DIR_DATA_RELOAD['gold']['recebimento'],
         'loading' : CLEAR_DIR_DATA_RELOAD['gold']['loading'],
         'expedicao' : CLEAR_DIR_DATA_RELOAD['gold']['expedicao'],
         'time_lead_olpn' : Path(f'{BASE_PATH}/Gold (Business Layer)/analise_time_lead_olpn'),
@@ -162,7 +176,9 @@ FILE_ROUTER = {
     TEMP_DIR['BRONZE']['packing'] : DATA_PATHS['bronze']['packing'],
     TEMP_DIR['BRONZE']['loading'] : DATA_PATHS['bronze']['loading'],
     TEMP_DIR['BRONZE']['expedicao'] : DATA_PATHS['bronze']['expedicao'],
-    TEMP_DIR['BRONZE']['estoque_mov'] : DATA_PATHS['bronze']['estoque_mov']
+    TEMP_DIR['BRONZE']['estoque_mov'] : DATA_PATHS['bronze']['estoque_mov'],
+    TEMP_DIR['BRONZE']['pendencia_asn'] : DATA_PATHS['bronze']['pendencia_asn'],
+    TEMP_DIR['BRONZE']['recebimento'] : DATA_PATHS['bronze']['recebimento']
 }
 
 FILE_ROUTER_MERGE = {
@@ -173,7 +189,9 @@ FILE_ROUTER_MERGE = {
     DATA_PATHS['silver']['packing'] : DATA_PATHS['gold']['packing'],
     DATA_PATHS['silver']['loading'] : DATA_PATHS['gold']['loading'],
     DATA_PATHS['silver']['expedicao'] : DATA_PATHS['gold']['expedicao'],
-    DATA_PATHS['silver']['estoque_mov'] : DATA_PATHS['gold']['estoque_mov']
+    DATA_PATHS['silver']['estoque_mov'] : DATA_PATHS['gold']['estoque_mov'],
+    DATA_PATHS['silver']['pendencia_asn'] : DATA_PATHS['gold']['pendencia_asn'],
+    DATA_PATHS['silver']['recebimento'] : DATA_PATHS['gold']['recebimento']
 }
 
 PIPELINE_PATHS = {

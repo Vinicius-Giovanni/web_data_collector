@@ -9,6 +9,8 @@ from web_data_collector.putaway import data_extraction_putaway_from_file
 from web_data_collector.cancel import data_extraction_cancel_from_file
 from web_data_collector.expedicao_cd import data_extraction_expedicao_from_file
 from extracao_recebimento.movimentacao_estoque import data_extraction_mov_estoque_from_file
+from extracao_recebimento.pendencia_asn import data_extraction_pendencia_asn_from_file
+from extracao_recebimento.recebimento import data_extraction_recebimento_from_file
 from utils.reader import rename_csv, merge_parquet, move_files
 from pipelines.standard_pipeline.olpn_pipeline import OlpnPipeline
 from pipelines.standard_pipeline.picking_pipeline import PickingPipeline
@@ -437,11 +439,11 @@ def teste():
         logger.critical('Login falhou, cookies não obtidos.')
 
     instance_0 = multiprocessing.Process(
-        target=data_extraction_mov_estoque_from_file,
+        target=data_extraction_recebimento_from_file,
         kwargs={
             "cookies_path": "cookies.json",
-            "download_dir": TEMP_DIR['BRONZE']['estoque_mov'],
-            "parquet_folder": DATA_PATHS['gold']['estoque_mov'],
+            "download_dir": TEMP_DIR['BRONZE']['recebimento'],
+            "parquet_folder": DATA_PATHS['gold']['recebimento'],
             "entry_date": yesterdays,
             "exit_date": todays,
             "list_filial": ["1200"]
@@ -458,7 +460,7 @@ def teste():
     move_files(FILE_ROUTER)
 
 def main():
-    database_update()
+    teste()
     
 if __name__ == "__main__":
     main()
