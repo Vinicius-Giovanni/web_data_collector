@@ -17,11 +17,28 @@ ELEMENTS = {
         'element_banner': 'bannerLogo',
         'element_title_v2': 'bx--row',
     },
+    'ELEMENTS_RECEBIMENTO':{
+        'element_filial_id':'dv23_ValueComboBox',
+        'element_dt_start':'dv63__tblDateTextBox__txtInput',
+        'element_dt_end':'dv69__tblDateTextBox__txtInput',
+        'element_confirm':'dv195'
+    },
+    'ELEMENTS_PENDENCIA_ASN': {
+        'element_filial_id':'dv23_ValueComboBox',
+        'element_select_all':'dv68_HyperLink_0',
+        'element_confirm':'dv106'
+    },
     'ELEMENTS_EXPEDICAO': {
         'element_filial_id': 'dv21_ValueComboBox',
         'element_dt_start': 'dv73__tblDateTextBox__txtInput',
         'element_dt_end': 'dv64__tblDateTextBox__txtInput',
-        'element_confirm': 'dv428'
+        'element_confirm': 'dv106'
+    },
+    'ELEMENTS_MOV_ESTOQUE':{
+        'element_filial_id': 'dv13_ValueComboBox',
+        'element_dt_start': 'dv56__tblDateTextBox__txtInput',
+        'element_dt_end': 'dv65__tblDateTextBox__txtInput',
+        'element_confirm': 'dv250'
     },
     'ELEMENTS_OLPN': {
         'element_filial_id': 'dv17_ValueComboBox',
