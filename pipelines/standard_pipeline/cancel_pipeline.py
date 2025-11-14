@@ -32,7 +32,7 @@ class CancelPipeline:
         
         df = self.preprocess(df)
 
-        export_as_parquet(df, output_folder=output_path, pipeline_key=self.key ,name='3.11 - Status Wave + oLPN')
+        export_as_parquet(df, output_folder=output_path, pipeline_key=self.key ,name='6.10 - Pedidos Cancelados')
 
         logger.info(f'pipeline "{self.key}" finalizado com sucesso', extra={'status': 'sucesso'})
 
