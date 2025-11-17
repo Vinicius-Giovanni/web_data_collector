@@ -26,6 +26,49 @@ LINKS = {
 }
 
 PIPELINE_CONFIG = {
+        'pendencia_asn' :{
+        'remove_columns': [
+            'Filial destino',
+            'Tipo ASN',
+            'Companhia',
+            'Inventory Type',
+            'Status'
+        ],
+        'rename_columns': {
+            'ASN':'asn',
+            'Descrição':'descricao',
+            'Filial origem':'filial_origem',
+            'Descrição recebimento':'desc_recebimento',
+            'Nota Fiscal':'nota_fiscal',
+            'Data integração WMS':'data_integracao_wms',
+            'Data inicio recebimento':'data_inicio_recebimento',
+            'Item':'item',
+            'Descrição item':'desc_item',
+            'Setor':'setor',
+            'Status do produto':'status_produto',
+            'Qtde original':'qtd_original',
+            'Qtde recebida':'qtd_recebida'
+        },
+        'column_types': {
+            'asn':'Int64',
+            'descricao':'string',
+            'filial_origem':'string',
+            'desc_recebimento':'string',
+            'nota_fiscal':'string',
+            'item':'Int64',
+            'desc_item':'string',
+            'setor':'string',
+            'status_produto':'string',
+            'qtd_original':'Int64',
+            'qtd_recebida':'Int64'
+        },
+        'datetime_columns': [
+            'data_integracao_wms',
+            'data_inicio_recebimento'
+        ],
+        'encoding':'utf-16',
+        'sep':'\t'
+        },
         'bottleneck_salao': {
         'read_columns_packed': [
             'olpn',

@@ -5,7 +5,7 @@ BASE_PATH = Path(r'C:/Users/2960006959/OneDrive - Grupo Casas Bahia S.A/Sala PCP
 LOG_DIR = Path(f'{BASE_PATH}/Gold (Business Layer)/logs')
 LOG_PATH = LOG_DIR / Path(r'log.log')
 
-ENV_PATH = Path(r'C:/Users/2960006959/Desktop/web_data_collector/config/.env')
+ENV_PATH = Path(r'C:/Users/2960006959/Desktop/project/web_data_collector/config/.env')
 
 EXECUTION_MODE = Path(f'{BASE_PATH}/Bronze (Raw Layer)/TEMP_DIR_CHROME/web_data_collector/execution_mode.txt')
 

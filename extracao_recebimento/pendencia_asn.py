@@ -20,6 +20,11 @@ def data_extraction_pendencia_asn(cookies: list[dict],
                                   entry_date: str | Callable,
                                   exit_date: str | Callable) -> None: 
     
+    """
+    Extrai o relatorio 1.05 - Pendencia de fechamento de ASN no sistema CSI.
+    O arquivo deve ser baixado em tempo real, e não deve manter histórico
+    """
+
     if callable(entry_date):
         sig = inspect.signature(entry_date)
         if 'parquet_folder' in sig.parameters:

@@ -450,9 +450,43 @@ def teste():
         }
     )
 
+    instance_0_1 = multiprocessing.Process(
+        target=data_extraction_pendencia_asn_from_file,
+        kwargs={
+            "cookies_path": "cookies.json",
+            "download_dir": TEMP_DIR['BRONZE']['pendencia_asn'],
+            "parquet_folder": DATA_PATHS['gold']['pendencia_asn'],
+            "entry_date": yesterdays,
+            "exit_date": todays,
+            "list_filial": ["1200"]
+        }
+    )
+
+    instance_0_2 = multiprocessing.Process(
+        target=data_extraction_mov_estoque_from_file,
+        kwargs={
+            "cookies_path": "cookies.json",
+            "download_dir": TEMP_DIR['BRONZE']['estoque_mov'],
+            "parquet_folder": DATA_PATHS['gold']['estoque_mov'],
+            "entry_date": yesterdays,
+            "exit_date": todays,
+            "list_filial": ["1200"]
+        }
+    )
+
     for process in [instance_0]:
         process.start()
     for process in [instance_0]:
+        process.join()
+    
+    for process in [instance_0_1]:
+        process.start()
+    for process in [instance_0_1]:
+        process.join()
+    
+    for process in [instance_0_2]:
+        process.start()
+    for process in [instance_0_2]:
         process.join()
 
     rename_csv(path=TEMP_DIR['BRONZE'])
