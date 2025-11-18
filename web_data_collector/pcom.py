@@ -2,6 +2,7 @@ import win32com.client as win32
 import os
 import subprocess
 import time
+import psutil
 
 class PCOMSession():
 
@@ -10,8 +11,7 @@ class PCOMSession():
         self.screen = None
         self.oia = None
 
-    @staticmethod
-    def open_pcom_ws(ws_path: str):
+    def open_pcom_ws(self, ws_path: str):
         """
         Abre o IBM Personal Communications com o workspace especificado.
         """
@@ -22,7 +22,7 @@ class PCOMSession():
 
         subprocess.Popen(["cmd","/c","start","",ws_path], shell=True)
 
-        time.sleep(5)
+        time.sleep(10)
 
         print("PCOM iniciado")
 
@@ -46,6 +46,40 @@ class PCOMSession():
         except Exception as e:
             print(f"Falha ao conectar à sessão {self.session_name}: {e}")
             return False
+    
+    def close(self):
+        """
+        Fecha sessão EHLLAPIa e encerra processos do PCOM caso tenha ficado ativas
+        """
+
+        time.sleep(5)
+
+        print("Encerrando sessão PCOM...")
+
+        try:
+            if self.screen:
+                self.screen.Disconnect()
+        except:
+            pass
+
+        try:
+            if self.screen:
+                self.screen.CloseSession()
+        except:
+            pass
+
+        # Elimina processos órfãos do PCOM
+        for p in psutil.process_iter(['name']):
+            if p.info['name'] and (
+                "pcsws.exe" in p.info['name'].lower() or
+                "pcscm.exe" in p.info['name'].lower()
+            ):
+                try:
+                    p.terminate()
+                except:
+                    pass
+        
+        print("Sessão PCOM encerrada")
 
     def send_keys(self, keys, row=None, col=None):
         """
