@@ -52,7 +52,7 @@ class PCOMSession():
         Fecha sessão EHLLAPIa e encerra processos do PCOM caso tenha ficado ativas
         """
 
-        time.sleep(5)
+        time.sleep(300)
 
         print("Encerrando sessão PCOM...")
 
